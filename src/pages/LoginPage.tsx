@@ -20,7 +20,7 @@ export function LoginPage() {
     setLoading(true);
 
     const user = username.trim();
-    const pass = password;
+    const pass = password.trim();
 
     try {
       if (!user) {
@@ -68,30 +68,30 @@ export function LoginPage() {
             height={56}
             decoding="async"
           />
-          <div>
-            <p className="login__brand-name">
-              Fadey <em>Solutions</em> SAC
-            </p>
-            <p className="login__brand-tag">Academia · Tutoriales · Gestión</p>
-          </div>
+          <h1 className="login__title">ACADEMIA FADEY</h1>
         </header>
 
         <div className="login__panel">
           <Link to="/" className="login__back">
             ← Volver al sitio
           </Link>
-          <h1>Acceder</h1>
+          <h2>Acceder</h2>
           <p className="login__lead">
             Ingresa con tus credenciales para continuar.
           </p>
 
-          <form onSubmit={onSubmit} className="login__form">
+          <form
+            onSubmit={onSubmit}
+            className="login__form"
+            autoComplete="off"
+          >
             <label>
               Usuario
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                autoComplete="username"
+                name="fadey-login-user"
+                autoComplete="off"
                 placeholder="Tu usuario"
               />
             </label>
@@ -101,6 +101,7 @@ export function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                name="fadey-login-pass"
                 autoComplete="current-password"
                 placeholder="Tu contraseña"
                 required

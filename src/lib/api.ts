@@ -9,14 +9,23 @@ export async function api<T>(
   options: RequestInit & { token?: string | null } = {},
 ): Promise<T> {
   const { token, headers, ...rest } = options;
-  const res = await fetch(apiUrl(path), {
-    ...rest,
-    headers: {
-      ...(rest.body instanceof FormData ? {} : { "Content-Type": "application/json" }),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...headers,
-    },
-  });
+  let res: Response;
+  try {
+    res = await fetch(apiUrl(path), {
+      ...rest,
+      headers: {
+        ...(rest.body instanceof FormData
+          ? {}
+          : { "Content-Type": "application/json" }),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...headers,
+      },
+    });
+  } catch {
+    throw new Error(
+      "No se pudo conectar con el servidor. Revisa VITE_API_URL y CORS.",
+    );
+  }
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     throw new Error((data as { error?: string }).error || "Error de servidor");

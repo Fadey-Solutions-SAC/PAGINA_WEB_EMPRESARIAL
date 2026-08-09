@@ -14,8 +14,10 @@ const loginLimit = rateLimit({
 });
 
 authRouter.post("/admin", loginLimit, async (req, res) => {
-  const password = String(req.body?.password || "");
-  const expected = process.env.ADMIN_PASSWORD || "";
+  const password = String(req.body?.password || "").trim();
+  const expected = String(process.env.ADMIN_PASSWORD || "")
+    .trim()
+    .replace(/^["']|["']$/g, "");
   if (!expected || password !== expected) {
     res.status(401).json({ error: "Contraseña incorrecta" });
     return;

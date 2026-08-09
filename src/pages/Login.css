@@ -86,8 +86,11 @@
 
 .login__brand {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 0.85rem;
+  justify-content: center;
+  gap: 0.75rem;
+  text-align: center;
   padding: 0.15rem 0.2rem;
 }
 
@@ -101,28 +104,15 @@
     0 0 28px rgba(0, 207, 255, 0.35);
 }
 
-.login__brand-name {
+.login__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: clamp(1.55rem, 5.5vw, 1.95rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.12em;
   line-height: 1.15;
   color: #fff;
-}
-
-.login__brand-name em {
-  font-style: normal;
-  color: var(--cyan-soft);
-  font-weight: 600;
-}
-
-.login__brand-tag {
-  margin: 0.2rem 0 0;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--login-muted);
 }
 
 .login__panel {
@@ -150,7 +140,7 @@
   color: var(--cyan-soft);
 }
 
-.login__panel h1 {
+.login__panel h2 {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.85rem, 5vw, 2.15rem);
