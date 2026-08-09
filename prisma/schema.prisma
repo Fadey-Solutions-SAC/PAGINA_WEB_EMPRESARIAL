@@ -24,31 +24,40 @@ enum PaymentSource {
   admin
 }
 
+enum PaymentStatus {
+  pending
+  approved
+  rejected
+}
+
 model Lead {
-  id        String   @id @default(cuid())
-  name      String
-  company   String?
-  email     String
-  phone     String?
-  intent    Product
-  message   String?
-  createdAt DateTime @default(now())
+  id           String      @id @default(cuid())
+  name         String
+  company      String?
+  email        String
+  phone        String?
+  intent       Product
+  message      String?
+  createdAt    DateTime    @default(now())
   linkedUserId String?
   linkedUser   ClientUser? @relation(fields: [linkedUserId], references: [id])
 }
 
 model ClientUser {
-  id           String    @id @default(uuid())
-  username     String    @unique
-  passwordHash String
-  clientName   String
-  products     Product[]
-  active       Boolean   @default(true)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  leads        Lead[]
-  payments     Payment[]
-  progress     Progress[]
+  id             String    @id @default(uuid())
+  username       String    @unique
+  passwordHash   String
+  clientName     String
+  products       Product[]
+  active         Boolean   @default(true)
+  webServiceUrl  String?
+  licenseKey     String    @unique @default(uuid())
+  restaurantData Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  leads          Lead[]
+  payments       Payment[]
+  progress       Progress[]
 }
 
 model Payment {
@@ -60,18 +69,20 @@ model Payment {
   period      String
   receiptPath String
   source      PaymentSource @default(ingest)
+  status      PaymentStatus @default(pending)
+  reviewedAt  DateTime?
   receivedAt  DateTime      @default(now())
 }
 
 model CourseModule {
-  id          String     @id @default(cuid())
-  product     Product
-  kind        CourseKind
-  title       String
-  youtubeUrl  String
-  sortOrder   Int        @default(0)
-  createdAt   DateTime   @default(now())
-  progress    Progress[]
+  id         String     @id @default(cuid())
+  product    Product
+  kind       CourseKind
+  title      String
+  youtubeUrl String
+  sortOrder  Int        @default(0)
+  createdAt  DateTime   @default(now())
+  progress   Progress[]
 }
 
 model Progress {

@@ -43,32 +43,39 @@ ingestRouter.post(
       return;
     }
 
-    const userId = String(req.body?.userId || "").trim();
+    const clientRef = String(
+      req.body?.userId || req.body?.clientId || req.body?.licenseKey || "",
+    ).trim();
     const clientName = String(req.body?.clientName || "").trim();
     const period = String(req.body?.period || "").trim();
     const amount = req.body?.amount ? Number(req.body.amount) : null;
 
-    if (!userId || !clientName || !period || !req.file) {
+    if (!clientRef || !clientName || !period || !req.file) {
       res.status(400).json({
-        error: "userId, clientName, period y receipt (PNG) son requeridos",
+        error:
+          "userId (o clientId/licenseKey), clientName, period y receipt (PNG) son requeridos",
       });
       return;
     }
 
-    const user = await prisma.clientUser.findUnique({ where: { id: userId } });
+    const user =
+      (await prisma.clientUser.findUnique({ where: { id: clientRef } })) ||
+      (await prisma.clientUser.findUnique({ where: { licenseKey: clientRef } }));
+
     if (!user || !user.active) {
-      res.status(404).json({ error: "userId no vinculado o inactivo" });
+      res.status(404).json({ error: "ID de cliente / licencia no vinculado o inactivo" });
       return;
     }
 
     const payment = await prisma.payment.create({
       data: {
-        userId,
+        userId: user.id,
         clientName,
         period,
         amount: Number.isFinite(amount) ? amount : null,
         receiptPath: `/uploads/${req.file.filename}`,
         source: "ingest",
+        status: "pending",
       },
     });
 
@@ -76,6 +83,9 @@ ingestRouter.post(
       ok: true,
       paymentId: payment.id,
       userId: payment.userId,
+      clientId: user.id,
+      licenseKey: user.licenseKey,
+      status: payment.status,
       period: payment.period,
     });
   },

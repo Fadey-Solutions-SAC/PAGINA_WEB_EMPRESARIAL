@@ -45,9 +45,34 @@ npm run dev
 | Acción | Dónde |
 |--------|--------|
 | Registro desde contacto | `POST /api/leads` (formulario `#contacto`) |
-| Admin vincula cliente | `/admin` → genera `user_id`, usuario y contraseña |
-| Web service envía pago PNG | `POST /api/ingest/payments` con header `X-Api-Key` |
+| Admin vincula por web service | `/admin` → pega URL → consulta restaurante → genera usuario, contraseña e **ID de cliente/licencia** |
+| Admin vincula manual | `/admin` → pestaña Manual / registro |
+| Web service envía pago PNG | `POST /api/ingest/payments` con header `X-Api-Key` + `userId` (ID de cliente) |
+| Admin aprueba / rechaza pagos | `/admin` → Pagos |
 | Cliente ve academia | `/academia` (solo módulos de sus productos) |
+
+### Vincular por URL del web service
+
+1. En Admin → **Vincular por web service**.
+2. Pega la URL base del cliente (ej. `https://mi-resto.onrender.com`).
+3. **Consultar restaurante**: el API pide datos a estos paths (el primero que responda gana):
+   - `GET /api/fadey/restaurant`
+   - `GET /fadey/restaurant`
+   - `GET /api/restaurant`
+   - `GET /api/local`
+4. Respuesta esperada (JSON):
+
+```json
+{
+  "name": "Restaurante Miraflores",
+  "ruc": "20123456789",
+  "email": "contacto@ejemplo.com",
+  "phone": "999999999",
+  "address": "Av. Ejemplo 123"
+}
+```
+
+5. Genera **usuario**, **contraseña** e **ID de cliente / licencia**. Ese ID se usa para enviar y aprobar pagos.
 
 ### Ingest de pago (ejemplo)
 
@@ -59,6 +84,8 @@ curl -X POST "$API_URL/api/ingest/payments" \
   -F "period=2026-08" \
   -F "receipt=@comprobante.png"
 ```
+
+También acepta `clientId` o `licenseKey` en lugar de `userId`. El pago queda **pending** hasta que lo apruebes en Admin.
 
 ## Despliegue
 
