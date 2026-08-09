@@ -633,11 +633,25 @@ ul {
 }
 
 @media (max-width: 920px) {
+  html {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
+
   .section {
     min-height: auto;
     justify-content: flex-start;
     padding: calc(var(--header-h) + 0.75rem) 0 2rem;
     scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+
+  .hero {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    height: auto;
+    min-height: 100svh;
+    min-height: 100dvh;
   }
 }
 

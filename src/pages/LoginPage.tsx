@@ -1,11 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
-import "./Portal.css";
+import "./Login.css";
 
 export function LoginPage() {
   const { auth, loginAdmin, loginClient } = useAuth();
-  const [mode, setMode] = useState<"client" | "admin">("client");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,69 +18,106 @@ export function LoginPage() {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    const user = username.trim();
+    const pass = password;
+
     try {
-      if (mode === "admin") await loginAdmin(password);
-      else await loginClient(username, password);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudo iniciar sesión");
+      if (!user) {
+        if (!pass) {
+          setError("Ingrese usuario y contraseña");
+          return;
+        }
+        try {
+          await loginAdmin(pass);
+        } catch {
+          setError("Ingrese usuario y contraseña");
+        }
+        return;
+      }
+
+      if (!pass) {
+        setError("Credenciales inválidas");
+        return;
+      }
+
+      try {
+        await loginClient(user, pass);
+      } catch {
+        setError("Credenciales inválidas");
+      }
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="portal">
-      <div className="portal__card">
-        <Link to="/" className="portal__back">
-          ← Volver al sitio
-        </Link>
-        <h1>Acceder</h1>
-        <p className="portal__lead">
-          Clientes: Academia y tutoriales. Admin: panel de gestión.
-        </p>
-        <div className="portal__tabs">
-          <button
-            type="button"
-            className={mode === "client" ? "is-active" : ""}
-            onClick={() => setMode("client")}
-          >
-            Cliente
-          </button>
-          <button
-            type="button"
-            className={mode === "admin" ? "is-active" : ""}
-            onClick={() => setMode("admin")}
-          >
-            Admin
-          </button>
-        </div>
-        <form onSubmit={onSubmit} className="portal__form">
-          {mode === "client" && (
+    <div className="login">
+      <div className="login__bg" aria-hidden="true" />
+      <div className="login__grid" aria-hidden="true" />
+      <div className="login__glow login__glow--a" aria-hidden="true" />
+      <div className="login__glow login__glow--b" aria-hidden="true" />
+      <div className="login__glow login__glow--c" aria-hidden="true" />
+
+      <div className="login__shell">
+        <header className="login__brand">
+          <img
+            src="/logo-fadey.png"
+            alt=""
+            width={56}
+            height={56}
+            decoding="async"
+          />
+          <div>
+            <p className="login__brand-name">
+              Fadey <em>Solutions</em> SAC
+            </p>
+            <p className="login__brand-tag">Academia · Tutoriales · Gestión</p>
+          </div>
+        </header>
+
+        <div className="login__panel">
+          <Link to="/" className="login__back">
+            ← Volver al sitio
+          </Link>
+          <h1>Acceder</h1>
+          <p className="login__lead">
+            Ingresa con tus credenciales para continuar.
+          </p>
+
+          <form onSubmit={onSubmit} className="login__form">
             <label>
               Usuario
               <input
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
+                placeholder="Tu usuario"
+              />
+            </label>
+            <label>
+              Contraseña
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                placeholder="Tu contraseña"
                 required
               />
             </label>
-          )}
-          <label>
-            Contraseña
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete={mode === "admin" ? "current-password" : "current-password"}
-              required
-            />
-          </label>
-          {error && <p className="portal__error">{error}</p>}
-          <button className="btn btn--primary" type="submit" disabled={loading}>
-            {loading ? "Entrando…" : "Entrar"}
-          </button>
-        </form>
+            {error && (
+              <p className="login__error" role="alert">
+                {error}
+              </p>
+            )}
+            <button className="login__submit" type="submit" disabled={loading}>
+              {loading ? "Entrando…" : "Entrar"}
+            </button>
+          </form>
+        </div>
+
+        <p className="login__foot">Tecnología que impulsa tu negocio</p>
       </div>
     </div>
   );
