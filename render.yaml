@@ -7,8 +7,8 @@ services:
     name: fadey-api
     runtime: node
     plan: free
-    buildCommand: npm ci && npx prisma generate && npm run build:server
-    startCommand: npx prisma migrate deploy && npm start
+    buildCommand: npm ci && npx prisma generate
+    startCommand: npx prisma migrate deploy && npm run start
     disk:
       name: fadey-uploads
       mountPath: /opt/render/project/src/uploads
