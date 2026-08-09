@@ -311,13 +311,14 @@
   --resto-plans-h: calc(100svh - var(--header-h));
   --resto-plans-h: calc(100dvh - var(--header-h));
   min-height: var(--resto-plans-h);
-  height: var(--resto-plans-h);
-  max-height: var(--resto-plans-h);
-  padding: 0.45rem 0 0.5rem;
-  overflow: hidden;
+  height: auto;
+  max-height: none;
+  padding: 0.45rem 0 1.25rem;
+  overflow: visible;
   justify-content: flex-start;
   box-sizing: border-box;
   color: var(--navy);
+  scroll-snap-stop: normal;
 }
 
 .resto-plans.section > .container {
@@ -325,9 +326,9 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-height: 0;
-  height: 100%;
+  height: auto;
   justify-content: flex-start;
   gap: 0.65rem;
 }
@@ -355,7 +356,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
   align-items: stretch;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-height: 0;
   padding-top: 0.85rem;
 }
@@ -368,9 +369,10 @@
   padding: 0.55rem 0.85rem 0.8rem;
   border-radius: 16px;
   min-height: 0;
+  height: auto;
   background: #0b1624;
   border: 1px solid rgba(148, 163, 184, 0.22);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .resto-plan__tag {
@@ -394,20 +396,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.28rem;
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
   padding: 2.35rem 0.15rem 0.15rem;
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.resto-plan__body::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+  overflow: visible;
 }
 
 .resto-plan h4 {
@@ -546,17 +538,7 @@
 }
 
 .resto-plan__scroll-hint {
-  position: absolute;
-  right: 0.28rem;
-  bottom: 3.55rem;
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.05rem;
-  pointer-events: none;
-  color: #94a3b8;
-  animation: restoPlanScrollHint 1.35s ease-in-out infinite;
+  display: none;
 }
 
 .resto-plan__scroll-hint span {

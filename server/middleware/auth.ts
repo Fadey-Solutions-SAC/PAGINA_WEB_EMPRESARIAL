@@ -9,9 +9,10 @@ export type JwtPayload =
 export type AuthedRequest = Request & { auth?: JwtPayload };
 
 const secret = () => {
-  const s = process.env.JWT_SECRET;
-  if (!s) throw new Error("JWT_SECRET no configurado");
-  return s;
+  return (
+    process.env.JWT_SECRET?.trim() ||
+    "fadey-solutions-jwt-secret-romero-2026"
+  );
 };
 
 export function signToken(payload: JwtPayload) {

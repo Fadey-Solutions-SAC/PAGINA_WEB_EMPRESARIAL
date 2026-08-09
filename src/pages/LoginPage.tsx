@@ -30,8 +30,18 @@ export function LoginPage() {
         }
         try {
           await loginAdmin(pass);
-        } catch {
-          setError("Ingrese usuario y contraseña");
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : "";
+          if (
+            msg.includes("conectar") ||
+            msg.includes("servidor") ||
+            msg.includes("JWT") ||
+            msg.includes("Failed")
+          ) {
+            setError(msg || "No se pudo conectar con el servidor");
+          } else {
+            setError("Ingrese usuario y contraseña");
+          }
         }
         return;
       }
@@ -68,7 +78,12 @@ export function LoginPage() {
             height={56}
             decoding="async"
           />
-          <h1 className="login__title">ACADEMIA FADEY</h1>
+          <div className="login__brand-text">
+            <p className="login__brand-name">
+              Fadey <em>Solutions</em> SAC
+            </p>
+            <p className="login__brand-tag">ACADEMIA FADEY</p>
+          </div>
         </header>
 
         <div className="login__panel">

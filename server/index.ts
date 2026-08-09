@@ -21,7 +21,12 @@ const origins = (process.env.CORS_ORIGIN || "http://localhost:5173")
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin || origins.includes(origin) || origins.includes("*")) {
+      if (
+        !origin ||
+        origins.includes(origin) ||
+        origins.includes("*") ||
+        origin.endsWith(".vercel.app")
+      ) {
         cb(null, true);
         return;
       }

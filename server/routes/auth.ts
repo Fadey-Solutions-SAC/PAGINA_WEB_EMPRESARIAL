@@ -14,16 +14,24 @@ const loginLimit = rateLimit({
 });
 
 authRouter.post("/admin", loginLimit, async (req, res) => {
-  const password = String(req.body?.password || "").trim();
-  const expected = String(process.env.ADMIN_PASSWORD || "")
-    .trim()
-    .replace(/^["']|["']$/g, "");
-  if (!expected || password !== expected) {
-    res.status(401).json({ error: "Contraseña incorrecta" });
-    return;
+  try {
+    const password = String(req.body?.password || "").trim();
+    // Contraseña admin fija (también se puede sobreescribir con ADMIN_PASSWORD en Render)
+    const expected = String(process.env.ADMIN_PASSWORD || "ROMERO25879")
+      .trim()
+      .replace(/^["']|["']$/g, "");
+    if (!password || password !== expected) {
+      res.status(401).json({ error: "Contraseña incorrecta" });
+      return;
+    }
+    const token = signToken({ role: "admin" });
+    res.json({ token, role: "admin", name: "Admin" });
+  } catch (err) {
+    console.error("admin login error", err);
+    res.status(500).json({
+      error: err instanceof Error ? err.message : "Error al iniciar sesión",
+    });
   }
-  const token = signToken({ role: "admin" });
-  res.json({ token, role: "admin", name: "Admin" });
 });
 
 authRouter.post("/login", loginLimit, async (req, res) => {
