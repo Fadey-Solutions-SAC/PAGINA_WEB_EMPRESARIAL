@@ -82,7 +82,7 @@ export function LoginPage() {
             <p className="login__brand-name">
               Fadey <em>Solutions</em> SAC
             </p>
-            <p className="login__brand-tag">ACADEMIA FADEY</p>
+            <p className="login__brand-tag">Academia Fadey</p>
           </div>
         </header>
 
