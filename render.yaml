@@ -1,0 +1,32 @@
+databases:
+  - name: fadey-db
+    plan: free
+
+services:
+  - type: web
+    name: fadey-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npx prisma generate && npm run build:server
+    startCommand: npx prisma migrate deploy && npm start
+    disk:
+      name: fadey-uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fadey-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: API_INGEST_SECRET
+        sync: false
+      - key: UPLOADS_DIR
+        value: /opt/render/project/src/uploads
+      - key: CORS_ORIGIN
+        sync: false
+      - key: NODE_VERSION
+        value: "20"

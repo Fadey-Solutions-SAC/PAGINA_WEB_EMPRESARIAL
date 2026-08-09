@@ -1,0 +1,146 @@
+.model {
+  color: #fff;
+}
+
+.model__intro {
+  text-align: center;
+  margin-bottom: 0.85rem;
+}
+
+.model__intro .section__title {
+  color: #fff;
+  max-width: 18ch;
+  margin-inline: auto;
+}
+
+.model__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.model__grid--four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.model-card {
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  border: 1px solid transparent;
+}
+
+.model-card--software {
+  background: rgba(11, 61, 110, 0.55);
+  border-color: rgba(0, 207, 255, 0.2);
+}
+
+.model-card--custom {
+  background: rgba(0, 207, 255, 0.08);
+  border-color: rgba(0, 207, 255, 0.35);
+}
+
+.model-card__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+}
+
+.model-card__eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.model-card__soon {
+  display: inline-flex;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #071a33;
+  background: linear-gradient(135deg, #7debff, #00cfff);
+}
+
+.model-card--soon {
+  opacity: 0.92;
+}
+
+.model-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #fff;
+}
+
+.model-card ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.model-card li {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  padding-left: 1.05rem;
+  position: relative;
+}
+
+.model-card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55rem;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cyan-soft);
+}
+
+.model-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid rgba(22, 50, 77, 0.9);
+  border-bottom: 1px solid rgba(22, 50, 77, 0.9);
+}
+
+.model-card__meta span {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.model-card__meta strong {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--cyan-soft);
+}
+
+.model-card .btn {
+  align-self: flex-start;
+  margin-top: 0.35rem;
+}
+
+@media (max-width: 1100px) {
+  .model__grid--four {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .model__grid,
+  .model__grid--four {
+    grid-template-columns: 1fr;
+  }
+}

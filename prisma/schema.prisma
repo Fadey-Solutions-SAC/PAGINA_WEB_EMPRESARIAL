@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Product {
+  resto
+  erp
+  web
+  soporte
+}
+
+enum CourseKind {
+  tutorial
+  academia
+}
+
+enum PaymentSource {
+  ingest
+  admin
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  email     String
+  phone     String?
+  intent    Product
+  message   String?
+  createdAt DateTime @default(now())
+  linkedUserId String?
+  linkedUser   ClientUser? @relation(fields: [linkedUserId], references: [id])
+}
+
+model ClientUser {
+  id           String    @id @default(uuid())
+  username     String    @unique
+  passwordHash String
+  clientName   String
+  products     Product[]
+  active       Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  leads        Lead[]
+  payments     Payment[]
+  progress     Progress[]
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  userId      String
+  user        ClientUser    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clientName  String
+  amount      Float?
+  period      String
+  receiptPath String
+  source      PaymentSource @default(ingest)
+  receivedAt  DateTime      @default(now())
+}
+
+model CourseModule {
+  id          String     @id @default(cuid())
+  product     Product
+  kind        CourseKind
+  title       String
+  youtubeUrl  String
+  sortOrder   Int        @default(0)
+  createdAt   DateTime   @default(now())
+  progress    Progress[]
+}
+
+model Progress {
+  id        String       @id @default(cuid())
+  userId    String
+  moduleId  String
+  completed Boolean      @default(false)
+  updatedAt DateTime     @updatedAt
+  user      ClientUser   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  module    CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, moduleId])
+}

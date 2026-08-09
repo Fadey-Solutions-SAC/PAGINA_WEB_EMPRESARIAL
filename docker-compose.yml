@@ -1,0 +1,16 @@
+# Local PostgreSQL for development
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: fadey
+      POSTGRES_PASSWORD: fadey
+      POSTGRES_DB: fadey
+    ports:
+      - "5432:5432"
+    volumes:
+      - fadey_pg:/var/lib/postgresql/data
+
+volumes:
+  fadey_pg:
