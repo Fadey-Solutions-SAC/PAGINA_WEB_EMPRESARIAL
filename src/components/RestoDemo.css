@@ -615,12 +615,28 @@
 
 @media (max-width: 700px) {
   .resto-demo {
-    grid-template-columns: 108px 1fr;
+    grid-template-columns: 72px 1fr;
     height: auto;
-    min-height: 280px;
+    min-height: 240px;
+    max-height: min(58vh, 360px);
+    font-size: 0.85em;
+  }
+
+  .resto-demo__nav-label {
+    display: none;
+  }
+
+  .resto-demo__nav-item {
+    justify-content: center;
+    padding-inline: 0.35rem;
   }
 
   .resto-demo__kpis {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .resto-demo__main {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }

@@ -1,18 +1,21 @@
 :root {
-  --navy: #071a33;
-  --deep: #0b3d6e;
+  --navy: #0c4a82;
+  --navy-ink: #0a355c;
+  --deep: #1a6aad;
   --cyan: #00cfff;
   --cyan-soft: #7debff;
   --white: #f7fafc;
   --mist: #e8f1f7;
   --violet: #725cff;
   --green: #20c997;
-  --text-muted: #b9d3e5;
+  --text-muted: #c5dceb;
   --text-body: #52677a;
   --border: #dceaf2;
   --btn-dark: #0b4f8a;
-  --footer: #050b14;
-  --divider: #16324d;
+  --footer: #0a3a66;
+  --divider: #1e5a8a;
+  --blue-section: #1270b0;
+  --blue-section-deep: #0d5a94;
 
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Outfit", sans-serif;
@@ -230,11 +233,11 @@ ul {
     );
 }
 
-/* Dark blue sections — wave / network image variations */
+/* Blue sections — tonalidad más clara y legible */
 .section--blue {
   overflow: clip;
   isolation: isolate;
-  background-color: #050b14;
+  background-color: var(--blue-section);
 }
 
 .section--blue::before,
@@ -254,20 +257,20 @@ ul {
 /* A: waves — Resto */
 .section--blue-a::before {
   background: url("/bg-blue-waves.png") center right / cover no-repeat;
-  opacity: 0.95;
+  opacity: 0.72;
 }
 
 .section--blue-a::after {
   background:
     linear-gradient(
       105deg,
-      rgba(5, 11, 20, 0.88) 0%,
-      rgba(7, 26, 51, 0.62) 48%,
-      rgba(5, 11, 20, 0.45) 100%
+      rgba(12, 74, 130, 0.55) 0%,
+      rgba(18, 112, 176, 0.35) 48%,
+      rgba(26, 130, 200, 0.28) 100%
     ),
     radial-gradient(
       ellipse 45% 50% at 80% 30%,
-      rgba(0, 207, 255, 0.12),
+      rgba(0, 207, 255, 0.22),
       transparent 70%
     );
 }
@@ -275,7 +278,7 @@ ul {
 /* B: network — ERP */
 .section--blue-b::before {
   background: url("/bg-blue-network.png") left center / cover no-repeat;
-  opacity: 0.92;
+  opacity: 0.7;
   transform: scale(1.06);
 }
 
@@ -283,13 +286,13 @@ ul {
   background:
     linear-gradient(
       120deg,
-      rgba(5, 11, 20, 0.82) 0%,
-      rgba(11, 61, 110, 0.45) 55%,
-      rgba(5, 11, 20, 0.55) 100%
+      rgba(12, 74, 130, 0.5) 0%,
+      rgba(26, 106, 173, 0.32) 55%,
+      rgba(18, 112, 176, 0.4) 100%
     ),
     radial-gradient(
       ellipse 50% 45% at 15% 75%,
-      rgba(0, 207, 255, 0.14),
+      rgba(0, 207, 255, 0.2),
       transparent 65%
     );
 }
@@ -299,20 +302,20 @@ ul {
   background:
     url("/bg-blue-network.png") right bottom / cover no-repeat,
     url("/bg-blue-waves.png") left top / cover no-repeat;
-  opacity: 0.85;
+  opacity: 0.65;
 }
 
 .section--blue-c::after {
   background:
     linear-gradient(
       160deg,
-      rgba(7, 26, 51, 0.78) 0%,
-      rgba(5, 11, 20, 0.55) 45%,
-      rgba(11, 61, 110, 0.5) 100%
+      rgba(12, 74, 130, 0.5) 0%,
+      rgba(18, 112, 176, 0.32) 45%,
+      rgba(26, 106, 173, 0.4) 100%
     ),
     radial-gradient(
       ellipse 55% 40% at 50% 50%,
-      rgba(0, 207, 255, 0.1),
+      rgba(0, 207, 255, 0.16),
       transparent 70%
     );
 }
@@ -320,9 +323,9 @@ ul {
 /* D: flipped network + soft waves blend */
 .section--blue-d::before {
   background:
-    linear-gradient(90deg, rgba(5, 11, 20, 0.2), transparent 40%),
+    linear-gradient(90deg, rgba(12, 74, 130, 0.15), transparent 40%),
     url("/bg-blue-waves.png") center / cover no-repeat;
-  opacity: 0.9;
+  opacity: 0.7;
   transform: scaleX(-1);
 }
 
@@ -331,11 +334,11 @@ ul {
     url("/bg-blue-network.png") left top / 70% auto no-repeat,
     linear-gradient(
       180deg,
-      rgba(5, 11, 20, 0.7) 0%,
-      rgba(7, 26, 51, 0.5) 100%
+      rgba(12, 74, 130, 0.45) 0%,
+      rgba(18, 112, 176, 0.3) 100%
     );
-  opacity: 0.55;
-  mix-blend-mode: screen;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
 }
 
 /* Mineral-inspired plan cards (visual only) */
@@ -564,7 +567,7 @@ ul {
 
 .btn--primary {
   background: linear-gradient(135deg, #00cfff, #008fe6);
-  color: var(--navy);
+  color: var(--navy-ink);
   box-shadow: 0 8px 28px rgba(0, 207, 255, 0.28);
 }
 
@@ -591,12 +594,12 @@ ul {
 
 .btn--dark:hover {
   background: var(--cyan);
-  color: var(--navy);
+  color: var(--navy-ink);
 }
 
 .btn--solid-cyan {
   background: var(--cyan);
-  color: var(--navy);
+  color: var(--navy-ink);
 }
 
 .btn--solid-cyan:hover {
@@ -634,24 +637,101 @@ ul {
 
 @media (max-width: 920px) {
   html {
-    scroll-snap-type: none;
+    scroll-snap-type: y proximity;
     scroll-behavior: auto;
+    scroll-padding-top: var(--header-h);
   }
 
+  body {
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: min(100% - 1.5rem, var(--max));
+  }
+
+  /* Cada módulo: pantalla completa, sin recortes ni solapes */
   .section {
-    min-height: auto;
+    position: relative;
+    z-index: auto;
+    isolation: isolate;
+    min-height: 100svh;
+    min-height: 100dvh;
+    height: auto !important;
+    max-height: none !important;
     justify-content: flex-start;
-    padding: calc(var(--header-h) + 0.75rem) 0 2rem;
-    scroll-snap-align: none;
+    padding: calc(var(--header-h) + 1rem) 0 2.25rem;
+    overflow: hidden;
+    scroll-snap-align: start;
     scroll-snap-stop: normal;
   }
 
+  .section > .container,
+  .section > [class*="__shell"] {
+    width: min(100% - 1.5rem, var(--max));
+  }
+
+  /* Fondos: sin scale/rotate que se desbordan sobre la sección anterior */
+  .section--light,
+  .section--blue {
+    overflow: hidden;
+  }
+
+  .section--light::before,
+  .section--light::after,
+  .section--blue::before,
+  .section--blue::after {
+    transform: none !important;
+    inset: 0;
+  }
+
+  /* Evita descargas pesadas de texturas en móvil (pantallas en blanco / lag) */
+  .section--light::before,
+  .section--blue::before {
+    background-image: none !important;
+    opacity: 1;
+  }
+
+  .section--light {
+    background-color: #d9ebf8;
+  }
+
+  .section--blue {
+    background-color: var(--blue-section);
+  }
+
+  .section--light::after {
+    background: linear-gradient(
+      165deg,
+      rgba(247, 250, 252, 0.75) 0%,
+      rgba(217, 235, 248, 0.4) 100%
+    );
+  }
+
+  .section--blue::after {
+    background: linear-gradient(
+      165deg,
+      rgba(14, 90, 150, 0.55) 0%,
+      rgba(18, 112, 176, 0.4) 55%,
+      rgba(12, 74, 130, 0.5) 100%
+    );
+  }
+
+  /* Sin pantallas en blanco por opacity:0 del reveal */
+  .reveal,
+  .reveal.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
   .hero {
-    scroll-snap-align: none;
+    scroll-snap-align: start;
     scroll-snap-stop: normal;
     height: auto;
     min-height: 100svh;
     min-height: 100dvh;
+    overflow: hidden;
   }
 }
 

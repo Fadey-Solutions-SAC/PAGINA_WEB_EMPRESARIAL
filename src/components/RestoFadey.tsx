@@ -1,5 +1,22 @@
+import { useNearViewport } from "../hooks/useReveal";
 import { RestoDemo, restoDemoModules } from "./RestoDemo";
 import "./RestoFadey.css";
+
+function RestoDemoLazy() {
+  const { ref, near } = useNearViewport<HTMLDivElement>("160px");
+  return (
+    <div ref={ref} className="resto-demo-host">
+      {near ? (
+        <RestoDemo />
+      ) : (
+        <div className="resto-demo-skeleton" aria-hidden="true">
+          <div className="resto-demo-skeleton__bar" />
+          <div className="resto-demo-skeleton__body" />
+        </div>
+      )}
+    </div>
+  );
+}
 
 const WHATSAPP_DEMO_URL =
   "https://wa.me/51921028316?text=" +
@@ -154,7 +171,7 @@ export function RestoFadey() {
                     sistema
                   </p>
                 </div>
-                <RestoDemo />
+                <RestoDemoLazy />
               </div>
               <div className="resto__cta">
                 <a className="btn btn--primary" href="#resto-planes">
