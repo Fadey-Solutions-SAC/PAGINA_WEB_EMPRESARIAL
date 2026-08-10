@@ -43,8 +43,8 @@ html[data-theme="blue"] .maint-card {
 
 html[data-theme="emerald"] .maint-card {
   background: rgba(255, 255, 255, 0.94);
-  border-color: rgba(0, 255, 220, 0.17);
-  box-shadow: 0 12px 36px rgba(5, 7, 11, 0.08);
+  border-color: rgba(0, 230, 118, 0.28);
+  box-shadow: 0 12px 36px rgba(2, 40, 30, 0.08);
   backdrop-filter: blur(12px);
 }
 

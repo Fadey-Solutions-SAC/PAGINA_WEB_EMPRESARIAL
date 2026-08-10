@@ -31,19 +31,19 @@ function blueToEmerald(data) {
 
     if (!isCool && !blueishGray) continue;
 
-    // Target emerald around hue ~155°
+    // Target vivid emerald (~hue 145°)
     // Keep luminance of original pixel
     const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-    const satBoost = Math.min(1, Math.max(0.35, s * 1.15 + 0.15));
+    const satBoost = Math.min(1.35, Math.max(0.55, s * 1.45 + 0.35));
 
-    // Emerald mix: dark forest + bright mint by luminance
+    // Vivid emerald: deeper forest + brighter neon green by luminance
     const t = lum / 255;
-    const er = Math.round(2 + t * 90 + satBoost * 20);
-    const eg = Math.round(20 + t * 200 + satBoost * 30);
-    const eb = Math.round(16 + t * 120);
+    const er = Math.round(1 + t * 55 + satBoost * 8);
+    const eg = Math.round(28 + t * 220 + satBoost * 35);
+    const eb = Math.round(18 + t * 95);
 
     // Blend toward emerald based on how "blue" the pixel was
-    const blueStrength = Math.min(1, (b - r) / 120 + 0.35);
+    const blueStrength = Math.min(1, (b - r) / 100 + 0.45);
     data[i] = Math.round(r * (1 - blueStrength) + er * blueStrength);
     data[i + 1] = Math.round(g * (1 - blueStrength) + eg * blueStrength);
     data[i + 2] = Math.round(b * (1 - blueStrength) + eb * blueStrength);

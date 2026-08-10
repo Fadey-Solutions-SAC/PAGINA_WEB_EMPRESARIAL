@@ -731,6 +731,30 @@
   color: var(--cyan);
 }
 
+.resto-plan--cyan .resto-plan__pill {
+  border-color: color-mix(in srgb, var(--cyan) 55%, transparent);
+  color: var(--cyan-soft);
+}
+
+.resto-plan--cyan .resto-plan__promo {
+  background: color-mix(in srgb, var(--plan-cyan-to) 92%, #000);
+  border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.35),
+    0 0 14px color-mix(in srgb, var(--cyan) 22%, transparent);
+}
+
+.resto-plan--cyan .resto-plan__promo-neon-flow {
+  stroke: var(--cyan-soft);
+  filter:
+    drop-shadow(0 0 2px color-mix(in srgb, var(--cyan-soft) 95%, transparent))
+    drop-shadow(0 0 6px color-mix(in srgb, var(--cyan) 70%, transparent));
+}
+
+.resto-plan--cyan .resto-plan__promo span {
+  color: var(--cyan-soft);
+}
+
 /* Gold / Premium */
 .resto-plan--gold {
   background: linear-gradient(
