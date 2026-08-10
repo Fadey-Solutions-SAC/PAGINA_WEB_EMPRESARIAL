@@ -65,7 +65,7 @@ html[data-theme="emerald"] {
   --divider: #1a4d3d;
   --blue-section: #053528;
   --blue-section-deep: #03261c;
-  --section-light: #d8efe6;
+  --section-light: #eef7f3;
   --plan-neutral-from: #f7f8fa;
   --plan-neutral-to: #e8ebf0;
   --plan-cyan-from: #0b5c45;
@@ -79,7 +79,7 @@ html[data-theme="emerald"] {
   --laptop-to: #03261c;
 }
 
-/* Diseños de fondo verdes (mismos patrones, versión esmeralda) */
+/* Diseños de fondo verdes (mismos patrones, versión esmeralda) — sin velos/neblina */
 html[data-theme="emerald"] {
   --bg-hero: url("/hero-network-emerald.png");
   --bg-waves: url("/bg-emerald-waves.png");
@@ -96,7 +96,7 @@ html[data-theme="emerald"] .web {
 
 html[data-theme="emerald"] .hero__bg {
   background-image: var(--bg-hero) !important;
-  opacity: 0.55 !important;
+  opacity: 0.5 !important;
   filter: none !important;
 }
 
@@ -121,110 +121,56 @@ html[data-theme="emerald"] .section--blue-c::before {
 }
 
 html[data-theme="emerald"] .section--blue-d::before {
-  background:
-    linear-gradient(90deg, rgba(3, 38, 28, 0.25), transparent 40%),
-    var(--bg-waves) center / cover no-repeat !important;
+  background: var(--bg-waves) center / cover no-repeat !important;
   opacity: 0.8 !important;
   filter: none !important;
 }
 
 html[data-theme="emerald"] .web__bg {
   background-image: var(--bg-web-neon) !important;
-  opacity: 0.75 !important;
+  opacity: 0.7 !important;
   filter: none !important;
 }
 
 html[data-theme="emerald"] .section--light::before {
   background-image: var(--bg-geometry) !important;
-  opacity: 0.7 !important;
+  opacity: 0.55 !important;
   filter: none !important;
 }
 
-/* Overlay oscuro suave: deja ver el diseño y mantiene letras blancas legibles */
+/* Sin neblina: overlays limpios (sin degradados verdes suaves ni radiales) */
+html[data-theme="emerald"] .section--blue::after,
 html[data-theme="emerald"] .section--blue-a::after,
 html[data-theme="emerald"] .section--blue-b::after,
-html[data-theme="emerald"] .section--blue-c::after {
-  background:
-    linear-gradient(
-      105deg,
-      rgba(2, 30, 22, 0.78) 0%,
-      rgba(4, 45, 34, 0.55) 48%,
-      rgba(3, 38, 28, 0.4) 100%
-    ),
-    radial-gradient(
-      ellipse 45% 50% at 80% 30%,
-      rgba(31, 216, 154, 0.14),
-      transparent 70%
-    ) !important;
-}
-
-html[data-theme="emerald"] .section--blue::after {
-  background: linear-gradient(
-    165deg,
-    rgba(2, 30, 22, 0.72) 0%,
-    rgba(4, 45, 34, 0.5) 55%,
-    rgba(3, 38, 28, 0.65) 100%
-  ) !important;
+html[data-theme="emerald"] .section--blue-c::after,
+html[data-theme="emerald"] .section--blue-d::after {
+  background: rgba(3, 38, 28, 0.42) !important;
 }
 
 html[data-theme="emerald"] .hero__overlay {
-  background:
-    linear-gradient(
-      105deg,
-      rgba(2, 30, 22, 0.88) 0%,
-      rgba(4, 45, 34, 0.7) 38%,
-      rgba(5, 55, 42, 0.45) 68%,
-      rgba(3, 38, 28, 0.35) 100%
-    ),
-    radial-gradient(
-      ellipse 55% 50% at 78% 42%,
-      rgba(31, 216, 154, 0.12),
-      transparent 70%
-    ) !important;
+  background: rgba(3, 38, 28, 0.55) !important;
 }
 
 html[data-theme="emerald"] .web__overlay {
-  background:
-    linear-gradient(
-      115deg,
-      rgba(2, 30, 22, 0.75) 0%,
-      rgba(4, 45, 34, 0.55) 42%,
-      rgba(3, 38, 28, 0.5) 100%
-    ),
-    radial-gradient(
-      ellipse 50% 50% at 70% 40%,
-      rgba(31, 216, 154, 0.12),
-      transparent 70%
-    ) !important;
+  background: rgba(3, 38, 28, 0.48) !important;
 }
 
-html[data-theme="emerald"] .section--light::after {
-  background:
-    linear-gradient(
-      120deg,
-      rgba(216, 239, 230, 0.72) 0%,
-      rgba(200, 230, 216, 0.4) 48%,
-      rgba(216, 239, 230, 0.65) 100%
-    ),
-    radial-gradient(
-      ellipse 55% 50% at 12% 80%,
-      rgba(31, 216, 154, 0.16),
-      transparent 65%
-    ) !important;
+html[data-theme="emerald"] .section--light::after,
+html[data-theme="emerald"] .section--light-a::after,
+html[data-theme="emerald"] .section--light-b::after,
+html[data-theme="emerald"] .section--light-c::after,
+html[data-theme="emerald"] .section--light-d::after {
+  background: rgba(255, 255, 255, 0.4) !important;
 }
 
+/* Apaga glows/blur verdes (efecto neblina) */
 html[data-theme="emerald"] .hero__glow,
 html[data-theme="emerald"] .login__glow {
-  opacity: 0.45;
+  display: none !important;
 }
 
-html[data-theme="emerald"] .hero__glow--a,
-html[data-theme="emerald"] .hero__glow--b {
-  background: rgba(31, 216, 154, 0.14) !important;
-}
-
-/* Texto: blanco se mantiene; acentos verdes claros sobre fondo oscuro */
-html[data-theme="emerald"] .section__title,
+/* Texto blanco solo en secciones oscuras; las light usan negro/cuerpo */
+html[data-theme="emerald"] .section--blue .section__title,
 html[data-theme="emerald"] .hero__title,
 html[data-theme="emerald"] .hero__desc,
 html[data-theme="emerald"] .web .section__title,
@@ -234,6 +180,18 @@ html[data-theme="emerald"] .resto .section__title,
 html[data-theme="emerald"] .resto .section__lead {
   color: #ffffff;
   text-shadow: none;
+}
+
+html[data-theme="emerald"] .section--light .section__title {
+  color: #0a1210;
+}
+
+html[data-theme="emerald"] .section--light .section__lead {
+  color: #1a2e28;
+}
+
+html[data-theme="emerald"] .section--light .section__label {
+  color: var(--btn-dark);
 }
 
 html[data-theme="emerald"] .section__label,
@@ -259,11 +217,11 @@ html[data-theme="emerald"] .hero__intent-item:hover {
 }
 
 html[data-theme="emerald"] .web-card,
-html[data-theme="emerald"] .model-card,
-html[data-theme="emerald"] .maint-card {
-  background: #0a3529 !important;
-  border-color: rgba(31, 216, 154, 0.28) !important;
+html[data-theme="emerald"] .model-card {
+  background: #021912 !important;
+  border-color: rgba(31, 216, 154, 0.3) !important;
   backdrop-filter: none !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35) !important;
 }
 
 html[data-theme="emerald"] .web-card:hover {
@@ -293,9 +251,7 @@ html[data-theme="emerald"] .login__panel {
 }
 
 html[data-theme="emerald"] .login__brand img {
-  box-shadow:
-    0 0 0 1px rgba(31, 216, 154, 0.45),
-    0 0 20px rgba(31, 216, 154, 0.25);
+  box-shadow: 0 0 0 1px rgba(31, 216, 154, 0.35);
 }
 
 html[data-theme="emerald"] .login__grid {
@@ -305,7 +261,7 @@ html[data-theme="emerald"] .login__grid {
 }
 
 html[data-theme="emerald"] .login__glow--a {
-  background: radial-gradient(circle, rgba(31, 216, 154, 0.2), transparent 70%);
+  display: none !important;
 }
 
 html[data-theme="emerald"] .plan-mineral--diamante {
@@ -329,8 +285,8 @@ html[data-theme="emerald"] .resto-plan--gold {
 
 html[data-theme="emerald"] .model-card--software,
 html[data-theme="emerald"] .model-card--custom {
-  background: #0a3529 !important;
-  border-color: rgba(31, 216, 154, 0.3) !important;
+  background: #021912 !important;
+  border-color: rgba(31, 216, 154, 0.32) !important;
 }
 
 html[data-theme="emerald"] .model {
@@ -338,12 +294,12 @@ html[data-theme="emerald"] .model {
 }
 
 html[data-theme="emerald"] .section--light {
-  background-color: #d8efe6;
+  background-color: #eef7f3;
 }
 
 html[data-theme="emerald"] .login__bg {
   background-image:
-    linear-gradient(180deg, rgba(2, 30, 22, 0.45) 0%, rgba(2, 30, 22, 0.85) 100%),
+    linear-gradient(180deg, rgba(3, 38, 28, 0.72) 0%, rgba(2, 25, 20, 0.88) 100%),
     var(--bg-hero) !important;
 }
 
@@ -505,25 +461,19 @@ ul {
     );
 }
 
-/* Variation C: mist / softer contrast */
+/* Variation C: soporte — claro, sin neblina */
 .section--light-c::before {
   background-position: center bottom;
-  opacity: 0.7;
+  opacity: 0.55;
 }
 
 .section--light-c::after {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(232, 241, 247, 0.55) 0%,
-      rgba(247, 250, 252, 0.35) 50%,
-      rgba(232, 241, 247, 0.6) 100%
-    ),
-    radial-gradient(
-      ellipse 45% 40% at 50% 0%,
-      rgba(11, 79, 138, 0.12),
-      transparent 65%
-    );
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.45) 100%
+  );
 }
 
 /* Variation D: contact — brighter diagonal cut */
@@ -1043,7 +993,7 @@ ul {
 
   html[data-theme="emerald"] .section--light::before {
     background-image: var(--bg-geometry) !important;
-    opacity: 0.55 !important;
+    opacity: 0.45 !important;
   }
 
   html[data-theme="emerald"] .hero__bg {
@@ -1051,21 +1001,20 @@ ul {
     opacity: 0.4 !important;
   }
 
-  html[data-theme="emerald"] .section--blue::after {
-    background: linear-gradient(
-      165deg,
-      rgba(2, 30, 22, 0.82) 0%,
-      rgba(4, 45, 34, 0.7) 55%,
-      rgba(3, 38, 28, 0.85) 100%
-    ) !important;
+  html[data-theme="emerald"] .section--blue::after,
+  html[data-theme="emerald"] .section--blue-a::after,
+  html[data-theme="emerald"] .section--blue-b::after,
+  html[data-theme="emerald"] .section--blue-c::after,
+  html[data-theme="emerald"] .section--blue-d::after {
+    background: rgba(3, 38, 28, 0.55) !important;
   }
 
-  html[data-theme="emerald"] .section--light::after {
-    background: linear-gradient(
-      165deg,
-      rgba(216, 239, 230, 0.82) 0%,
-      rgba(200, 230, 216, 0.65) 100%
-    ) !important;
+  html[data-theme="emerald"] .section--light::after,
+  html[data-theme="emerald"] .section--light-a::after,
+  html[data-theme="emerald"] .section--light-b::after,
+  html[data-theme="emerald"] .section--light-c::after,
+  html[data-theme="emerald"] .section--light-d::after {
+    background: rgba(255, 255, 255, 0.45) !important;
   }
 
   /* Sin pantallas en blanco por opacity:0 del reveal */

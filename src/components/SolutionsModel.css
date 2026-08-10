@@ -33,13 +33,15 @@
 }
 
 .model-card--software {
-  background: rgba(var(--surface-rgb), 0.72);
-  border-color: rgba(var(--accent-rgb), 0.2);
+  background: rgba(var(--surface-deep-rgb), 0.92);
+  border-color: rgba(var(--accent-rgb), 0.28);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 
 .model-card--custom {
-  background: rgba(var(--accent-rgb), 0.08);
-  border-color: rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--surface-deep-rgb), 0.88);
+  border-color: rgba(var(--accent-rgb), 0.32);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.26);
 }
 
 .model-card__top {
@@ -112,8 +114,8 @@
   flex-direction: column;
   gap: 0.2rem;
   padding: 0.75rem 0;
-  border-top: 1px solid rgba(22, 50, 77, 0.9);
-  border-bottom: 1px solid rgba(22, 50, 77, 0.9);
+  border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.18);
 }
 
 .model-card__meta span {

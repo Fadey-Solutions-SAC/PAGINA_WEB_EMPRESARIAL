@@ -558,9 +558,12 @@ export function AdminPage() {
                 <button
                   type="button"
                   className="admin__btn admin__btn--primary"
-                  onClick={() => openLink()}
+                  onClick={() => {
+                    setSection("users");
+                    openLink();
+                  }}
                 >
-                  Vincular por web service
+                  Vincular web service
                 </button>
                 <button
                   type="button"
@@ -591,13 +594,6 @@ export function AdminPage() {
             <div className="admin__card">
               <div className="admin__card-head">
                 <h2>Registros del formulario de contacto</h2>
-                <button
-                  type="button"
-                  className="admin__btn admin__btn--primary"
-                  onClick={() => openLink()}
-                >
-                  Vincular por web service
-                </button>
               </div>
               <div className="admin__card-body">
                 <div className="admin__filters">
@@ -621,8 +617,8 @@ export function AdminPage() {
                 ) : filteredLeads.length === 0 ? (
                   <div className="admin__empty">
                     <strong>Aún no hay registros</strong>
-                    Cuando alguien complete el formulario de contacto, aparecerán
-                    aquí.
+                    Cuando alguien complete el formulario de contacto de la web,
+                    aparecerán aquí con nombre, correo, interés y mensaje.
                   </div>
                 ) : (
                   <div className="admin__table-wrap">
@@ -1132,7 +1128,7 @@ export function AdminPage() {
                   className="admin__btn admin__btn--primary"
                   onClick={() => openLink(selectedLead)}
                 >
-                  Vincular ahora
+                  Crear acceso Academia
                 </button>
               )}
               <button
