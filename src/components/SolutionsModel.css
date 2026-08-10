@@ -33,7 +33,7 @@
 }
 
 .model-card--software {
-  background: rgba(11, 61, 110, 0.55);
+  background: rgba(var(--surface-rgb), 0.72);
   border-color: rgba(var(--accent-rgb), 0.2);
 }
 

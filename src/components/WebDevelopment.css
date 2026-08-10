@@ -12,11 +12,6 @@
   pointer-events: none;
 }
 
-html[data-theme="emerald"] .web__bg {
-  /* Imagen original celeste → verde claro */
-  filter: hue-rotate(110deg) saturate(1.05);
-}
-
 .web__overlay {
   position: absolute;
   inset: 0;
@@ -24,13 +19,13 @@ html[data-theme="emerald"] .web__bg {
   background:
     linear-gradient(
       115deg,
-      rgba(var(--surface-rgb), 0.55) 0%,
-      rgba(18, 112, 176, 0.4) 42%,
-      rgba(14, 90, 150, 0.35) 100%
+      rgba(var(--surface-rgb), 0.72) 0%,
+      rgba(var(--surface-deep-rgb), 0.55) 42%,
+      rgba(var(--surface-rgb), 0.65) 100%
     ),
     radial-gradient(
       ellipse 50% 50% at 70% 40%,
-      rgba(var(--accent-rgb), 0.18),
+      rgba(var(--accent-rgb), 0.12),
       transparent 70%
     );
 }

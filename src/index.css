@@ -45,123 +45,213 @@
   --header-h: 72px;
 }
 
-/* Tema verde esmeralda: azul→esmeralda, celeste→verde claro */
+/* Tema verde esmeralda: fondos verdes oscuros sólidos (sin neblina) */
 html[data-theme="emerald"] {
-  --navy: #0a5c48;
-  --navy-ink: #064034;
-  --deep: #12906f;
-  --cyan: #10c98a;
-  --cyan-soft: #6ef0c0;
-  --accent-rgb: 16, 201, 138;
-  --accent-soft-rgb: 110, 240, 192;
-  --surface-rgb: 10, 92, 72;
-  --surface-deep-rgb: 6, 64, 52;
-  --mist: #e6f7f1;
-  --text-muted: #b7e3d4;
-  --text-body: #4a6b60;
-  --border: #d4ebe2;
-  --btn-dark: #0a7a5c;
-  --footer: #064a3a;
-  --divider: #1a6b55;
-  --blue-section: #0f8a68;
-  --blue-section-deep: #0b7054;
-  --section-light: #d4f0e6;
-  --plan-neutral-from: #1f9a74;
-  --plan-neutral-to: #157a5c;
-  --plan-cyan-from: #18b07f;
-  --plan-cyan-to: #0e8a62;
-  --plan-gold-from: #2a8a68;
-  --plan-gold-to: #176b50;
-  --header-bg: rgba(6, 64, 52, 0.94);
-  --header-bg-scrolled: rgba(6, 64, 52, 0.97);
-  --laptop-from: #18a078;
-  --laptop-mid: #0a5c48;
-  --laptop-to: #064034;
+  --navy: #04281f;
+  --navy-ink: #021a14;
+  --deep: #0d7a58;
+  --cyan: #1fd89a;
+  --cyan-soft: #7af0c4;
+  --accent-rgb: 31, 216, 154;
+  --accent-soft-rgb: 122, 240, 196;
+  --surface-rgb: 6, 48, 38;
+  --surface-deep-rgb: 3, 32, 26;
+  --mist: #dff5ec;
+  --text-muted: #c8ebe0;
+  --text-body: #3d5c50;
+  --border: #cfe8dc;
+  --btn-dark: #0a6b4c;
+  --footer: #021912;
+  --divider: #1a4d3d;
+  --blue-section: #053528;
+  --blue-section-deep: #03261c;
+  --section-light: #d8efe6;
+  --plan-neutral-from: #f7f8fa;
+  --plan-neutral-to: #e8ebf0;
+  --plan-cyan-from: #0b5c45;
+  --plan-cyan-to: #084536;
+  --plan-gold-from: #0d4a38;
+  --plan-gold-to: #063528;
+  --header-bg: rgba(3, 32, 26, 0.97);
+  --header-bg-scrolled: rgba(2, 25, 20, 0.98);
+  --laptop-from: #0d7a58;
+  --laptop-mid: #06503c;
+  --laptop-to: #03261c;
 }
 
-html[data-theme="emerald"] .section--blue-a::after,
-html[data-theme="emerald"] .section--blue-b::after,
-html[data-theme="emerald"] .section--blue-c::after {
-  background:
-    linear-gradient(
-      105deg,
-      rgba(10, 92, 72, 0.55) 0%,
-      rgba(15, 138, 104, 0.35) 48%,
-      rgba(18, 160, 120, 0.28) 100%
-    ),
-    radial-gradient(
-      ellipse 45% 50% at 80% 30%,
-      rgba(16, 201, 138, 0.22),
-      transparent 70%
-    );
-}
-
-html[data-theme="emerald"] .section--blue::after {
-  background: linear-gradient(
-    165deg,
-    rgba(10, 92, 72, 0.55) 0%,
-    rgba(15, 138, 104, 0.4) 55%,
-    rgba(11, 112, 84, 0.5) 100%
-  );
-}
-
-html[data-theme="emerald"] .hero__overlay {
-  background:
-    linear-gradient(
-      105deg,
-      rgba(10, 92, 72, 0.82) 0%,
-      rgba(11, 112, 84, 0.68) 38%,
-      rgba(15, 138, 104, 0.4) 68%,
-      rgba(18, 160, 120, 0.25) 100%
-    ),
-    radial-gradient(
-      ellipse 55% 50% at 78% 42%,
-      rgba(16, 201, 138, 0.2),
-      transparent 70%
-    );
-}
-
-html[data-theme="emerald"] .login__panel {
-  border-color: rgba(16, 201, 138, 0.32);
-  box-shadow:
-    0 0 0 1px rgba(110, 240, 192, 0.06) inset,
-    0 24px 50px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(16, 201, 138, 0.14);
-}
-
-html[data-theme="emerald"] .login__brand img {
-  box-shadow:
-    0 0 0 1px rgba(16, 201, 138, 0.45),
-    0 0 28px rgba(16, 201, 138, 0.35);
-}
-
-html[data-theme="emerald"] .login__grid {
-  background-image:
-    linear-gradient(rgba(16, 201, 138, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 201, 138, 0.09) 1px, transparent 1px);
-}
-
-html[data-theme="emerald"] .login__glow--a {
-  background: radial-gradient(circle, rgba(16, 201, 138, 0.45), transparent 68%);
-}
-
-/* Fondos PNG azul/celeste → verde en tema esmeralda */
+/* Sin neblina: oculta texturas PNG y usa verde oscuro sólido */
 html[data-theme="emerald"] .section--blue-a::before,
 html[data-theme="emerald"] .section--blue-b::before,
 html[data-theme="emerald"] .section--blue-c::before,
 html[data-theme="emerald"] .section--blue-d::before,
-html[data-theme="emerald"] .hero__bg {
-  filter: hue-rotate(110deg) saturate(1.08);
+html[data-theme="emerald"] .hero__bg,
+html[data-theme="emerald"] .web__bg {
+  background-image: none !important;
+  filter: none !important;
+  opacity: 0 !important;
+}
+
+html[data-theme="emerald"] .section--blue,
+html[data-theme="emerald"] .hero,
+html[data-theme="emerald"] .web {
+  background-color: #03261c !important;
+  background-image: none;
+}
+
+html[data-theme="emerald"] .section--blue-a::after,
+html[data-theme="emerald"] .section--blue-b::after,
+html[data-theme="emerald"] .section--blue-c::after,
+html[data-theme="emerald"] .section--blue::after,
+html[data-theme="emerald"] .hero__overlay,
+html[data-theme="emerald"] .web__overlay {
+  background: linear-gradient(
+    165deg,
+    rgba(3, 38, 28, 0.97) 0%,
+    rgba(4, 45, 34, 0.95) 50%,
+    rgba(2, 30, 22, 0.98) 100%
+  ) !important;
+}
+
+html[data-theme="emerald"] .hero__glow,
+html[data-theme="emerald"] .login__glow {
+  opacity: 0.25;
+  filter: blur(40px);
+}
+
+html[data-theme="emerald"] .hero__glow--a,
+html[data-theme="emerald"] .hero__glow--b {
+  background: rgba(31, 216, 154, 0.08) !important;
+}
+
+/* Texto: blanco se mantiene; acentos verdes claros sobre fondo oscuro */
+html[data-theme="emerald"] .section__title,
+html[data-theme="emerald"] .hero__title,
+html[data-theme="emerald"] .hero__desc,
+html[data-theme="emerald"] .web .section__title,
+html[data-theme="emerald"] .web .section__lead,
+html[data-theme="emerald"] .erp .section__title,
+html[data-theme="emerald"] .resto .section__title,
+html[data-theme="emerald"] .resto .section__lead {
+  color: #ffffff;
+  text-shadow: none;
+}
+
+html[data-theme="emerald"] .section__label,
+html[data-theme="emerald"] .hero__brand,
+html[data-theme="emerald"] .hero__intent-label {
+  color: var(--cyan-soft);
+}
+
+html[data-theme="emerald"] .hero__title em,
+html[data-theme="emerald"] .section__lead strong,
+html[data-theme="emerald"] .erp .section__lead strong {
+  color: var(--cyan);
+}
+
+/* Recuadros / tarjetas: variantes verdes oscuras (no azul) */
+html[data-theme="emerald"] .hero__intent-item {
+  background: #0a3d30;
+  border-color: rgba(31, 216, 154, 0.35);
+}
+
+html[data-theme="emerald"] .hero__intent-item:hover {
+  background: #0c4a3a;
+}
+
+html[data-theme="emerald"] .web-card,
+html[data-theme="emerald"] .model-card,
+html[data-theme="emerald"] .maint-card {
+  background: #0a3529 !important;
+  border-color: rgba(31, 216, 154, 0.28) !important;
+  backdrop-filter: none !important;
+}
+
+html[data-theme="emerald"] .web-card:hover {
+  background: #0d4334 !important;
+  border-color: var(--cyan) !important;
+  box-shadow: 0 0 0 1px rgba(31, 216, 154, 0.15) !important;
+}
+
+html[data-theme="emerald"] .erp-panel,
+html[data-theme="emerald"] .resto-shot {
+  border-color: rgba(31, 216, 154, 0.4);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+html[data-theme="emerald"] .resto__chip,
+html[data-theme="emerald"] .erp__chip,
+html[data-theme="emerald"] .resto__audience li {
+  background: rgba(10, 61, 48, 0.9);
+  border-color: rgba(31, 216, 154, 0.4);
+  color: var(--cyan-soft);
+}
+
+html[data-theme="emerald"] .login__panel {
+  background: linear-gradient(165deg, #0a3529 0%, #04281f 100%);
+  border-color: rgba(31, 216, 154, 0.35);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="emerald"] .login__brand img {
+  box-shadow:
+    0 0 0 1px rgba(31, 216, 154, 0.45),
+    0 0 20px rgba(31, 216, 154, 0.25);
+}
+
+html[data-theme="emerald"] .login__grid {
+  background-image:
+    linear-gradient(rgba(31, 216, 154, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(31, 216, 154, 0.07) 1px, transparent 1px);
+}
+
+html[data-theme="emerald"] .login__glow--a {
+  background: radial-gradient(circle, rgba(31, 216, 154, 0.2), transparent 70%);
 }
 
 html[data-theme="emerald"] .plan-mineral--diamante {
-  background: linear-gradient(155deg, #06382c 0%, #0a5c48 45%, #064034 100%);
-  border-color: rgba(var(--accent-soft-rgb), 0.55);
-  box-shadow:
-    0 18px 44px rgba(0, 90, 60, 0.28),
-    inset 0 1px 0 rgba(180, 255, 220, 0.25),
-    0 0 28px rgba(var(--accent-soft-rgb), 0.12);
+  background: linear-gradient(155deg, #03261c 0%, #0a3d30 45%, #04281f 100%);
+  border-color: rgba(var(--accent-soft-rgb), 0.45);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
   color: #eefaf5;
+}
+
+html[data-theme="emerald"] .header__drawer {
+  background: #03261c;
+}
+
+html[data-theme="emerald"] .resto-plan--cyan {
+  background: linear-gradient(180deg, #0b5c45 0%, #084536 100%);
+}
+
+html[data-theme="emerald"] .resto-plan--gold {
+  background: linear-gradient(180deg, #0d4a38 0%, #063528 55%, #0a3d30 100%);
+}
+
+html[data-theme="emerald"] .model-card--software,
+html[data-theme="emerald"] .model-card--custom {
+  background: #0a3529 !important;
+  border-color: rgba(31, 216, 154, 0.3) !important;
+}
+
+html[data-theme="emerald"] .model {
+  background-color: #03261c;
+}
+
+html[data-theme="emerald"] .section--light {
+  background-color: #d8efe6;
+}
+
+html[data-theme="emerald"] .section--light::before {
+  opacity: 0.35;
+  filter: hue-rotate(100deg) saturate(0.7) brightness(0.95);
+}
+
+html[data-theme="emerald"] .section--light::after {
+  background: linear-gradient(
+    165deg,
+    rgba(216, 239, 230, 0.85) 0%,
+    rgba(200, 230, 216, 0.7) 100%
+  ) !important;
 }
 
 *,
@@ -840,9 +930,26 @@ ul {
   .section--blue::after {
     background: linear-gradient(
       165deg,
-      rgba(14, 90, 150, 0.55) 0%,
-      rgba(18, 112, 176, 0.4) 55%,
-      rgba(var(--surface-rgb), 0.5) 100%
+      rgba(var(--surface-rgb), 0.88) 0%,
+      rgba(var(--surface-deep-rgb), 0.82) 55%,
+      rgba(var(--surface-rgb), 0.9) 100%
+    );
+  }
+
+  html[data-theme="emerald"] .section--blue::after,
+  html[data-theme="emerald"] .section--light::after {
+    background: linear-gradient(
+      165deg,
+      rgba(3, 38, 28, 0.96) 0%,
+      rgba(4, 45, 34, 0.94) 100%
+    );
+  }
+
+  html[data-theme="emerald"] .section--light::after {
+    background: linear-gradient(
+      165deg,
+      rgba(216, 239, 230, 0.9) 0%,
+      rgba(200, 230, 216, 0.75) 100%
     );
   }
 
