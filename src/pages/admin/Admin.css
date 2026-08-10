@@ -103,6 +103,71 @@
   opacity: 0.9;
 }
 
+.admin__theme {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.7rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid var(--admin-line);
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.admin__theme-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--admin-muted);
+}
+
+.admin__theme-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.4rem;
+}
+
+.admin__theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.35rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--admin-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.18s ease;
+}
+
+.admin__theme-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.admin__theme-btn--blue .admin__theme-swatch {
+  background: linear-gradient(135deg, #00cfff, #0c4a82);
+}
+
+.admin__theme-btn--emerald .admin__theme-swatch {
+  background: linear-gradient(135deg, #00e676, #04281f);
+}
+
+.admin__theme-btn.is-active {
+  border-color: color-mix(in srgb, var(--admin-cyan) 65%, transparent);
+  background: color-mix(in srgb, var(--admin-cyan) 14%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--admin-cyan) 18%, transparent);
+}
+
+.admin__theme-btn:hover {
+  border-color: color-mix(in srgb, var(--admin-cyan) 40%, transparent);
+  color: #fff;
+}
+
 .admin__side-foot {
   display: flex;
   flex-direction: column;

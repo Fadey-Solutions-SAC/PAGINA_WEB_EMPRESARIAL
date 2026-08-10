@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { Link } from "react-router-dom";
 import { api, apiUrl } from "../../lib/api";
 import { useAuth, type Product } from "../../lib/auth";
+import { useTheme, type SiteTheme } from "../../lib/theme";
 import "./Admin.css";
 
 type Section = "resumen" | "leads" | "users" | "payments" | "courses";
@@ -88,6 +89,7 @@ function copyText(text: string) {
 
 export function AdminPage() {
   const { token, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [section, setSection] = useState<Section>("resumen");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -483,6 +485,29 @@ export function AdminPage() {
             </button>
           ))}
         </nav>
+        <div className="admin__theme" role="group" aria-label="Color del sitio">
+          <span className="admin__theme-label">Color del sitio</span>
+          <div className="admin__theme-options">
+            <button
+              type="button"
+              className={`admin__theme-btn admin__theme-btn--blue ${theme === "blue" ? "is-active" : ""}`}
+              aria-pressed={theme === "blue"}
+              onClick={() => setTheme("blue" as SiteTheme)}
+            >
+              <span className="admin__theme-swatch" aria-hidden="true" />
+              Azul
+            </button>
+            <button
+              type="button"
+              className={`admin__theme-btn admin__theme-btn--emerald ${theme === "emerald" ? "is-active" : ""}`}
+              aria-pressed={theme === "emerald"}
+              onClick={() => setTheme("emerald" as SiteTheme)}
+            >
+              <span className="admin__theme-swatch" aria-hidden="true" />
+              Verde
+            </button>
+          </div>
+        </div>
         <div className="admin__side-foot">
           <Link to="/">← Ir al sitio</Link>
           <button type="button" onClick={logout}>
