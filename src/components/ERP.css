@@ -63,8 +63,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #071a33;
-  background: linear-gradient(135deg, #7debff, #00cfff);
-  box-shadow: 0 0 18px rgba(0, 207, 255, 0.45);
+  background: linear-gradient(135deg, var(--cyan-soft), var(--cyan));
+  box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.45);
 }
 
 .erp .section__title {
@@ -111,8 +111,8 @@
 .erp__chip {
   padding: 0.4rem 0.75rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 207, 255, 0.28);
-  background: rgba(0, 207, 255, 0.06);
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
+  background: rgba(var(--accent-rgb), 0.06);
   color: var(--cyan-soft);
   font-size: 0.85rem;
   font-weight: 500;
@@ -125,7 +125,7 @@
   gap: 0.9rem;
   padding: 0.85rem 1rem;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(125, 235, 255, 0.22);
+  border: 1px solid rgba(var(--accent-soft-rgb), 0.22);
   background: rgba(7, 26, 51, 0.45);
   margin-bottom: 0.9rem;
   max-width: 34rem;
@@ -137,7 +137,7 @@
   border-radius: 10px;
   display: grid;
   place-items: center;
-  background: rgba(0, 207, 255, 0.15);
+  background: rgba(var(--accent-rgb), 0.15);
   color: var(--cyan);
   flex-shrink: 0;
 }
@@ -158,11 +158,11 @@
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(0, 207, 255, 0.22);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
   background: rgba(5, 11, 20, 0.65);
   box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.35),
-    0 0 50px rgba(0, 207, 255, 0.12);
+    0 0 50px rgba(var(--accent-rgb), 0.12);
 }
 
 .erp-panel--soon .erp-panel__body {
@@ -182,7 +182,7 @@
   text-transform: uppercase;
   color: #fff;
   background: rgba(5, 11, 20, 0.55);
-  text-shadow: 0 0 20px rgba(0, 207, 255, 0.55);
+  text-shadow: 0 0 20px rgba(var(--accent-rgb), 0.55);
 }
 
 .erp-panel__bar {
@@ -234,7 +234,7 @@
 }
 
 .erp-panel__nav-item:first-child {
-  background: rgba(0, 207, 255, 0.25);
+  background: rgba(var(--accent-rgb), 0.25);
 }
 
 .erp-panel__main {
@@ -255,10 +255,10 @@
   border-radius: 12px;
   background: linear-gradient(
     145deg,
-    rgba(0, 207, 255, 0.18),
+    rgba(var(--accent-rgb), 0.18),
     rgba(255, 255, 255, 0.04)
   );
-  border: 1px solid rgba(0, 207, 255, 0.12);
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
 }
 
 .erp-panel__table {
@@ -269,7 +269,7 @@
   padding: 0.85rem;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(0, 207, 255, 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.1);
 }
 
 .erp-panel__table div {
@@ -356,7 +356,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #071a33;
-  background: linear-gradient(135deg, #7debff, #00cfff);
+  background: linear-gradient(135deg, var(--cyan-soft), var(--cyan));
 }
 
 .erp-plans__head h3 {
@@ -451,7 +451,7 @@
   height: 6px;
   border-radius: 50%;
   background: var(--cyan);
-  box-shadow: 0 0 8px rgba(0, 207, 255, 0.55);
+  box-shadow: 0 0 8px rgba(var(--accent-rgb), 0.55);
 }
 
 .erp-plan .btn {

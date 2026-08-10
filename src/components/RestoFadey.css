@@ -56,10 +56,10 @@
   padding: 0.22rem 0.55rem 0.22rem 0.28rem;
   border-radius: 11px;
   background: #e8f8f0;
-  border: 1px solid rgba(0, 207, 255, 0.25);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
   box-shadow:
     0 0 0 1px rgba(29, 185, 120, 0.12),
-    0 0 18px rgba(0, 207, 255, 0.18);
+    0 0 18px rgba(var(--accent-rgb), 0.18);
 }
 
 .resto__brand-mark {
@@ -116,8 +116,8 @@
 .resto__audience li {
   padding: 0.22rem 0.55rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 207, 255, 0.35);
-  background: rgba(0, 207, 255, 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.08);
   color: var(--cyan-soft);
   font-size: 0.7rem;
   font-weight: 600;
@@ -136,7 +136,7 @@
   gap: 0.28rem 0.65rem;
   margin-top: 0.4rem;
   padding: 0.3rem 0 0;
-  border-top: 1px solid rgba(0, 207, 255, 0.18);
+  border-top: 1px solid rgba(var(--accent-rgb), 0.18);
   list-style: none;
 }
 
@@ -186,8 +186,8 @@
 .resto__chip {
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
-  border: 1px solid rgba(0, 207, 255, 0.35);
-  background: rgba(0, 207, 255, 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.08);
   color: var(--cyan-soft);
   font-size: 0.78rem;
   font-weight: 500;
@@ -221,11 +221,11 @@
   height: fit-content;
   border-radius: 12px;
   overflow: hidden;
-  border: 1.5px solid rgba(0, 207, 255, 0.45);
+  border: 1.5px solid rgba(var(--accent-rgb), 0.45);
   background: #f4fbf7;
   box-shadow:
-    0 0 0 1px rgba(0, 207, 255, 0.15),
-    0 0 24px rgba(0, 207, 255, 0.25),
+    0 0 0 1px rgba(var(--accent-rgb), 0.15),
+    0 0 24px rgba(var(--accent-rgb), 0.25),
     0 18px 40px rgba(0, 0, 0, 0.32);
   display: flex;
   flex-direction: column;
@@ -250,7 +250,7 @@
   gap: 6px;
   padding: 0.32rem 0.55rem;
   background: rgba(7, 26, 51, 0.92);
-  border-bottom: 1px solid rgba(0, 207, 255, 0.2);
+  border-bottom: 1px solid rgba(var(--accent-rgb), 0.2);
   flex: 0 0 auto;
   min-width: 0;
 }
@@ -324,7 +324,7 @@
     #122033 50%,
     #0b1624 100%
   );
-  border: 1px solid rgba(0, 207, 255, 0.2);
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
   padding: 0.65rem;
   display: grid;
   gap: 0.55rem;
@@ -333,7 +333,7 @@
 .resto-demo-skeleton__bar {
   height: 12px;
   border-radius: 6px;
-  background: rgba(125, 235, 255, 0.15);
+  background: rgba(var(--accent-soft-rgb), 0.15);
 }
 
 .resto-demo-skeleton__body {

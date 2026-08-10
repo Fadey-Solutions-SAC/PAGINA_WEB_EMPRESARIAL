@@ -116,7 +116,7 @@
 .cta-form select:focus,
 .cta-form textarea:focus {
   border-color: var(--cyan);
-  box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
 }
 
 .cta-form select {

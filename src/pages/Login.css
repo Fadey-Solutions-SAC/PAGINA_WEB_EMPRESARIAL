@@ -31,8 +31,8 @@
   z-index: 1;
   opacity: 0.28;
   background-image:
-    linear-gradient(rgba(0, 207, 255, 0.09) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 207, 255, 0.09) 1px, transparent 1px);
+    linear-gradient(rgba(var(--accent-rgb), 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--accent-rgb), 0.09) 1px, transparent 1px);
   background-size: 36px 36px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
   pointer-events: none;
@@ -52,7 +52,7 @@
   top: -12%;
   left: 50%;
   translate: -50% 0;
-  background: radial-gradient(circle, rgba(0, 207, 255, 0.45), transparent 68%);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.45), transparent 68%);
   animation: loginPulse 7s ease-in-out infinite;
 }
 
@@ -70,7 +70,7 @@
   height: 220px;
   bottom: 18%;
   left: -8%;
-  background: radial-gradient(circle, rgba(125, 235, 255, 0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(var(--accent-soft-rgb), 0.22), transparent 70%);
   animation: loginPulse 8s ease-in-out infinite 0.4s;
 }
 
@@ -102,8 +102,8 @@
   border-radius: 14px;
   object-fit: cover;
   box-shadow:
-    0 0 0 1px rgba(0, 207, 255, 0.45),
-    0 0 28px rgba(0, 207, 255, 0.35);
+    0 0 0 1px rgba(var(--accent-rgb), 0.45),
+    0 0 28px rgba(var(--accent-rgb), 0.35);
 }
 
 .login__brand-text {
@@ -142,11 +142,11 @@
   border-radius: 20px;
   background:
     linear-gradient(165deg, rgba(16, 32, 48, 0.92) 0%, rgba(8, 18, 30, 0.94) 100%);
-  border: 1px solid rgba(0, 207, 255, 0.28);
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
   box-shadow:
-    0 0 0 1px rgba(125, 235, 255, 0.06) inset,
+    0 0 0 1px rgba(var(--accent-soft-rgb), 0.06) inset,
     0 24px 50px rgba(0, 0, 0, 0.45),
-    0 0 40px rgba(0, 207, 255, 0.12);
+    0 0 40px rgba(var(--accent-rgb), 0.12);
   backdrop-filter: blur(14px);
 }
 
@@ -229,7 +229,7 @@
 }
 
 .login__theme-btn--blue .login__theme-swatch {
-  background: linear-gradient(135deg, #00cfff, #0c4a82);
+  background: linear-gradient(135deg, var(--cyan), var(--navy));
 }
 
 .login__theme-btn--emerald .login__theme-swatch {
@@ -280,8 +280,8 @@
 }
 
 .login__form input:focus {
-  border-color: rgba(0, 207, 255, 0.65);
-  box-shadow: 0 0 0 3px rgba(0, 207, 255, 0.15);
+  border-color: rgba(var(--accent-rgb), 0.65);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
 }
 
 .login__error {
@@ -303,10 +303,10 @@
   font-weight: 700;
   font-size: 1.02rem;
   color: #041018;
-  background: linear-gradient(135deg, #9af0ff, #00cfff 55%, #00b8e6);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--cyan-soft) 80%, white), var(--cyan) 55%, var(--deep));
   box-shadow:
-    0 0 0 1px rgba(125, 235, 255, 0.25),
-    0 10px 28px rgba(0, 207, 255, 0.28);
+    0 0 0 1px rgba(var(--accent-soft-rgb), 0.25),
+    0 10px 28px rgba(var(--accent-rgb), 0.28);
   cursor: pointer;
   transition:
     transform 0.18s ease,

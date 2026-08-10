@@ -37,7 +37,7 @@
 
 .maint-card--fadey .maint-card__icon {
   color: var(--cyan);
-  background: rgba(0, 207, 255, 0.12);
+  background: rgba(var(--accent-rgb), 0.12);
 }
 
 .maint-card--client .maint-card__icon {

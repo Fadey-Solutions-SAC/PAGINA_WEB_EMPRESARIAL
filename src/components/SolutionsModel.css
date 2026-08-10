@@ -34,12 +34,12 @@
 
 .model-card--software {
   background: rgba(11, 61, 110, 0.55);
-  border-color: rgba(0, 207, 255, 0.2);
+  border-color: rgba(var(--accent-rgb), 0.2);
 }
 
 .model-card--custom {
-  background: rgba(0, 207, 255, 0.08);
-  border-color: rgba(0, 207, 255, 0.35);
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.35);
 }
 
 .model-card__top {
@@ -67,7 +67,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #071a33;
-  background: linear-gradient(135deg, #7debff, #00cfff);
+  background: linear-gradient(135deg, var(--cyan-soft), var(--cyan));
 }
 
 .model-card--soon {

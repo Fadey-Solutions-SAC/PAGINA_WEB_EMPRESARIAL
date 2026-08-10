@@ -99,7 +99,7 @@ export function Hero() {
                           <path
                             d="M18 2.5a15.5 15.5 0 1 1 0 31"
                             fill="none"
-                            stroke="#00CFFF"
+                            stroke="var(--cyan)"
                             strokeWidth="3"
                             strokeLinecap="round"
                             strokeDasharray="60 100"
@@ -120,12 +120,12 @@ export function Hero() {
                           >
                             <stop
                               offset="0%"
-                              stopColor="#00CFFF"
+                              stopColor="var(--cyan)"
                               stopOpacity="0.35"
                             />
                             <stop
                               offset="100%"
-                              stopColor="#00CFFF"
+                              stopColor="var(--cyan)"
                               stopOpacity="0"
                             />
                           </linearGradient>
@@ -137,7 +137,7 @@ export function Hero() {
                         <path
                           d="M0 60 C30 55, 40 30, 70 35 S110 55, 140 28 S170 20, 200 30"
                           fill="none"
-                          stroke="#7DEBFF"
+                          stroke="var(--cyan-soft)"
                           strokeWidth="2.5"
                         />
                       </svg>
