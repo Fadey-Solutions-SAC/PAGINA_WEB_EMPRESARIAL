@@ -105,7 +105,7 @@ ul {
 
 /* Light sections — geometric tech background variations */
 .section--light {
-  overflow: clip;
+  overflow: hidden;
   isolation: isolate;
   background-color: #d9ebf8;
 }
@@ -148,7 +148,6 @@ ul {
 /* Variation A: soft left wash */
 .section--light-a::before {
   background-position: left center;
-  transform: scale(1.08);
   opacity: 0.78;
 }
 
@@ -170,7 +169,6 @@ ul {
 /* Variation B: flipped / cooler */
 .section--light-b::before {
   background-position: right top;
-  transform: scaleX(-1) scale(1.12);
   opacity: 0.8;
 }
 
@@ -192,7 +190,6 @@ ul {
 /* Variation C: mist / softer contrast */
 .section--light-c::before {
   background-position: center bottom;
-  transform: rotate(180deg) scale(1.15);
   opacity: 0.7;
 }
 
@@ -214,7 +211,6 @@ ul {
 /* Variation D: contact — brighter diagonal cut */
 .section--light-d::before {
   background-position: 60% center;
-  transform: scale(1.2) rotate(-4deg);
   opacity: 0.76;
 }
 
@@ -235,7 +231,7 @@ ul {
 
 /* Blue sections — tonalidad más clara y legible */
 .section--blue {
-  overflow: clip;
+  overflow: hidden;
   isolation: isolate;
   background-color: var(--blue-section);
 }
@@ -279,7 +275,6 @@ ul {
 .section--blue-b::before {
   background: url("/bg-blue-network.png") left center / cover no-repeat;
   opacity: 0.7;
-  transform: scale(1.06);
 }
 
 .section--blue-b::after {
@@ -326,7 +321,6 @@ ul {
     linear-gradient(90deg, rgba(12, 74, 130, 0.15), transparent 40%),
     url("/bg-blue-waves.png") center / cover no-repeat;
   opacity: 0.7;
-  transform: scaleX(-1);
 }
 
 .section--blue-d::after {
