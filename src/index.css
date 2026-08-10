@@ -79,48 +79,148 @@ html[data-theme="emerald"] {
   --laptop-to: #03261c;
 }
 
-/* Sin neblina: oculta texturas PNG y usa verde oscuro sólido */
-html[data-theme="emerald"] .section--blue-a::before,
-html[data-theme="emerald"] .section--blue-b::before,
-html[data-theme="emerald"] .section--blue-c::before,
-html[data-theme="emerald"] .section--blue-d::before,
-html[data-theme="emerald"] .hero__bg,
-html[data-theme="emerald"] .web__bg {
-  background-image: none !important;
-  filter: none !important;
-  opacity: 0 !important;
+/* Diseños de fondo verdes (mismos patrones, versión esmeralda) */
+html[data-theme="emerald"] {
+  --bg-hero: url("/hero-network-emerald.png");
+  --bg-waves: url("/bg-emerald-waves.png");
+  --bg-network: url("/bg-emerald-network.png");
+  --bg-web-neon: url("/bg-web-neon-emerald.png");
+  --bg-geometry: url("/bg-geometry-emerald.png");
 }
 
 html[data-theme="emerald"] .section--blue,
 html[data-theme="emerald"] .hero,
 html[data-theme="emerald"] .web {
-  background-color: #03261c !important;
-  background-image: none;
+  background-color: #03261c;
 }
 
+html[data-theme="emerald"] .hero__bg {
+  background-image: var(--bg-hero) !important;
+  opacity: 0.55 !important;
+  filter: none !important;
+}
+
+html[data-theme="emerald"] .section--blue-a::before {
+  background: var(--bg-waves) center right / cover no-repeat !important;
+  opacity: 0.85 !important;
+  filter: none !important;
+}
+
+html[data-theme="emerald"] .section--blue-b::before {
+  background: var(--bg-network) left center / cover no-repeat !important;
+  opacity: 0.82 !important;
+  filter: none !important;
+}
+
+html[data-theme="emerald"] .section--blue-c::before {
+  background:
+    var(--bg-network) right bottom / cover no-repeat,
+    var(--bg-waves) left top / cover no-repeat !important;
+  opacity: 0.78 !important;
+  filter: none !important;
+}
+
+html[data-theme="emerald"] .section--blue-d::before {
+  background:
+    linear-gradient(90deg, rgba(3, 38, 28, 0.25), transparent 40%),
+    var(--bg-waves) center / cover no-repeat !important;
+  opacity: 0.8 !important;
+  filter: none !important;
+}
+
+html[data-theme="emerald"] .web__bg {
+  background-image: var(--bg-web-neon) !important;
+  opacity: 0.75 !important;
+  filter: none !important;
+}
+
+html[data-theme="emerald"] .section--light::before {
+  background-image: var(--bg-geometry) !important;
+  opacity: 0.7 !important;
+  filter: none !important;
+}
+
+/* Overlay oscuro suave: deja ver el diseño y mantiene letras blancas legibles */
 html[data-theme="emerald"] .section--blue-a::after,
 html[data-theme="emerald"] .section--blue-b::after,
-html[data-theme="emerald"] .section--blue-c::after,
-html[data-theme="emerald"] .section--blue::after,
-html[data-theme="emerald"] .hero__overlay,
-html[data-theme="emerald"] .web__overlay {
+html[data-theme="emerald"] .section--blue-c::after {
+  background:
+    linear-gradient(
+      105deg,
+      rgba(2, 30, 22, 0.78) 0%,
+      rgba(4, 45, 34, 0.55) 48%,
+      rgba(3, 38, 28, 0.4) 100%
+    ),
+    radial-gradient(
+      ellipse 45% 50% at 80% 30%,
+      rgba(31, 216, 154, 0.14),
+      transparent 70%
+    ) !important;
+}
+
+html[data-theme="emerald"] .section--blue::after {
   background: linear-gradient(
     165deg,
-    rgba(3, 38, 28, 0.97) 0%,
-    rgba(4, 45, 34, 0.95) 50%,
-    rgba(2, 30, 22, 0.98) 100%
+    rgba(2, 30, 22, 0.72) 0%,
+    rgba(4, 45, 34, 0.5) 55%,
+    rgba(3, 38, 28, 0.65) 100%
   ) !important;
+}
+
+html[data-theme="emerald"] .hero__overlay {
+  background:
+    linear-gradient(
+      105deg,
+      rgba(2, 30, 22, 0.88) 0%,
+      rgba(4, 45, 34, 0.7) 38%,
+      rgba(5, 55, 42, 0.45) 68%,
+      rgba(3, 38, 28, 0.35) 100%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 78% 42%,
+      rgba(31, 216, 154, 0.12),
+      transparent 70%
+    ) !important;
+}
+
+html[data-theme="emerald"] .web__overlay {
+  background:
+    linear-gradient(
+      115deg,
+      rgba(2, 30, 22, 0.75) 0%,
+      rgba(4, 45, 34, 0.55) 42%,
+      rgba(3, 38, 28, 0.5) 100%
+    ),
+    radial-gradient(
+      ellipse 50% 50% at 70% 40%,
+      rgba(31, 216, 154, 0.12),
+      transparent 70%
+    ) !important;
+}
+
+html[data-theme="emerald"] .section--light::after {
+  background:
+    linear-gradient(
+      120deg,
+      rgba(216, 239, 230, 0.72) 0%,
+      rgba(200, 230, 216, 0.4) 48%,
+      rgba(216, 239, 230, 0.65) 100%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 12% 80%,
+      rgba(31, 216, 154, 0.16),
+      transparent 65%
+    ) !important;
 }
 
 html[data-theme="emerald"] .hero__glow,
 html[data-theme="emerald"] .login__glow {
-  opacity: 0.25;
-  filter: blur(40px);
+  opacity: 0.45;
 }
 
 html[data-theme="emerald"] .hero__glow--a,
 html[data-theme="emerald"] .hero__glow--b {
-  background: rgba(31, 216, 154, 0.08) !important;
+  background: rgba(31, 216, 154, 0.14) !important;
 }
 
 /* Texto: blanco se mantiene; acentos verdes claros sobre fondo oscuro */
@@ -241,17 +341,10 @@ html[data-theme="emerald"] .section--light {
   background-color: #d8efe6;
 }
 
-html[data-theme="emerald"] .section--light::before {
-  opacity: 0.35;
-  filter: hue-rotate(100deg) saturate(0.7) brightness(0.95);
-}
-
-html[data-theme="emerald"] .section--light::after {
-  background: linear-gradient(
-    165deg,
-    rgba(216, 239, 230, 0.85) 0%,
-    rgba(200, 230, 216, 0.7) 100%
-  ) !important;
+html[data-theme="emerald"] .login__bg {
+  background-image:
+    linear-gradient(180deg, rgba(2, 30, 22, 0.45) 0%, rgba(2, 30, 22, 0.85) 100%),
+    var(--bg-hero) !important;
 }
 
 *,
@@ -936,21 +1029,43 @@ ul {
     );
   }
 
-  html[data-theme="emerald"] .section--blue::after,
-  html[data-theme="emerald"] .section--light::after {
+  /* En móvil emerald: mantiene texturas verdes si hay espacio/CPU */
+  html[data-theme="emerald"] .section--blue-a::before {
+    background: var(--bg-waves) center right / cover no-repeat !important;
+    opacity: 0.55 !important;
+  }
+
+  html[data-theme="emerald"] .section--blue-b::before,
+  html[data-theme="emerald"] .section--blue-c::before {
+    background: var(--bg-network) center / cover no-repeat !important;
+    opacity: 0.5 !important;
+  }
+
+  html[data-theme="emerald"] .section--light::before {
+    background-image: var(--bg-geometry) !important;
+    opacity: 0.55 !important;
+  }
+
+  html[data-theme="emerald"] .hero__bg {
+    background-image: var(--bg-hero) !important;
+    opacity: 0.4 !important;
+  }
+
+  html[data-theme="emerald"] .section--blue::after {
     background: linear-gradient(
       165deg,
-      rgba(3, 38, 28, 0.96) 0%,
-      rgba(4, 45, 34, 0.94) 100%
-    );
+      rgba(2, 30, 22, 0.82) 0%,
+      rgba(4, 45, 34, 0.7) 55%,
+      rgba(3, 38, 28, 0.85) 100%
+    ) !important;
   }
 
   html[data-theme="emerald"] .section--light::after {
     background: linear-gradient(
       165deg,
-      rgba(216, 239, 230, 0.9) 0%,
-      rgba(200, 230, 216, 0.75) 100%
-    );
+      rgba(216, 239, 230, 0.82) 0%,
+      rgba(200, 230, 216, 0.65) 100%
+    ) !important;
   }
 
   /* Sin pantallas en blanco por opacity:0 del reveal */
