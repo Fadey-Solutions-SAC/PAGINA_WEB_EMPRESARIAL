@@ -1,17 +1,21 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../lib/auth";
+import { useTheme, type SiteTheme } from "../lib/theme";
 import "./Login.css";
 
 export function LoginPage() {
   const { auth, loginAdmin, loginClient } = useAuth();
+  const { theme, setTheme } = useTheme();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   if (auth.status === "ready") {
-    return <Navigate to={auth.role === "admin" ? "/admin" : "/academia"} replace />;
+    return (
+      <Navigate to={auth.role === "admin" ? "/admin" : "/academia"} replace />
+    );
   }
 
   async function onSubmit(e: FormEvent) {
@@ -61,6 +65,10 @@ export function LoginPage() {
     }
   }
 
+  function pickTheme(next: SiteTheme) {
+    setTheme(next);
+  }
+
   return (
     <div className="login">
       <div className="login__bg" aria-hidden="true" />
@@ -94,6 +102,30 @@ export function LoginPage() {
           <p className="login__lead">
             Ingresa con tus credenciales para continuar.
           </p>
+
+          <div className="login__theme" role="group" aria-label="Tema del sitio">
+            <span className="login__theme-label">Color del sitio</span>
+            <div className="login__theme-options">
+              <button
+                type="button"
+                className={`login__theme-btn login__theme-btn--blue ${theme === "blue" ? "is-active" : ""}`}
+                aria-pressed={theme === "blue"}
+                onClick={() => pickTheme("blue")}
+              >
+                <span className="login__theme-swatch" aria-hidden="true" />
+                Azul / celeste
+              </button>
+              <button
+                type="button"
+                className={`login__theme-btn login__theme-btn--emerald ${theme === "emerald" ? "is-active" : ""}`}
+                aria-pressed={theme === "emerald"}
+                onClick={() => pickTheme("emerald")}
+              >
+                <span className="login__theme-swatch" aria-hidden="true" />
+                Verde esmeralda
+              </button>
+            </div>
+          </div>
 
           <form
             onSubmit={onSubmit}

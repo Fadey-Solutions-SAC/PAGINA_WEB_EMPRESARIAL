@@ -16,6 +16,15 @@
   --divider: #1e5a8a;
   --blue-section: #1270b0;
   --blue-section-deep: #0d5a94;
+  --section-light: #d9ebf8;
+  --plan-neutral-from: #2a6fa3;
+  --plan-neutral-to: #1c5a8c;
+  --plan-cyan-from: #2483b8;
+  --plan-cyan-to: #176a9c;
+  --plan-gold-from: #2f5f8a;
+  --plan-gold-to: #1f4d73;
+  --header-bg: rgba(10, 58, 102, 0.94);
+  --header-bg-scrolled: rgba(10, 58, 102, 0.97);
 
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Outfit", sans-serif;
@@ -27,6 +36,99 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --header-h: 72px;
+}
+
+/* Tema verde esmeralda (triple clic en logo o opción en Acceder) */
+html[data-theme="emerald"] {
+  --navy: #0a5c48;
+  --navy-ink: #064034;
+  --deep: #12906f;
+  --cyan: #10c98a;
+  --cyan-soft: #6ef0c0;
+  --mist: #e6f7f1;
+  --text-muted: #b7e3d4;
+  --text-body: #4a6b60;
+  --border: #d4ebe2;
+  --btn-dark: #0a7a5c;
+  --footer: #064a3a;
+  --divider: #1a6b55;
+  --blue-section: #0f8a68;
+  --blue-section-deep: #0b7054;
+  --section-light: #d4f0e6;
+  --plan-neutral-from: #1f9a74;
+  --plan-neutral-to: #157a5c;
+  --plan-cyan-from: #18b07f;
+  --plan-cyan-to: #0e8a62;
+  --plan-gold-from: #2a8a68;
+  --plan-gold-to: #176b50;
+  --header-bg: rgba(6, 64, 52, 0.94);
+  --header-bg-scrolled: rgba(6, 64, 52, 0.97);
+}
+
+html[data-theme="emerald"] .section--blue-a::after,
+html[data-theme="emerald"] .section--blue-b::after,
+html[data-theme="emerald"] .section--blue-c::after {
+  background:
+    linear-gradient(
+      105deg,
+      rgba(10, 92, 72, 0.55) 0%,
+      rgba(15, 138, 104, 0.35) 48%,
+      rgba(18, 160, 120, 0.28) 100%
+    ),
+    radial-gradient(
+      ellipse 45% 50% at 80% 30%,
+      rgba(16, 201, 138, 0.22),
+      transparent 70%
+    );
+}
+
+html[data-theme="emerald"] .section--blue::after {
+  background: linear-gradient(
+    165deg,
+    rgba(10, 92, 72, 0.55) 0%,
+    rgba(15, 138, 104, 0.4) 55%,
+    rgba(11, 112, 84, 0.5) 100%
+  );
+}
+
+html[data-theme="emerald"] .hero__overlay {
+  background:
+    linear-gradient(
+      105deg,
+      rgba(10, 92, 72, 0.82) 0%,
+      rgba(11, 112, 84, 0.68) 38%,
+      rgba(15, 138, 104, 0.4) 68%,
+      rgba(18, 160, 120, 0.25) 100%
+    ),
+    radial-gradient(
+      ellipse 55% 50% at 78% 42%,
+      rgba(16, 201, 138, 0.2),
+      transparent 70%
+    );
+}
+
+html[data-theme="emerald"] .login__panel {
+  border-color: rgba(16, 201, 138, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(110, 240, 192, 0.06) inset,
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 40px rgba(16, 201, 138, 0.14);
+}
+
+html[data-theme="emerald"] .login__brand img {
+  box-shadow:
+    0 0 0 1px rgba(16, 201, 138, 0.45),
+    0 0 28px rgba(16, 201, 138, 0.35);
+}
+
+html[data-theme="emerald"] .login__grid {
+  background-image:
+    linear-gradient(rgba(16, 201, 138, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 201, 138, 0.09) 1px, transparent 1px);
+}
+
+html[data-theme="emerald"] .login__glow--a {
+  background: radial-gradient(circle, rgba(16, 201, 138, 0.45), transparent 68%);
 }
 
 *,
@@ -107,7 +209,7 @@ ul {
 .section--light {
   overflow: hidden;
   isolation: isolate;
-  background-color: #d9ebf8;
+  background-color: var(--section-light);
 }
 
 .section--light::before,
@@ -560,9 +662,9 @@ ul {
 }
 
 .btn--primary {
-  background: linear-gradient(135deg, #00cfff, #008fe6);
+  background: linear-gradient(135deg, var(--cyan), var(--deep));
   color: var(--navy-ink);
-  box-shadow: 0 8px 28px rgba(0, 207, 255, 0.28);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--cyan) 28%, transparent);
 }
 
 .btn--primary:hover {
@@ -687,7 +789,7 @@ ul {
   }
 
   .section--light {
-    background-color: #d9ebf8;
+    background-color: var(--section-light);
   }
 
   .section--blue {

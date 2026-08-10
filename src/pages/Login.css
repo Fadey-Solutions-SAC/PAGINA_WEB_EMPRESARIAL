@@ -178,6 +178,74 @@
   line-height: 1.45;
 }
 
+.login__theme {
+  display: grid;
+  gap: 0.45rem;
+  margin: -0.35rem 0 1.1rem;
+  padding: 0.75rem 0.8rem;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid color-mix(in srgb, var(--cyan) 28%, transparent);
+}
+
+.login__theme-label {
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--login-muted);
+}
+
+.login__theme-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+}
+
+.login__theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem 0.45rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--login-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login__theme-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.login__theme-btn--blue .login__theme-swatch {
+  background: linear-gradient(135deg, #00cfff, #0c4a82);
+}
+
+.login__theme-btn--emerald .login__theme-swatch {
+  background: linear-gradient(135deg, #10c98a, #0a5c48);
+}
+
+.login__theme-btn.is-active {
+  border-color: color-mix(in srgb, var(--cyan) 65%, transparent);
+  background: color-mix(in srgb, var(--cyan) 16%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--cyan) 22%, transparent);
+}
+
+.login__theme-btn:hover {
+  border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+}
+
 .login__form {
   display: flex;
   flex-direction: column;

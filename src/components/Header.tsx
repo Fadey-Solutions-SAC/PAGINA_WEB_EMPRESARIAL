@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useTheme, useTripleClick } from "../lib/theme";
 import "./Header.css";
 
 const links = [
@@ -17,8 +18,19 @@ const WHATSAPP_RESTO_URL =
   );
 
 export function Header() {
+  const { theme, setTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [toast, setToast] = useState("");
+
+  const onBrandTriple = useTripleClick(() => {
+    const next = theme === "blue" ? "emerald" : "blue";
+    setTheme(next);
+    setToast(
+      next === "emerald" ? "Tema verde esmeralda" : "Tema azul y celeste",
+    );
+    window.setTimeout(() => setToast(""), 2200);
+  });
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -37,7 +49,16 @@ export function Header() {
   return (
     <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
       <div className="container header__inner">
-        <Link to="/" className="header__logo" aria-label="Fadey Solutions SAC">
+        <Link
+          to="/"
+          className="header__logo"
+          aria-label="Fadey Solutions SAC"
+          title="Triple clic para cambiar tema"
+          onClick={(e) => {
+            onBrandTriple();
+            if (e.detail >= 3) e.preventDefault();
+          }}
+        >
           <span className="header__mark">
             <img
               src="/logo-fadey.png"
@@ -52,7 +73,10 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className={`header__nav ${open ? "is-open" : ""}`} aria-label="Principal">
+        <nav
+          className={`header__nav ${open ? "is-open" : ""}`}
+          aria-label="Principal"
+        >
           {links.map((link) => (
             <a key={link.href} href={link.href} onClick={() => setOpen(false)}>
               {link.label}
@@ -117,6 +141,11 @@ export function Header() {
           <span />
         </button>
       </div>
+      {toast && (
+        <div className="header__theme-toast" role="status">
+          {toast}
+        </div>
+      )}
     </header>
   );
 }

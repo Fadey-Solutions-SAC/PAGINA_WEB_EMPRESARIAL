@@ -3,7 +3,7 @@
   inset: 0 0 auto;
   z-index: 100;
   height: var(--header-h);
-  background: rgba(10, 58, 102, 0.94);
+  background: var(--header-bg);
   backdrop-filter: blur(18px);
   border-bottom: 1px solid rgba(0, 207, 255, 0.28);
   box-shadow:
@@ -17,7 +17,7 @@
 }
 
 .header--scrolled {
-  background: rgba(10, 58, 102, 0.97);
+  background: var(--header-bg-scrolled);
   border-bottom-color: rgba(0, 207, 255, 0.42);
   box-shadow:
     0 1px 0 rgba(125, 235, 255, 0.12),
@@ -205,4 +205,22 @@
   .header__cta-mobile.btn--whatsapp {
     margin-top: 1.25rem;
   }
+}
+
+.header__theme-toast {
+  position: absolute;
+  left: 50%;
+  bottom: -2.6rem;
+  transform: translateX(-50%);
+  z-index: 130;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--navy-ink);
+  background: var(--cyan-soft);
+  border: 1px solid color-mix(in srgb, var(--cyan) 45%, transparent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
 }
