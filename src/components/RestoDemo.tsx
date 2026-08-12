@@ -127,7 +127,7 @@ function EscritorioView({
   aiIndex: number;
 }) {
   return (
-    <div className="resto-demo__view resto-demo__view--resumen">
+    <div className="resto-demo__view resto-demo__view--resumen resto-demo__view--open">
       <header className="resto-demo__head">
         <div>
           <h3>Escritorio</h3>

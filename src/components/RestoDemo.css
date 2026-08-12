@@ -311,6 +311,109 @@
   height: fit-content;
 }
 
+.resto-demo__view--open .resto-demo__head,
+.resto-demo__view--open .resto-demo__ai-banner,
+.resto-demo__view--open .resto-demo__chart-card,
+.resto-demo__view--open .resto-demo__kpis {
+  animation: restoEscritorioIn 0.55s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)) both;
+}
+
+.resto-demo__view--open .resto-demo__ai-banner {
+  animation-delay: 0.08s;
+}
+
+.resto-demo__view--open .resto-demo__chart-card {
+  animation-delay: 0.16s;
+}
+
+.resto-demo__view--open .resto-demo__kpis {
+  animation-delay: 0.28s;
+}
+
+.resto-demo__view--open .resto-demo__bar {
+  transform-origin: bottom center;
+  animation: restoBarGrow 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.resto-demo__view--open .resto-demo__bar-col:nth-child(1) .resto-demo__bar {
+  animation-delay: 0.22s;
+}
+.resto-demo__view--open .resto-demo__bar-col:nth-child(2) .resto-demo__bar {
+  animation-delay: 0.28s;
+}
+.resto-demo__view--open .resto-demo__bar-col:nth-child(3) .resto-demo__bar {
+  animation-delay: 0.34s;
+}
+.resto-demo__view--open .resto-demo__bar-col:nth-child(4) .resto-demo__bar {
+  animation-delay: 0.4s;
+}
+.resto-demo__view--open .resto-demo__bar-col:nth-child(5) .resto-demo__bar {
+  animation-delay: 0.46s;
+}
+.resto-demo__view--open .resto-demo__bar-col:nth-child(6) .resto-demo__bar {
+  animation-delay: 0.52s;
+}
+.resto-demo__view--open .resto-demo__bar-col:nth-child(7) .resto-demo__bar {
+  animation-delay: 0.58s;
+}
+
+.resto-demo__view--open .resto-demo__kpis article:nth-child(1) {
+  animation: restoKpiIn 0.45s 0.34s both;
+}
+.resto-demo__view--open .resto-demo__kpis article:nth-child(2) {
+  animation: restoKpiIn 0.45s 0.4s both;
+}
+.resto-demo__view--open .resto-demo__kpis article:nth-child(3) {
+  animation: restoKpiIn 0.45s 0.46s both;
+}
+.resto-demo__view--open .resto-demo__kpis article:nth-child(4) {
+  animation: restoKpiIn 0.45s 0.52s both;
+}
+
+@keyframes restoEscritorioIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes restoBarGrow {
+  from {
+    transform: scaleY(0);
+    opacity: 0.4;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes restoKpiIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .resto-demo__view--open .resto-demo__head,
+  .resto-demo__view--open .resto-demo__ai-banner,
+  .resto-demo__view--open .resto-demo__chart-card,
+  .resto-demo__view--open .resto-demo__kpis,
+  .resto-demo__view--open .resto-demo__bar,
+  .resto-demo__view--open .resto-demo__kpis article {
+    animation: none;
+  }
+}
+
 .resto-demo__head {
   display: flex;
   align-items: flex-start;

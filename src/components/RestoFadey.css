@@ -311,36 +311,6 @@
   transform: none;
 }
 
-.resto-demo-host {
-  width: 100%;
-}
-
-.resto-demo-skeleton {
-  min-height: 220px;
-  border-radius: 10px;
-  background: linear-gradient(
-    160deg,
-    #0b1624 0%,
-    #122033 50%,
-    #0b1624 100%
-  );
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
-  padding: 0.65rem;
-  display: grid;
-  gap: 0.55rem;
-}
-
-.resto-demo-skeleton__bar {
-  height: 12px;
-  border-radius: 6px;
-  background: rgba(var(--accent-soft-rgb), 0.15);
-}
-
-.resto-demo-skeleton__body {
-  min-height: 180px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.04);
-}
 
 .resto-plans.section {
   --resto-plans-h: calc(100svh - var(--header-h));
@@ -986,10 +956,6 @@
     width: 100%;
     max-width: 100%;
     margin: 0;
-  }
-
-  .resto-demo-host {
-    width: 100%;
   }
 
   .resto-plans.section {

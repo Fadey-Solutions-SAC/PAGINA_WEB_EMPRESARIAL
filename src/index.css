@@ -900,7 +900,7 @@ ul {
 
 @media (max-width: 920px) {
   html {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
     scroll-behavior: auto;
     scroll-padding-top: var(--header-h);
   }
@@ -925,7 +925,7 @@ ul {
     justify-content: flex-start;
     padding: calc(var(--header-h) + 1rem) 0 2.25rem;
     overflow: hidden;
-    scroll-snap-align: start;
+    scroll-snap-align: none;
     scroll-snap-stop: normal;
   }
 
@@ -1027,7 +1027,7 @@ ul {
   }
 
   .hero {
-    scroll-snap-align: start;
+    scroll-snap-align: none;
     scroll-snap-stop: normal;
     height: auto;
     min-height: 100svh;

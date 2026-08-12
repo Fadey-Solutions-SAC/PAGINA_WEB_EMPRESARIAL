@@ -633,6 +633,8 @@
     min-height: 100svh;
     min-height: 100dvh;
     align-items: center;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
   }
 
   .hero__grid {
