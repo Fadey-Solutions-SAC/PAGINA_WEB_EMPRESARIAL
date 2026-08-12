@@ -97,6 +97,27 @@ export function AdminPage() {
   const [toast, setToast] = useState("");
   const [search, setSearch] = useState("");
 
+  const pickSiteTheme = useCallback(
+    async (next: SiteTheme) => {
+      setTheme(next);
+      try {
+        await api("/api/theme", {
+          method: "PUT",
+          token,
+          body: JSON.stringify({ theme: next }),
+        });
+        setToast("Color del sitio actualizado para todos los dispositivos");
+      } catch (err) {
+        setBanner(
+          err instanceof Error
+            ? err.message
+            : "No se pudo guardar el color del sitio",
+        );
+      }
+    },
+    [setTheme, token],
+  );
+
   const [leads, setLeads] = useState<Lead[]>([]);
   const [users, setUsers] = useState<UserRow[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
@@ -492,7 +513,7 @@ export function AdminPage() {
               type="button"
               className={`admin__theme-btn admin__theme-btn--blue ${theme === "blue" ? "is-active" : ""}`}
               aria-pressed={theme === "blue"}
-              onClick={() => setTheme("blue" as SiteTheme)}
+              onClick={() => void pickSiteTheme("blue")}
             >
               <span className="admin__theme-swatch" aria-hidden="true" />
               Azul
@@ -501,7 +522,7 @@ export function AdminPage() {
               type="button"
               className={`admin__theme-btn admin__theme-btn--emerald ${theme === "emerald" ? "is-active" : ""}`}
               aria-pressed={theme === "emerald"}
-              onClick={() => setTheme("emerald" as SiteTheme)}
+              onClick={() => void pickSiteTheme("emerald")}
             >
               <span className="admin__theme-swatch" aria-hidden="true" />
               Verde
