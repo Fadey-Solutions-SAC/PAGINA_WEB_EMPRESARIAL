@@ -216,6 +216,38 @@
   box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
 }
 
+.login__pass-wrap {
+  position: relative;
+  display: block;
+}
+
+.login__pass-wrap input {
+  width: 100%;
+  padding-right: 2.75rem;
+}
+
+.login__pass-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.55rem;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #9db4c7;
+  cursor: pointer;
+}
+
+.login__pass-toggle:hover,
+.login__pass-toggle[aria-pressed="true"] {
+  color: var(--cyan-soft);
+}
+
 .login__error {
   margin: 0;
   padding: 0.65rem 0.75rem;

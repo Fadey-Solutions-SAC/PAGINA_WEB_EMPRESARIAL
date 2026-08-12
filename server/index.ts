@@ -33,7 +33,9 @@ app.use(
         !origin ||
         origins.includes(origin) ||
         origins.includes("*") ||
-        origin.endsWith(".vercel.app")
+        origin.endsWith(".vercel.app") ||
+        origin === "https://fadeysolutions.pe" ||
+        origin === "https://www.fadeysolutions.pe"
       ) {
         cb(null, true);
         return;

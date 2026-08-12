@@ -99,7 +99,7 @@ También acepta `clientId` o `licenseKey` en lugar de `userId`. El pago queda **
 
 1. Importa el mismo repo.
 2. Build: `npm run build` · Output: `dist`
-3. Env: `VITE_API_URL=https://TU-API.onrender.com`
+3. Env: `VITE_API_URL=https://fadey-solutions-pe.onrender.com` (ya está en `vercel.json`; vuelve a desplegar tras cambiarla).
 
 ## Seguridad
 
