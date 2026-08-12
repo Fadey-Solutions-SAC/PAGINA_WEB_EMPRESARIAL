@@ -900,33 +900,34 @@ ul {
 
 @media (max-width: 920px) {
   html {
-    scroll-snap-type: none;
-    scroll-behavior: auto;
+    scroll-snap-type: none !important;
+    scroll-behavior: auto !important;
     scroll-padding-top: var(--header-h);
+    overscroll-behavior-y: auto;
   }
 
   body {
     overflow-x: hidden;
+    overscroll-behavior-y: auto;
   }
 
   .container {
     width: min(100% - 1.5rem, var(--max));
   }
 
-  /* Cada módulo: pantalla completa, sin recortes ni solapes */
+  /* En móvil: alto al contenido. 100dvh cambia con la barra del iPhone y “regresa” el scroll */
   .section {
     position: relative;
     z-index: auto;
     isolation: isolate;
-    min-height: 100svh;
-    min-height: 100dvh;
+    min-height: 0;
     height: auto !important;
     max-height: none !important;
     justify-content: flex-start;
     padding: calc(var(--header-h) + 1rem) 0 2.25rem;
-    overflow: hidden;
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
+    overflow: visible;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
   }
 
   .section > .container,
@@ -934,10 +935,10 @@ ul {
     width: min(100% - 1.5rem, var(--max));
   }
 
-  /* Fondos: sin scale/rotate que se desbordan sobre la sección anterior */
+  /* Fondos contenidos en los ::before/::after; el contenido no debe recortarse */
   .section--light,
   .section--blue {
-    overflow: hidden;
+    overflow: visible;
   }
 
   .section--light::before,
@@ -1027,12 +1028,11 @@ ul {
   }
 
   .hero {
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
-    height: auto;
-    min-height: 100svh;
-    min-height: 100dvh;
-    overflow: hidden;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+    height: auto !important;
+    min-height: 0;
+    overflow: visible;
   }
 }
 

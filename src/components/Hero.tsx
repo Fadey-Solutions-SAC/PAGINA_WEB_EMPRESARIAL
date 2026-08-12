@@ -39,9 +39,9 @@ export function Hero() {
               Tecnología que <span>impulsa</span> tu negocio
             </h1>
             <p className="hero__desc">
-              Ofrecemos Resto Fadey, ERP Fadey, desarrollo web y soporte para
-              gestionar, crecer y transformar tu empresa con tecnología clara y
-              lista para operar.
+              Ofrecemos Resto Fadey, desarrollo web y soporte para gestionar,
+              crecer y transformar tu empresa con tecnología clara y lista para
+              operar.
             </p>
 
             <div className="hero__actions">

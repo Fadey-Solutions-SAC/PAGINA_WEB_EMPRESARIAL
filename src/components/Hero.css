@@ -630,11 +630,11 @@
 
 @media (max-width: 920px) {
   .hero {
-    min-height: 100svh;
-    min-height: 100dvh;
+    min-height: 0;
+    height: auto !important;
     align-items: center;
-    scroll-snap-align: none;
-    scroll-snap-stop: normal;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
   }
 
   .hero__grid {

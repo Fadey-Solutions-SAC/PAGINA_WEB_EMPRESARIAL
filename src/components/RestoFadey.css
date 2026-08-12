@@ -872,44 +872,48 @@
 }
 
 @media (max-width: 920px) {
-  .resto.section {
+  .resto.section,
+  .resto.section.section--blue,
+  .resto.section.section--blue-a {
     --resto-h: auto;
-    min-height: 100svh;
-    min-height: 100dvh;
-    height: auto;
-    max-height: none;
-    overflow: hidden;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     padding: calc(var(--header-h) + 1rem) 0 2rem;
   }
 
   .resto.section > .resto__shell {
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    height: auto !important;
+    min-height: 0 !important;
     flex: 0 0 auto;
-    grid-template-rows: auto auto;
+    grid-template-rows: none;
     gap: 1rem;
     width: min(100% - 1.5rem, var(--max));
   }
 
   .resto__grid {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "content"
-      "visual";
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: none;
+    grid-template-areas: none;
     gap: 1.15rem;
-    overflow: visible;
+    overflow: visible !important;
+    min-height: 0;
   }
 
   .resto__content {
-    grid-area: content;
     order: 1;
+    overflow: visible;
   }
 
   .resto__visual {
-    grid-area: visual;
     order: 2;
-    height: auto;
-    max-height: none;
-    overflow: visible;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     align-items: stretch;
     justify-self: stretch;
     margin-top: 0;
@@ -956,15 +960,22 @@
     width: 100%;
     max-width: 100%;
     margin: 0;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
+  }
+
+  .resto-shot .resto-demo {
+    height: auto !important;
+    max-height: none !important;
   }
 
   .resto-plans.section {
     --resto-plans-h: auto;
-    min-height: 100svh;
-    min-height: 100dvh;
-    height: auto;
-    max-height: none;
-    overflow: hidden;
+    min-height: 0;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
     padding: calc(var(--header-h) + 1rem) 0 2.5rem;
   }
 

@@ -716,13 +716,26 @@
   color: var(--rd-ink);
 }
 
+@media (max-width: 920px) {
+  .resto-demo__view--open .resto-demo__head,
+  .resto-demo__view--open .resto-demo__ai-banner,
+  .resto-demo__view--open .resto-demo__chart-card,
+  .resto-demo__view--open .resto-demo__kpis,
+  .resto-demo__view--open .resto-demo__bar,
+  .resto-demo__view--open .resto-demo__kpis article {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 @media (max-width: 700px) {
   .resto-demo {
-    grid-template-columns: 72px 1fr;
+    grid-template-columns: 56px 1fr;
     height: auto;
-    min-height: 240px;
-    max-height: min(58vh, 360px);
-    font-size: 0.85em;
+    min-height: 0;
+    max-height: none;
+    font-size: 0.78em;
   }
 
   .resto-demo__nav-label {
@@ -731,15 +744,18 @@
 
   .resto-demo__nav-item {
     justify-content: center;
-    padding-inline: 0.35rem;
+    padding-inline: 0.28rem;
   }
 
   .resto-demo__kpis {
     grid-template-columns: 1fr 1fr;
   }
 
+  .resto-demo__chart {
+    height: 72px;
+  }
+
   .resto-demo__main {
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: visible;
   }
 }

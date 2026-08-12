@@ -289,11 +289,10 @@
 @media (max-width: 920px) {
   .erp.section {
     --erp-h: auto;
-    min-height: 100svh;
-    min-height: 100dvh;
-    height: auto;
-    max-height: none;
-    overflow: hidden;
+    min-height: 0;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible;
     padding: calc(var(--header-h) + 1rem) 0 2rem;
   }
 

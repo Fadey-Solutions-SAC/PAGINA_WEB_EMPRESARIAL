@@ -6,17 +6,32 @@ import { useEffect, useRef, useState } from "react";
  */
 export function useReveal() {
   useEffect(() => {
+    const mobileMq = window.matchMedia("(max-width: 920px)");
+    const applyMobileScroll = () => {
+      if (!mobileMq.matches) {
+        document.documentElement.style.scrollSnapType = "";
+        document.documentElement.style.scrollBehavior = "";
+        return;
+      }
+      document.documentElement.style.scrollSnapType = "none";
+      document.documentElement.style.scrollBehavior = "auto";
+    };
+    applyMobileScroll();
+    mobileMq.addEventListener("change", applyMobileScroll);
+
     const elements = document.querySelectorAll<HTMLElement>(".reveal");
-    if (!elements.length) return;
+    if (!elements.length) {
+      return () => mobileMq.removeEventListener("change", applyMobileScroll);
+    }
 
     const preferReduce = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    const isMobile = window.matchMedia("(max-width: 920px)").matches;
+    const isMobile = mobileMq.matches;
 
     if (preferReduce || isMobile) {
       elements.forEach((el) => el.classList.add("is-visible"));
-      return;
+      return () => mobileMq.removeEventListener("change", applyMobileScroll);
     }
 
     const observer = new IntersectionObserver(
@@ -32,7 +47,10 @@ export function useReveal() {
     );
 
     elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      mobileMq.removeEventListener("change", applyMobileScroll);
+    };
   }, []);
 }
 
