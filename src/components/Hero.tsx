@@ -1,3 +1,4 @@
+import { useEffect, useId, useState } from "react";
 import "./Hero.css";
 
 const intents = [
@@ -23,7 +24,68 @@ const intents = [
   },
 ];
 
+const exploreOptions = [
+  {
+    id: "resto",
+    title: "Resto Fadey",
+    desc: "Software para negocios gastronómicos",
+    href: "#resto",
+  },
+  {
+    id: "web",
+    title: "Desarrollo web",
+    desc: "Páginas y plataformas a medida",
+    href: "#web",
+  },
+  {
+    id: "soporte",
+    title: "Soporte",
+    desc: "Mantenimiento y acompañamiento",
+    href: "#soporte",
+  },
+  {
+    id: "contacto",
+    title: "Contacto",
+    desc: "Cotización y asesoría directa",
+    href: "#contacto",
+  },
+];
+
+function goToSection(href: string) {
+  const id = href.replace("#", "");
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.history.replaceState(null, "", href);
+    return;
+  }
+  window.location.hash = href;
+}
+
 export function Hero() {
+  const [exploreOpen, setExploreOpen] = useState(false);
+  const titleId = useId();
+
+  useEffect(() => {
+    if (!exploreOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setExploreOpen(false);
+    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [exploreOpen]);
+
+  function pickExplore(href: string) {
+    setExploreOpen(false);
+    // Deja cerrar el modal antes de scrollear
+    window.requestAnimationFrame(() => goToSection(href));
+  }
+
   return (
     <section className="hero" id="inicio">
       <div className="hero__bg" aria-hidden="true" />
@@ -45,12 +107,13 @@ export function Hero() {
             </p>
 
             <div className="hero__actions">
-              <a className="btn btn--primary" href="#resto">
+              <button
+                type="button"
+                className="btn btn--primary"
+                onClick={() => setExploreOpen(true)}
+              >
                 Explorar soluciones
-              </a>
-              <a className="btn btn--ghost" href="#contacto">
-                Solicitar cotización
-              </a>
+              </button>
             </div>
           </div>
 
@@ -165,6 +228,10 @@ export function Hero() {
                 className="hero__intent-item"
                 href={item.href}
                 role="listitem"
+                onClick={(e) => {
+                  e.preventDefault();
+                  goToSection(item.href);
+                }}
               >
                 <svg
                   className="hero__intent-neon"
@@ -188,6 +255,54 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      {exploreOpen && (
+        <div
+          className="hero-explore"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+        >
+          <button
+            type="button"
+            className="hero-explore__backdrop"
+            aria-label="Cerrar"
+            onClick={() => setExploreOpen(false)}
+          />
+          <div className="hero-explore__panel">
+            <header className="hero-explore__head">
+              <div>
+                <p className="hero-explore__eyebrow">Explorar</p>
+                <h2 id={titleId}>¿Qué deseas explorar?</h2>
+                <p>
+                  Elige una opción y te llevamos a la sección correspondiente.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="hero-explore__close"
+                onClick={() => setExploreOpen(false)}
+                aria-label="Cerrar"
+              >
+                ×
+              </button>
+            </header>
+            <div className="hero-explore__grid">
+              {exploreOptions.map((opt) => (
+                <button
+                  key={opt.id}
+                  type="button"
+                  className="hero-explore__option"
+                  onClick={() => pickExplore(opt.href)}
+                >
+                  <strong>{opt.title}</strong>
+                  <span>{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

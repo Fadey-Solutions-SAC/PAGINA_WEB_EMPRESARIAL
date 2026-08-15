@@ -1,12 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { api } from "../lib/api";
+import { mailtoInfo, msgInfo, waUrl } from "../lib/whatsapp";
 import "./CTA.css";
 
-const WHATSAPP_URL =
-  "https://wa.me/51921028316?text=" +
-  encodeURIComponent(
-    "Hola Fadey Solutions, me gustaría solicitar información sobre sus soluciones.",
-  );
+const WHATSAPP_URL = waUrl(msgInfo());
+const MAILTO_URL = mailtoInfo();
 
 export function CTA() {
   const [sent, setSent] = useState(false);
@@ -82,10 +80,7 @@ export function CTA() {
                 </svg>
                 WhatsApp · 921 028 316
               </a>
-              <a
-                className="btn btn--dark"
-                href="mailto:contacto@fadeysolutions.com"
-              >
+              <a className="btn btn--dark" href={MAILTO_URL}>
                 Escribir por correo
               </a>
             </div>

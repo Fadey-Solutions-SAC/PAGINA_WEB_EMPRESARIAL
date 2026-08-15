@@ -1,3 +1,4 @@
+import { msgErpNotify, waUrl } from "../lib/whatsapp";
 import "./ERP.css";
 
 const modules = [
@@ -74,6 +75,8 @@ const plans = [
   },
 ];
 
+const WA_ERP_GENERAL = waUrl(msgErpNotify());
+
 export function ERP() {
   return (
     <>
@@ -95,7 +98,12 @@ export function ERP() {
                 <strong>S/ 299</strong> hasta <strong>S/ 599</strong> mensuales.
               </p>
 
-              <a className="btn btn--ghost" href="#contacto">
+              <a
+                className="btn btn--ghost"
+                href={WA_ERP_GENERAL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Quiero ser avisado
               </a>
             </div>
@@ -186,7 +194,9 @@ export function ERP() {
                 </ul>
                 <a
                   className={`btn ${plan.mineral === "plata" || plan.mineral === "platino" ? "btn--dark" : "btn--solid-cyan"}`}
-                  href="#contacto"
+                  href={waUrl(msgErpNotify(plan.name))}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   Avisarme
                 </a>

@@ -1,4 +1,7 @@
+import { msgSoporte, waUrl } from "../lib/whatsapp";
 import "./Maintenance.css";
+
+const WHATSAPP_SOPORTE = waUrl(msgSoporte());
 
 export function Maintenance() {
   return (
@@ -44,6 +47,14 @@ export function Maintenance() {
             <p className="maint-card__note">
               Costo según proyecto y alcance.
             </p>
+            <a
+              className="btn btn--primary"
+              href={WHATSAPP_SOPORTE}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Cotizar soporte Fadey
+            </a>
           </article>
 
           <article className="maint-card maint-card--client reveal">
@@ -76,6 +87,14 @@ export function Maintenance() {
             <p className="maint-card__note">
               El soporte puede contratarse de manera independiente.
             </p>
+            <a
+              className="btn btn--ghost"
+              href={WHATSAPP_SOPORTE}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Consultar soporte bajo demanda
+            </a>
           </article>
         </div>
       </div>

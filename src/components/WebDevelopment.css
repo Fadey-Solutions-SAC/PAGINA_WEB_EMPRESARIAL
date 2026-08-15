@@ -180,3 +180,145 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Modal proyecto web */
+.web-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.web-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(2, 10, 16, 0.72);
+  cursor: pointer;
+}
+
+.web-modal__panel {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 520px);
+  max-height: min(92vh, 720px);
+  overflow: auto;
+  padding: 1.25rem 1.2rem 1.15rem;
+  border-radius: 18px;
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: linear-gradient(
+    165deg,
+    rgba(var(--surface-rgb), 0.98) 0%,
+    rgba(var(--surface-deep-rgb), 0.98) 100%
+  );
+  box-shadow:
+    0 0 0 1px rgba(var(--accent-soft-rgb), 0.12),
+    0 24px 60px rgba(0, 0, 0, 0.45);
+  color: #fff;
+}
+
+.web-modal__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.web-modal__eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cyan-soft);
+}
+
+.web-modal__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 4vw, 1.55rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.web-modal__head p {
+  margin: 0.35rem 0 0;
+  color: #c5d9e8;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.web-modal__close {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.web-modal__close:hover {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  color: var(--cyan-soft);
+}
+
+.web-modal__form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.web-modal__form label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #d7e8f5;
+}
+
+.web-modal__form input,
+.web-modal__form select,
+.web-modal__form textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--accent-rgb), 0.28);
+  background: rgba(0, 0, 0, 0.28);
+  color: #fff;
+  font: inherit;
+  font-weight: 500;
+}
+
+.web-modal__form textarea {
+  resize: vertical;
+  min-height: 4.5rem;
+}
+
+.web-modal__form input::placeholder,
+.web-modal__form textarea::placeholder {
+  color: rgba(183, 201, 214, 0.75);
+}
+
+.web-modal__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.web-modal__form .btn {
+  margin-top: 0.25rem;
+  justify-self: stretch;
+  width: 100%;
+}
+
+@media (max-width: 520px) {
+  .web-modal__row {
+    grid-template-columns: 1fr;
+  }
+}

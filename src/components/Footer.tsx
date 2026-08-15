@@ -1,4 +1,9 @@
+import { mailtoInfo, msgQuoteProduct, waUrl } from "../lib/whatsapp";
 import "./Footer.css";
+
+const WHATSAPP_EMPTY = waUrl();
+const WHATSAPP_QUOTE = waUrl(msgQuoteProduct());
+const MAILTO_URL = mailtoInfo();
 
 export function Footer() {
   return (
@@ -59,13 +64,11 @@ export function Footer() {
           <h4>Contacto</h4>
           <ul>
             <li>
-              <a href="mailto:contacto@fadeysolutions.com">
-                contacto@fadeysolutions.com
-              </a>
+              <a href={MAILTO_URL}>contacto@fadeysolutions.com</a>
             </li>
             <li>
               <a
-                href="https://wa.me/51921028316"
+                href={WHATSAPP_EMPTY}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -73,7 +76,13 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <a href="#contacto">Solicitar cotización</a>
+              <a
+                href={WHATSAPP_QUOTE}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Solicitar cotización
+              </a>
             </li>
           </ul>
         </div>

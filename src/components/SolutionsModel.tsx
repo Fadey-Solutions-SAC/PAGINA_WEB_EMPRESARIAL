@@ -1,3 +1,4 @@
+import { msgErpNotify, msgSoporte, waUrl } from "../lib/whatsapp";
 import "./SolutionsModel.css";
 
 const offerings = [
@@ -8,6 +9,7 @@ const offerings = [
     meta: "Suscripción mensual",
     price: "Desde S/ 99/mes",
     href: "#resto",
+    external: false,
     cta: "Ver Resto Fadey",
     variant: "software",
     soon: false,
@@ -18,8 +20,9 @@ const offerings = [
     items: ["Ventas y finanzas", "Inventario y compras", "Sucursales y usuarios"],
     meta: "En desarrollo",
     price: "Próximamente",
-    href: "#erp",
-    cta: "Próximamente",
+    href: waUrl(msgErpNotify()),
+    external: true,
+    cta: "Avisarme",
     variant: "software",
     soon: true,
   },
@@ -30,6 +33,7 @@ const offerings = [
     meta: "Proyecto personalizado",
     price: "Desde S/ 500",
     href: "#web",
+    external: false,
     cta: "Solicitar web",
     variant: "custom",
     soon: false,
@@ -40,8 +44,9 @@ const offerings = [
     items: ["Actualizaciones", "Seguridad", "Soporte técnico"],
     meta: "Según alcance",
     price: "Cotización a medida",
-    href: "#soporte",
-    cta: "Ver soporte",
+    href: waUrl(msgSoporte()),
+    external: true,
+    cta: "Cotizar soporte",
     variant: "custom",
     soon: false,
   },
@@ -88,6 +93,9 @@ export function SolutionsModel() {
               <a
                 className={`btn ${item.soon ? "btn--ghost" : item.variant === "software" ? "btn--primary" : "btn--ghost"}`}
                 href={item.href}
+                {...(item.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
               >
                 {item.cta}
               </a>

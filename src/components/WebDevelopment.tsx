@@ -1,3 +1,5 @@
+import { useEffect, useId, useState, type FormEvent } from "react";
+import { msgWebProject, waUrl, type WebProjectForm } from "../lib/whatsapp";
 import "./WebDevelopment.css";
 
 const services = [
@@ -38,7 +40,41 @@ const tiers = [
   },
 ];
 
+const emptyForm: WebProjectForm = {
+  projectType: "",
+  budget: "",
+  timeline: "",
+  structure: "",
+  name: "",
+  contact: "",
+};
+
 export function WebDevelopment() {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState<WebProjectForm>(emptyForm);
+  const titleId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  function onSubmit(e: FormEvent) {
+    e.preventDefault();
+    window.open(waUrl(msgWebProject(form)), "_blank", "noopener,noreferrer");
+    setOpen(false);
+    setForm(emptyForm);
+  }
+
   return (
     <section className="web section" id="web">
       <div className="web__bg" aria-hidden="true" />
@@ -96,11 +132,155 @@ export function WebDevelopment() {
               </article>
             ))}
           </div>
-          <a className="btn btn--primary" href="#contacto">
+          <button
+            type="button"
+            className="btn btn--primary"
+            onClick={() => setOpen(true)}
+          >
             Solicitar proyecto web
-          </a>
+          </button>
         </div>
       </div>
+
+      {open && (
+        <div
+          className="web-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+        >
+          <button
+            type="button"
+            className="web-modal__backdrop"
+            aria-label="Cerrar"
+            onClick={() => setOpen(false)}
+          />
+          <div className="web-modal__panel">
+            <header className="web-modal__head">
+              <div>
+                <p className="web-modal__eyebrow">Desarrollo web</p>
+                <h2 id={titleId}>Solicitar proyecto</h2>
+                <p>
+                  Completa los datos y te llevamos a WhatsApp con el mensaje
+                  listo.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="web-modal__close"
+                onClick={() => setOpen(false)}
+                aria-label="Cerrar"
+              >
+                ×
+              </button>
+            </header>
+
+            <form className="web-modal__form" onSubmit={onSubmit}>
+              <label>
+                Tipo de proyecto
+                <select
+                  required
+                  value={form.projectType}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, projectType: e.target.value }))
+                  }
+                >
+                  <option value="" disabled>
+                    Selecciona una opción
+                  </option>
+                  <option value="Página web empresarial">
+                    Página web empresarial
+                  </option>
+                  <option value="Landing Page">Landing Page</option>
+                  <option value="Tienda online">Tienda online</option>
+                  <option value="Página para restaurante">
+                    Página para restaurante
+                  </option>
+                  <option value="Plataforma personalizada">
+                    Plataforma personalizada
+                  </option>
+                </select>
+              </label>
+
+              <label>
+                Presupuesto aproximado
+                <select
+                  required
+                  value={form.budget}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, budget: e.target.value }))
+                  }
+                >
+                  <option value="" disabled>
+                    Selecciona un rango
+                  </option>
+                  <option value="Desde S/ 500">Desde S/ 500</option>
+                  <option value="Desde S/ 1,000">Desde S/ 1,000</option>
+                  <option value="Desde S/ 2,000+">Desde S/ 2,000+</option>
+                  <option value="A cotizar">A cotizar</option>
+                </select>
+              </label>
+
+              <label>
+                Tiempo deseado
+                <input
+                  type="text"
+                  required
+                  placeholder="Ej. 3–4 semanas"
+                  value={form.timeline}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, timeline: e.target.value }))
+                  }
+                />
+              </label>
+
+              <label>
+                Estructura / páginas
+                <textarea
+                  required
+                  rows={3}
+                  placeholder="Ej. Inicio, servicios, contacto…"
+                  value={form.structure}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, structure: e.target.value }))
+                  }
+                />
+              </label>
+
+              <div className="web-modal__row">
+                <label>
+                  Nombre
+                  <input
+                    type="text"
+                    required
+                    placeholder="Tu nombre"
+                    value={form.name}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, name: e.target.value }))
+                    }
+                  />
+                </label>
+                <label>
+                  Contacto
+                  <input
+                    type="text"
+                    required
+                    placeholder="Teléfono o correo"
+                    value={form.contact}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, contact: e.target.value }))
+                    }
+                  />
+                </label>
+              </div>
+
+              <button className="btn btn--primary" type="submit">
+                Enviar por WhatsApp
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

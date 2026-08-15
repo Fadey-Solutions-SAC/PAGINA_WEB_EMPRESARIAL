@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme, useTripleClick } from "../lib/theme";
+import { msgQuoteProduct, waUrl } from "../lib/whatsapp";
 import "./Header.css";
 
 const links = [
@@ -11,11 +12,8 @@ const links = [
   { href: "/#contacto", label: "Contacto" },
 ];
 
-const WHATSAPP_RESTO_URL =
-  "https://wa.me/51921028316?text=" +
-  encodeURIComponent(
-    "Hola Fadey Solutions, quiero solicitar el servicio de Resto Fadey para mi negocio gastronómico. ¿Me pueden brindar más información?",
-  );
+const WHATSAPP_EMPTY = waUrl();
+const WHATSAPP_QUOTE = waUrl(msgQuoteProduct());
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -94,7 +92,7 @@ export function Header() {
             </Link>
             <a
               className="btn btn--whatsapp header__whatsapp"
-              href={WHATSAPP_RESTO_URL}
+              href={WHATSAPP_EMPTY}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -106,7 +104,12 @@ export function Header() {
               </svg>
               WhatsApp
             </a>
-            <a className="btn btn--primary header__cta" href="/#contacto">
+            <a
+              className="btn btn--primary header__cta"
+              href={WHATSAPP_QUOTE}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Solicitar cotización
             </a>
           </div>
@@ -151,7 +154,7 @@ export function Header() {
         </Link>
         <a
           className="btn btn--whatsapp header__cta-mobile"
-          href={WHATSAPP_RESTO_URL}
+          href={WHATSAPP_EMPTY}
           target="_blank"
           rel="noopener noreferrer"
           onClick={closeMenu}
@@ -160,7 +163,9 @@ export function Header() {
         </a>
         <a
           className="btn btn--primary header__cta-mobile"
-          href="/#contacto"
+          href={WHATSAPP_QUOTE}
+          target="_blank"
+          rel="noopener noreferrer"
           onClick={closeMenu}
         >
           Solicitar cotización

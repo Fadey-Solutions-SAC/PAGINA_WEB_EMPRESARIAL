@@ -143,6 +143,12 @@ html[data-theme="blue"] .maint-card--client li::before {
   border-top: 1px solid rgba(var(--accent-rgb), 0.2);
 }
 
+.maint-card .btn {
+  margin-top: 0.85rem;
+  width: 100%;
+  justify-content: center;
+}
+
 @media (max-width: 780px) {
   .maint__grid {
     grid-template-columns: 1fr;

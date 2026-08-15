@@ -1,11 +1,8 @@
 import { RestoDemo, restoDemoModules } from "./RestoDemo";
+import { msgRestoDemo, msgRestoPlan, waUrl } from "../lib/whatsapp";
 import "./RestoFadey.css";
 
-const WHATSAPP_DEMO_URL =
-  "https://wa.me/51921028316?text=" +
-  encodeURIComponent(
-    "Hola Fadey Solutions, quiero solicitar una demostración de Resto Fadey para mi negocio gastronómico. Me interesa ver cómo funciona la plataforma (pedidos, caja, cocina/barra e inventario).",
-  );
+const WHATSAPP_DEMO_URL = waUrl(msgRestoDemo());
 
 const audience = [
   "Restaurantes",
@@ -259,7 +256,12 @@ export function RestoFadey() {
                   <span />
                   <span />
                 </div>
-                <a className="resto-plan__cta" href="#contacto">
+                <a
+                  className="resto-plan__cta"
+                  href={waUrl(msgRestoPlan(plan.name, plan.price))}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Empezar ahora
                 </a>
               </article>
