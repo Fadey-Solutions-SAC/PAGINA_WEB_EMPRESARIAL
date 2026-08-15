@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import rateLimit from "express-rate-limit";
 import { prisma } from "../db.js";
 import { signToken, requireAuth, type AuthedRequest } from "../middleware/auth.js";
+import { asProducts } from "../utils/products.js";
 
 export const authRouter = Router();
 
@@ -16,7 +17,6 @@ const loginLimit = rateLimit({
 authRouter.post("/admin", loginLimit, async (req, res) => {
   try {
     const password = String(req.body?.password || "").trim();
-    // Contraseña admin fija (también se puede sobreescribir con ADMIN_PASSWORD en Render)
     const expected = String(process.env.ADMIN_PASSWORD || "ROMERO25879")
       .trim()
       .replace(/^["']|["']$/g, "");
@@ -51,10 +51,11 @@ authRouter.post("/login", loginLimit, async (req, res) => {
     res.status(401).json({ error: "Credenciales inválidas" });
     return;
   }
+  const products = asProducts(user.products);
   const token = signToken({
     role: "client",
     userId: user.id,
-    products: user.products,
+    products,
   });
   res.json({
     token,
@@ -62,7 +63,7 @@ authRouter.post("/login", loginLimit, async (req, res) => {
     userId: user.id,
     username: user.username,
     clientName: user.clientName,
-    products: user.products,
+    products,
   });
 });
 
@@ -84,7 +85,7 @@ authRouter.get("/me", requireAuth, async (req: AuthedRequest, res) => {
       userId: user.id,
       username: user.username,
       clientName: user.clientName,
-      products: user.products,
+      products: asProducts(user.products),
     });
     return;
   }

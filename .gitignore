@@ -35,3 +35,6 @@ uploads
 server-dist
 *.db
 *.db-journal
+
+/data/
+

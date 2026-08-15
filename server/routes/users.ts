@@ -1,10 +1,11 @@
-import { Router } from "express";
+﻿import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
-import type { Product } from "@prisma/client";
+import type { Prisma, Product } from "@prisma/client";
 import { prisma } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
+import { asProducts } from "../utils/products.js";
 
 const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
 
@@ -57,18 +58,18 @@ async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
 
   let lastError = "No se pudo consultar el web service";
 
-  for (const path of paths) {
+  for (const apiPath of paths) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 12000);
     try {
-      const res = await fetch(`${baseUrl}${path}`, {
+      const res = await fetch(`${baseUrl}${apiPath}`, {
         method: "GET",
         headers: { Accept: "application/json" },
         signal: controller.signal,
       });
       clearTimeout(timer);
       if (!res.ok) {
-        lastError = `El web service respondió ${res.status} en ${path}`;
+        lastError = `El web service respondió ${res.status} en ${apiPath}`;
         continue;
       }
       const data = (await res.json()) as Record<string, unknown>;
@@ -81,7 +82,7 @@ async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
           "",
       ).trim();
       if (!name) {
-        lastError = `La respuesta de ${path} no trae nombre del restaurante`;
+        lastError = `La respuesta de ${apiPath} no trae nombre del restaurante`;
         continue;
       }
       return {
@@ -89,10 +90,14 @@ async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
         legalName: data.legalName ? String(data.legalName) : undefined,
         email: data.email ? String(data.email) : undefined,
         ruc: data.ruc ? String(data.ruc) : undefined,
-        phone: data.phone || data.telefono ? String(data.phone || data.telefono) : undefined,
-        address: data.address || data.direccion
-          ? String(data.address || data.direccion)
-          : undefined,
+        phone:
+          data.phone || data.telefono
+            ? String(data.phone || data.telefono)
+            : undefined,
+        address:
+          data.address || data.direccion
+            ? String(data.address || data.direccion)
+            : undefined,
         product: data.product ? String(data.product) : undefined,
       };
     } catch (err) {
@@ -107,6 +112,10 @@ async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
   }
 
   throw new Error(lastError);
+}
+
+function mapUser<T extends { products: unknown }>(user: T) {
+  return { ...user, products: asProducts(user.products) };
 }
 
 export const usersRouter = Router();
@@ -128,7 +137,7 @@ usersRouter.get("/", requireAdmin, async (_req, res) => {
         _count: { select: { payments: true } },
       },
     });
-    res.json(users);
+    res.json(users.map(mapUser));
   } catch (err) {
     sendApiError(res, err);
   }
@@ -141,7 +150,8 @@ usersRouter.post("/probe-webservice", requireAdmin, async (req, res) => {
     res.json({ url: baseUrl, restaurant });
   } catch (err) {
     res.status(400).json({
-      error: err instanceof Error ? err.message : "No se pudo leer el web service",
+      error:
+        err instanceof Error ? err.message : "No se pudo leer el web service",
     });
   }
 });
@@ -149,8 +159,12 @@ usersRouter.post("/probe-webservice", requireAdmin, async (req, res) => {
 usersRouter.post("/link-webservice", requireAdmin, async (req, res) => {
   try {
     const baseUrl = normalizeBaseUrl(String(req.body?.url || ""));
-    const productsRaw = Array.isArray(req.body?.products) ? req.body.products : ["resto"];
-    const products = productsRaw.filter((p: string) => PRODUCTS.has(p)) as Product[];
+    const productsRaw = Array.isArray(req.body?.products)
+      ? req.body.products
+      : ["resto"];
+    const products = productsRaw.filter((p: string) =>
+      PRODUCTS.has(p),
+    ) as Product[];
     if (products.length === 0) {
       res.status(400).json({ error: "Selecciona al menos un producto" });
       return;
@@ -198,7 +212,7 @@ usersRouter.post("/link-webservice", requireAdmin, async (req, res) => {
       username: user.username,
       password,
       clientName: user.clientName,
-      products: user.products,
+      products: asProducts(user.products),
       webServiceUrl: user.webServiceUrl,
       restaurant,
       note: "Guarda usuario, contraseña e ID de cliente/licencia. El ID controla y aprueba pagos.",
@@ -216,13 +230,17 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
   try {
     const clientName = String(req.body?.clientName || "").trim();
     const leadId = req.body?.leadId ? String(req.body.leadId) : null;
-    const productsRaw = Array.isArray(req.body?.products) ? req.body.products : [];
+    const productsRaw = Array.isArray(req.body?.products)
+      ? req.body.products
+      : [];
     const products = productsRaw.filter((p: string) =>
       PRODUCTS.has(p),
     ) as Product[];
 
     if (!clientName || products.length === 0) {
-      res.status(400).json({ error: "Nombre y al menos un producto requeridos" });
+      res.status(400).json({
+        error: "Nombre y al menos un producto requeridos",
+      });
       return;
     }
 
@@ -264,7 +282,7 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
       username: user.username,
       password,
       clientName: user.clientName,
-      products: user.products,
+      products: asProducts(user.products),
       note: "Guarda la contraseña y el ID de cliente/licencia ahora.",
     });
   } catch (err) {
@@ -291,15 +309,11 @@ usersRouter.post("/:id/reset-password", requireAdmin, async (req, res) => {
 usersRouter.patch("/:id", requireAdmin, async (req, res) => {
   try {
     const id = String(req.params.id);
-    const data: {
-      clientName?: string;
-      products?: Product[];
-      active?: boolean;
-      passwordHash?: string;
-      webServiceUrl?: string | null;
-    } = {};
+    const data: Prisma.ClientUserUpdateInput = {};
 
-    if (req.body?.clientName) data.clientName = String(req.body.clientName).trim();
+    if (req.body?.clientName) {
+      data.clientName = String(req.body.clientName).trim();
+    }
     if (Array.isArray(req.body?.products)) {
       data.products = req.body.products.filter((p: string) =>
         PRODUCTS.has(p),
@@ -328,7 +342,7 @@ usersRouter.patch("/:id", requireAdmin, async (req, res) => {
         licenseKey: true,
       },
     });
-    res.json({ ...user, clientId: user.id });
+    res.json({ ...mapUser(user), clientId: user.id });
   } catch (err) {
     sendApiError(res, err);
   }

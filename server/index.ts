@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { uploadsDir } from "./db.js";
+import { dbPath, uploadsDir } from "./db.js";
 import { authRouter } from "./routes/auth.js";
 import { leadsRouter } from "./routes/leads.js";
 import { usersRouter } from "./routes/users.js";
@@ -12,15 +12,10 @@ import { ingestRouter } from "./routes/ingest.js";
 import { adminStatsRouter } from "./routes/adminStats.js";
 import { themeRouter } from "./routes/theme.js";
 import { sendApiError } from "./utils/errors.js";
+import fs from "node:fs";
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
-
-if (!process.env.DATABASE_URL) {
-  console.warn(
-    "[fadey-api] DATABASE_URL no está definida. Configúrala en Render (Internal Database URL).",
-  );
-}
 
 const origins = (process.env.CORS_ORIGIN || "http://localhost:5173")
   .split(",")
@@ -52,7 +47,9 @@ app.use("/uploads", express.static(uploadsDir));
 app.get("/api/health", (_req, res) => {
   res.json({
     ok: true,
-    db: Boolean(process.env.DATABASE_URL),
+    db: fs.existsSync(dbPath),
+    dbPath,
+    engine: "sqlite",
   });
 });
 
@@ -79,4 +76,6 @@ app.use(
 
 app.listen(port, () => {
   console.log(`Fadey API listening on http://localhost:${port}`);
+  console.log(`SQLite: ${dbPath}`);
+  console.log(`Uploads: ${uploadsDir}`);
 });

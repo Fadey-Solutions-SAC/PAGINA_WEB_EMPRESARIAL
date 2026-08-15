@@ -17,7 +17,7 @@ export function sendApiError(res: Response, err: unknown, fallback = "Error inte
   if (isDbError(err)) {
     res.status(503).json({
       error:
-        "No se pudo conectar a la base de datos. Revisa DATABASE_URL (local o en Render) y que Postgres esté activo.",
+        "No se pudo usar la base SQLite. Revisa DB_PATH y que el Disk esté montado en Render.",
       code: "DB_UNAVAILABLE",
     });
     return;

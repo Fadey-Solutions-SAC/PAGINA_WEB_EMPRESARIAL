@@ -1,33 +1,31 @@
-databases:
-  - name: fadey-db
-    plan: free
-
+# Como Resto FADEY: un Disk + SQLite. Sin PostgreSQL.
 services:
   - type: web
     name: fadey-api
     runtime: node
     plan: free
     buildCommand: npm ci && npx prisma generate
-    startCommand: npx prisma migrate deploy && npm run start
+    startCommand: npx prisma db push && npm run start
     disk:
-      name: fadey-uploads
-      mountPath: /opt/render/project/src/uploads
+      name: fadey-data
+      mountPath: /data
       sizeGB: 1
     envVars:
-      # Lo llena Render solo al crear/vincular fadey-db. NO pongas la URL del API aquí.
-      - key: DATABASE_URL
-        fromDatabase:
-          name: fadey-db
-          property: connectionString
+      - key: DB_PATH
+        value: /data/fadey.db
+      - key: UPLOADS_DIR
+        value: /data/uploads
+      - key: DATA_DIR
+        value: /data
       - key: JWT_SECRET
         generateValue: true
       - key: ADMIN_PASSWORD
         sync: false
       - key: API_INGEST_SECRET
         sync: false
-      - key: UPLOADS_DIR
-        value: /opt/render/project/src/uploads
       - key: CORS_ORIGIN
         value: https://fadeysolutions.pe,https://www.fadeysolutions.pe,http://localhost:5173
       - key: NODE_VERSION
         value: "20"
+      - key: PORT
+        value: "10000"
