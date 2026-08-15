@@ -72,7 +72,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                WhatsApp · 921 028 316
+                WhatsApp
               </a>
             </li>
             <li>

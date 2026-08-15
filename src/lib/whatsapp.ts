@@ -123,6 +123,18 @@ export function msgSoporte() {
   ].join("\n");
 }
 
+export function msgSoporteTecnico() {
+  return [
+    "Hola Fadey Solutions,",
+    "",
+    "Necesito *soporte técnico*.",
+    "",
+    "Sistema / producto: ________",
+    "Problema o consulta: ________",
+    "Nombre: ________",
+  ].join("\n");
+}
+
 export type WebProjectForm = {
   projectType: string;
   budget: string;

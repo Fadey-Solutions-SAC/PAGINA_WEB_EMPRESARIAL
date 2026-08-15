@@ -40,6 +40,41 @@ const tiers = [
   },
 ];
 
+const projectTypes = [
+  {
+    value: "Página web empresarial",
+    label: "Empresarial",
+    hint: "Sitio corporativo",
+  },
+  {
+    value: "Landing Page",
+    label: "Landing",
+    hint: "Una página de conversión",
+  },
+  {
+    value: "Tienda online",
+    label: "Tienda",
+    hint: "Catálogo y ventas",
+  },
+  {
+    value: "Página para restaurante",
+    label: "Restaurante",
+    hint: "Menú y reservas",
+  },
+  {
+    value: "Plataforma personalizada",
+    label: "A medida",
+    hint: "Sistema web propio",
+  },
+];
+
+const budgets = [
+  { value: "Desde S/ 500", label: "Desde S/ 500", hint: "Proyecto base" },
+  { value: "Desde S/ 1,000", label: "Desde S/ 1,000", hint: "Más funciones" },
+  { value: "Desde S/ 2,000+", label: "Desde S/ 2,000+", hint: "Alta complejidad" },
+  { value: "A cotizar", label: "A cotizar", hint: "Sin rango definido" },
+];
+
 const emptyForm: WebProjectForm = {
   projectType: "",
   budget: "",
@@ -52,6 +87,7 @@ const emptyForm: WebProjectForm = {
 export function WebDevelopment() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<WebProjectForm>(emptyForm);
+  const [formError, setFormError] = useState("");
   const titleId = useId();
 
   useEffect(() => {
@@ -68,10 +104,24 @@ export function WebDevelopment() {
     };
   }, [open]);
 
+  function closeModal() {
+    setOpen(false);
+    setFormError("");
+  }
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
+    if (!form.projectType) {
+      setFormError("Elige el tipo de proyecto.");
+      return;
+    }
+    if (!form.budget) {
+      setFormError("Elige un presupuesto aproximado.");
+      return;
+    }
+    setFormError("");
     window.open(waUrl(msgWebProject(form)), "_blank", "noopener,noreferrer");
-    setOpen(false);
+    closeModal();
     setForm(emptyForm);
   }
 
@@ -153,73 +203,67 @@ export function WebDevelopment() {
             type="button"
             className="web-modal__backdrop"
             aria-label="Cerrar"
-            onClick={() => setOpen(false)}
+            onClick={closeModal}
           />
           <div className="web-modal__panel">
             <header className="web-modal__head">
-              <div>
+              <div className="web-modal__head-text">
                 <p className="web-modal__eyebrow">Desarrollo web</p>
                 <h2 id={titleId}>Solicitar proyecto</h2>
-                <p>
-                  Completa los datos y te llevamos a WhatsApp con el mensaje
-                  listo.
-                </p>
+                <p>Completa y te abrimos WhatsApp con el mensaje listo.</p>
               </div>
               <button
                 type="button"
                 className="web-modal__close"
-                onClick={() => setOpen(false)}
-                aria-label="Cerrar"
+                onClick={closeModal}
+                aria-label="Cerrar formulario"
               >
-                ×
+                <span aria-hidden="true">×</span>
               </button>
             </header>
 
             <form className="web-modal__form" onSubmit={onSubmit}>
-              <label>
-                Tipo de proyecto
-                <select
-                  required
-                  value={form.projectType}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, projectType: e.target.value }))
-                  }
-                >
-                  <option value="" disabled>
-                    Selecciona una opción
-                  </option>
-                  <option value="Página web empresarial">
-                    Página web empresarial
-                  </option>
-                  <option value="Landing Page">Landing Page</option>
-                  <option value="Tienda online">Tienda online</option>
-                  <option value="Página para restaurante">
-                    Página para restaurante
-                  </option>
-                  <option value="Plataforma personalizada">
-                    Plataforma personalizada
-                  </option>
-                </select>
-              </label>
+              <fieldset className="web-modal__fieldset">
+                <legend>Tipo de proyecto</legend>
+                <div className="web-modal__choices" role="radiogroup">
+                  {projectTypes.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={form.projectType === opt.value}
+                      className={`web-modal__choice ${form.projectType === opt.value ? "is-selected" : ""}`}
+                      onClick={() =>
+                        setForm((f) => ({ ...f, projectType: opt.value }))
+                      }
+                    >
+                      <strong>{opt.label}</strong>
+                      <span>{opt.hint}</span>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
 
-              <label>
-                Presupuesto aproximado
-                <select
-                  required
-                  value={form.budget}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, budget: e.target.value }))
-                  }
-                >
-                  <option value="" disabled>
-                    Selecciona un rango
-                  </option>
-                  <option value="Desde S/ 500">Desde S/ 500</option>
-                  <option value="Desde S/ 1,000">Desde S/ 1,000</option>
-                  <option value="Desde S/ 2,000+">Desde S/ 2,000+</option>
-                  <option value="A cotizar">A cotizar</option>
-                </select>
-              </label>
+              <fieldset className="web-modal__fieldset">
+                <legend>Presupuesto aproximado</legend>
+                <div className="web-modal__choices web-modal__choices--budget" role="radiogroup">
+                  {budgets.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      role="radio"
+                      aria-checked={form.budget === opt.value}
+                      className={`web-modal__choice ${form.budget === opt.value ? "is-selected" : ""}`}
+                      onClick={() =>
+                        setForm((f) => ({ ...f, budget: opt.value }))
+                      }
+                    >
+                      <strong>{opt.label}</strong>
+                      <span>{opt.hint}</span>
+                    </button>
+                  ))}
+                </div>
+              </fieldset>
 
               <label>
                 Tiempo deseado
@@ -265,6 +309,7 @@ export function WebDevelopment() {
                   <input
                     type="text"
                     required
+                    inputMode="tel"
                     placeholder="Teléfono o correo"
                     value={form.contact}
                     onChange={(e) =>
@@ -274,9 +319,24 @@ export function WebDevelopment() {
                 </label>
               </div>
 
-              <button className="btn btn--primary" type="submit">
-                Enviar por WhatsApp
-              </button>
+              {formError && (
+                <p className="web-modal__error" role="alert">
+                  {formError}
+                </p>
+              )}
+
+              <div className="web-modal__actions">
+                <button
+                  type="button"
+                  className="btn btn--ghost web-modal__cancel"
+                  onClick={closeModal}
+                >
+                  Cancelar
+                </button>
+                <button className="btn btn--primary" type="submit">
+                  Enviar por WhatsApp
+                </button>
+              </div>
             </form>
           </div>
         </div>

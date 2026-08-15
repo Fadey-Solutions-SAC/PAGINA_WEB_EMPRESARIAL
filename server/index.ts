@@ -1,7 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
-import { dbPath, uploadsDir } from "./db.js";
+import { dbPath, prisma, uploadsDir } from "./db.js";
 import { authRouter } from "./routes/auth.js";
 import { leadsRouter } from "./routes/leads.js";
 import { usersRouter } from "./routes/users.js";
@@ -44,10 +44,17 @@ app.use(
 app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(uploadsDir));
 
-app.get("/api/health", (_req, res) => {
+app.get("/api/health", async (_req, res) => {
+  let dbOk = false;
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    dbOk = true;
+  } catch {
+    dbOk = fs.existsSync(dbPath);
+  }
   res.json({
     ok: true,
-    db: fs.existsSync(dbPath),
+    db: dbOk,
     dbPath,
     engine: "sqlite",
   });

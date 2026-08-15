@@ -8,6 +8,7 @@ import { Maintenance } from "../components/Maintenance";
 import { SolutionsModel } from "../components/SolutionsModel";
 import { CTA } from "../components/CTA";
 import { Footer } from "../components/Footer";
+import { WhatsAppFloat } from "../components/WhatsAppFloat";
 
 export function LandingPage() {
   useReveal();
@@ -25,6 +26,7 @@ export function LandingPage() {
         <CTA />
       </main>
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }
