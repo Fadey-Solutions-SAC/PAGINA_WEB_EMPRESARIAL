@@ -122,19 +122,29 @@
 
 .header__toggle {
   display: none;
+  box-sizing: border-box;
   width: 42px;
   height: 42px;
-  place-items: center;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
   gap: 5px;
   border-radius: 10px;
   border: 1px solid rgba(var(--accent-rgb), 0.25);
+  background: transparent;
+  line-height: 0;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .header__toggle span {
   display: block;
+  flex-shrink: 0;
   width: 18px;
   height: 2px;
+  margin: 0;
   background: #fff;
   border-radius: 2px;
   transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
@@ -172,7 +182,7 @@
   }
 
   .header__toggle {
-    display: flex;
+    display: inline-flex;
     position: relative;
     z-index: 130;
     background: rgba(var(--accent-rgb), 0.12);
