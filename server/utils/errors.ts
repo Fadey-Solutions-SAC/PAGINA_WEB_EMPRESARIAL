@@ -24,7 +24,7 @@ export function sendApiError(res: Response, err: unknown, fallback = "Error inte
   if (isDbError(err)) {
     res.status(503).json({
       error:
-        "Base de datos no lista. En Render usa DB_PATH=/data/fadey.db, DATABASE_URL=file:/data/fadey.db, Disk en /data, y Start: npm run start:prod",
+        "Base de datos no lista. En Render: KEY debe ser DB_PATH (no BD_PATH), DATABASE_URL=file:/data/fadey.db, Disk en /data, Start Command: npm run start:prod",
       code: "DB_UNAVAILABLE",
     });
     return;

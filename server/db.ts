@@ -12,7 +12,9 @@ const dataDir = path.resolve(
 fs.mkdirSync(dataDir, { recursive: true });
 
 const dbPath = path.resolve(
-  process.env.DB_PATH || path.join(dataDir, "fadey.db"),
+  process.env.DB_PATH ||
+    process.env.BD_PATH || // alias por si se escribe mal en Render
+    path.join(dataDir, "fadey.db"),
 );
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 

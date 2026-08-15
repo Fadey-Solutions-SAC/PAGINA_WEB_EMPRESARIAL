@@ -1,7 +1,9 @@
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
+import fs from "node:fs";
 import { dbPath, prisma, uploadsDir } from "./db.js";
+import { ensureSqliteSchema } from "./ensureSqlite.js";
 import { authRouter } from "./routes/auth.js";
 import { leadsRouter } from "./routes/leads.js";
 import { usersRouter } from "./routes/users.js";
@@ -12,7 +14,6 @@ import { ingestRouter } from "./routes/ingest.js";
 import { adminStatsRouter } from "./routes/adminStats.js";
 import { themeRouter } from "./routes/theme.js";
 import { sendApiError } from "./utils/errors.js";
-import fs from "node:fs";
 
 const app = express();
 const port = Number(process.env.PORT || 3001);
@@ -46,15 +47,19 @@ app.use("/uploads", express.static(uploadsDir));
 
 app.get("/api/health", async (_req, res) => {
   let dbOk = false;
+  let tablesOk = false;
   try {
     await prisma.$queryRaw`SELECT 1`;
     dbOk = true;
+    await prisma.lead.findFirst({ take: 1 });
+    tablesOk = true;
   } catch {
     dbOk = fs.existsSync(dbPath);
   }
   res.json({
     ok: true,
     db: dbOk,
+    tables: tablesOk,
     dbPath,
     engine: "sqlite",
   });
@@ -81,8 +86,21 @@ app.use(
   },
 );
 
-app.listen(port, () => {
-  console.log(`Fadey API listening on http://localhost:${port}`);
-  console.log(`SQLite: ${dbPath}`);
-  console.log(`Uploads: ${uploadsDir}`);
-});
+async function boot() {
+  try {
+    const result = await ensureSqliteSchema();
+    if (result.pushed) {
+      console.log("[fadey-api] Tablas creadas en el Disk.");
+    }
+  } catch (err) {
+    console.error("[fadey-api] No se pudo preparar SQLite:", err);
+  }
+
+  app.listen(port, () => {
+    console.log(`Fadey API listening on http://localhost:${port}`);
+    console.log(`SQLite: ${dbPath}`);
+    console.log(`Uploads: ${uploadsDir}`);
+  });
+}
+
+boot();

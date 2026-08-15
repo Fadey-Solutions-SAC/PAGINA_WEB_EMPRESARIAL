@@ -2,7 +2,11 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 
-const dbPath = path.resolve(process.env.DB_PATH || path.join("data", "fadey.db"));
+const dbPath = path.resolve(
+  process.env.DB_PATH ||
+    process.env.BD_PATH ||
+    path.join("data", "fadey.db"),
+);
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
 const databaseUrl = `file:${dbPath.replace(/\\/g, "/")}`;
