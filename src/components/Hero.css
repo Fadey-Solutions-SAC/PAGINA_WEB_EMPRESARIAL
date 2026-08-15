@@ -632,13 +632,44 @@
   .hero {
     min-height: 0;
     height: auto !important;
-    align-items: center;
+    align-items: stretch;
+    padding: calc(var(--header-h) + 0.35rem) 0 0.45rem;
     scroll-snap-align: none !important;
     scroll-snap-stop: normal !important;
   }
 
+  .hero__layout {
+    width: min(100% - 1.15rem, var(--max));
+  }
+
   .hero__grid {
     grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+
+  .hero__title {
+    max-width: none;
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+  }
+
+  .hero__desc {
+    margin-top: 0.55rem;
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  .hero__actions {
+    margin-top: 0.7rem;
+    gap: 0.55rem;
+  }
+
+  .hero__intent {
+    margin-top: 0.7rem;
+    padding-top: 0.55rem;
+  }
+
+  .hero__intent-label {
+    margin-bottom: 0.45rem;
   }
 
   /* Título y copy primero; la laptop después */
@@ -652,11 +683,18 @@
 
   .hero__intent-list {
     grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
   }
 
   .laptop {
-    width: min(100%, 300px);
+    width: min(100%, 240px);
     transform: rotateX(8deg);
+  }
+
+  @media (max-width: 700px) {
+    .hero__visual {
+      display: none;
+    }
   }
 
   .laptop__deck {
@@ -683,9 +721,6 @@
       );
   }
 
-  .hero__title {
-    max-width: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

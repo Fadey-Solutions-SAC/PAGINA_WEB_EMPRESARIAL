@@ -912,10 +912,10 @@ ul {
   }
 
   .container {
-    width: min(100% - 1.5rem, var(--max));
+    width: min(100% - 1.15rem, var(--max));
   }
 
-  /* En móvil: alto al contenido. 100dvh cambia con la barra del iPhone y “regresa” el scroll */
+  /* En móvil: alto al contenido. Sin padding extra del header entre secciones */
   .section {
     position: relative;
     z-index: auto;
@@ -924,7 +924,7 @@ ul {
     height: auto !important;
     max-height: none !important;
     justify-content: flex-start;
-    padding: calc(var(--header-h) + 1rem) 0 2.25rem;
+    padding: 1.1rem 0 1.35rem;
     overflow: visible;
     scroll-snap-align: none !important;
     scroll-snap-stop: normal !important;

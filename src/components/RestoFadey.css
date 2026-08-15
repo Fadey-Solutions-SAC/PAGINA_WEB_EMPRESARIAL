@@ -880,7 +880,7 @@
     height: auto !important;
     max-height: none !important;
     overflow: visible !important;
-    padding: calc(var(--header-h) + 1rem) 0 2rem;
+    padding: 0.85rem 0 1.35rem !important;
   }
 
   .resto.section > .resto__shell {
@@ -928,11 +928,20 @@
 
   .resto .section__title {
     max-width: none;
-    font-size: clamp(1.55rem, 6.5vw, 2rem);
+    width: 100%;
+    font-size: clamp(1.9rem, 8.4vw, 2.55rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
   }
 
   .resto .section__lead {
-    font-size: 0.98rem;
+    font-size: 1.02rem;
+    margin-top: 0.5rem;
+  }
+
+  .resto__brand-mark {
+    height: 38px;
+    max-width: min(220px, 70vw);
   }
 
   .resto__benefits {
@@ -976,7 +985,7 @@
     height: auto !important;
     max-height: none !important;
     overflow: visible;
-    padding: calc(var(--header-h) + 1rem) 0 2.5rem;
+    padding: 1.1rem 0 1.5rem !important;
   }
 
   .resto-plans.section > .container {
