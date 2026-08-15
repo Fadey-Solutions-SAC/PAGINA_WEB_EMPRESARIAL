@@ -1,4 +1,5 @@
 import { useEffect, useId, useState, type FormEvent } from "react";
+import { createPortal } from "react-dom";
 import { msgWebProject, waUrl, type WebProjectForm } from "../lib/whatsapp";
 import "./WebDevelopment.css";
 
@@ -192,155 +193,160 @@ export function WebDevelopment() {
         </div>
       </div>
 
-      {open && (
-        <div
-          className="web-modal"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
-        >
-          <button
-            type="button"
-            className="web-modal__backdrop"
-            aria-label="Cerrar"
-            onClick={closeModal}
-          />
-          <div className="web-modal__panel">
-            <header className="web-modal__head">
-              <div className="web-modal__head-text">
-                <p className="web-modal__eyebrow">Desarrollo web</p>
-                <h2 id={titleId}>Solicitar proyecto</h2>
-                <p>Completa y te abrimos WhatsApp con el mensaje listo.</p>
-              </div>
-              <button
-                type="button"
-                className="web-modal__close"
-                onClick={closeModal}
-                aria-label="Cerrar formulario"
-              >
-                <span aria-hidden="true">×</span>
-              </button>
-            </header>
-
-            <form className="web-modal__form" onSubmit={onSubmit}>
-              <fieldset className="web-modal__fieldset">
-                <legend>Tipo de proyecto</legend>
-                <div className="web-modal__choices" role="radiogroup">
-                  {projectTypes.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      role="radio"
-                      aria-checked={form.projectType === opt.value}
-                      className={`web-modal__choice ${form.projectType === opt.value ? "is-selected" : ""}`}
-                      onClick={() =>
-                        setForm((f) => ({ ...f, projectType: opt.value }))
-                      }
-                    >
-                      <strong>{opt.label}</strong>
-                      <span>{opt.hint}</span>
-                    </button>
-                  ))}
+      {open &&
+        createPortal(
+          <div
+            className="web-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+          >
+            <button
+              type="button"
+              className="web-modal__backdrop"
+              aria-label="Cerrar"
+              onClick={closeModal}
+            />
+            <div className="web-modal__panel">
+              <header className="web-modal__head">
+                <div className="web-modal__head-text">
+                  <p className="web-modal__eyebrow">Desarrollo web</p>
+                  <h2 id={titleId}>Solicitar proyecto</h2>
+                  <p>Completa y te abrimos WhatsApp con el mensaje listo.</p>
                 </div>
-              </fieldset>
-
-              <fieldset className="web-modal__fieldset">
-                <legend>Presupuesto aproximado</legend>
-                <div className="web-modal__choices web-modal__choices--budget" role="radiogroup">
-                  {budgets.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      role="radio"
-                      aria-checked={form.budget === opt.value}
-                      className={`web-modal__choice ${form.budget === opt.value ? "is-selected" : ""}`}
-                      onClick={() =>
-                        setForm((f) => ({ ...f, budget: opt.value }))
-                      }
-                    >
-                      <strong>{opt.label}</strong>
-                      <span>{opt.hint}</span>
-                    </button>
-                  ))}
-                </div>
-              </fieldset>
-
-              <label>
-                Tiempo deseado
-                <input
-                  type="text"
-                  required
-                  placeholder="Ej. 3–4 semanas"
-                  value={form.timeline}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, timeline: e.target.value }))
-                  }
-                />
-              </label>
-
-              <label>
-                Estructura / páginas
-                <textarea
-                  required
-                  rows={3}
-                  placeholder="Ej. Inicio, servicios, contacto…"
-                  value={form.structure}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, structure: e.target.value }))
-                  }
-                />
-              </label>
-
-              <div className="web-modal__row">
-                <label>
-                  Nombre
-                  <input
-                    type="text"
-                    required
-                    placeholder="Tu nombre"
-                    value={form.name}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, name: e.target.value }))
-                    }
-                  />
-                </label>
-                <label>
-                  Contacto
-                  <input
-                    type="text"
-                    required
-                    inputMode="tel"
-                    placeholder="Teléfono o correo"
-                    value={form.contact}
-                    onChange={(e) =>
-                      setForm((f) => ({ ...f, contact: e.target.value }))
-                    }
-                  />
-                </label>
-              </div>
-
-              {formError && (
-                <p className="web-modal__error" role="alert">
-                  {formError}
-                </p>
-              )}
-
-              <div className="web-modal__actions">
                 <button
                   type="button"
-                  className="btn btn--ghost web-modal__cancel"
+                  className="web-modal__close"
                   onClick={closeModal}
+                  aria-label="Cerrar formulario"
                 >
-                  Cancelar
+                  <span aria-hidden="true">×</span>
                 </button>
-                <button className="btn btn--primary" type="submit">
-                  Enviar por WhatsApp
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+              </header>
+
+              <form className="web-modal__form" onSubmit={onSubmit}>
+                <fieldset className="web-modal__fieldset">
+                  <legend>Tipo de proyecto</legend>
+                  <div className="web-modal__choices" role="radiogroup">
+                    {projectTypes.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={form.projectType === opt.value}
+                        className={`web-modal__choice ${form.projectType === opt.value ? "is-selected" : ""}`}
+                        onClick={() =>
+                          setForm((f) => ({ ...f, projectType: opt.value }))
+                        }
+                      >
+                        <strong>{opt.label}</strong>
+                        <span>{opt.hint}</span>
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <fieldset className="web-modal__fieldset">
+                  <legend>Presupuesto aproximado</legend>
+                  <div
+                    className="web-modal__choices web-modal__choices--budget"
+                    role="radiogroup"
+                  >
+                    {budgets.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        role="radio"
+                        aria-checked={form.budget === opt.value}
+                        className={`web-modal__choice ${form.budget === opt.value ? "is-selected" : ""}`}
+                        onClick={() =>
+                          setForm((f) => ({ ...f, budget: opt.value }))
+                        }
+                      >
+                        <strong>{opt.label}</strong>
+                        <span>{opt.hint}</span>
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
+
+                <label>
+                  Tiempo deseado
+                  <input
+                    type="text"
+                    required
+                    placeholder="Ej. 3–4 semanas"
+                    value={form.timeline}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, timeline: e.target.value }))
+                    }
+                  />
+                </label>
+
+                <label>
+                  Estructura / páginas
+                  <textarea
+                    required
+                    rows={3}
+                    placeholder="Ej. Inicio, servicios, contacto…"
+                    value={form.structure}
+                    onChange={(e) =>
+                      setForm((f) => ({ ...f, structure: e.target.value }))
+                    }
+                  />
+                </label>
+
+                <div className="web-modal__row">
+                  <label>
+                    Nombre
+                    <input
+                      type="text"
+                      required
+                      placeholder="Tu nombre"
+                      value={form.name}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, name: e.target.value }))
+                      }
+                    />
+                  </label>
+                  <label>
+                    Contacto
+                    <input
+                      type="text"
+                      required
+                      inputMode="tel"
+                      placeholder="Teléfono o correo"
+                      value={form.contact}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, contact: e.target.value }))
+                      }
+                    />
+                  </label>
+                </div>
+
+                {formError && (
+                  <p className="web-modal__error" role="alert">
+                    {formError}
+                  </p>
+                )}
+
+                <div className="web-modal__actions">
+                  <button
+                    type="button"
+                    className="btn btn--ghost web-modal__cancel"
+                    onClick={closeModal}
+                  >
+                    Cancelar
+                  </button>
+                  <button className="btn btn--primary" type="submit">
+                    Enviar por WhatsApp
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>,
+          document.body,
+        )}
     </section>
   );
 }
