@@ -2,13 +2,20 @@ import type { Response } from "express";
 
 export function isDbError(err: unknown): boolean {
   const msg = err instanceof Error ? err.message : String(err);
+  const code =
+    err && typeof err === "object" && "code" in err
+      ? String((err as { code?: string }).code)
+      : "";
   return (
     msg.includes("DATABASE_URL") ||
     msg.includes("Can't reach database") ||
     msg.includes("P1001") ||
     msg.includes("P1017") ||
+    msg.includes("P2021") ||
+    code === "P2021" ||
     msg.includes("PrismaClientInitialization") ||
-    msg.includes("Environment variable not found")
+    msg.includes("Environment variable not found") ||
+    msg.includes("does not exist")
   );
 }
 
@@ -17,7 +24,7 @@ export function sendApiError(res: Response, err: unknown, fallback = "Error inte
   if (isDbError(err)) {
     res.status(503).json({
       error:
-        "No se pudo usar la base SQLite. Revisa DB_PATH y que el Disk esté montado en Render.",
+        "Base de datos no lista. En Render usa DB_PATH=/data/fadey.db, DATABASE_URL=file:/data/fadey.db, Disk en /data, y Start: npm run start:prod",
       code: "DB_UNAVAILABLE",
     });
     return;

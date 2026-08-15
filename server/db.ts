@@ -16,17 +16,17 @@ const dbPath = path.resolve(
 );
 fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-// Prisma SQLite: file:./relative o file:C:/absolute
+// Siempre SQLite en disco. Ignora DATABASE_URL de Postgres si quedó en Render.
 const fileUrl = `file:${dbPath.replace(/\\/g, "/")}`;
-process.env.DATABASE_URL = process.env.DATABASE_URL?.startsWith("file:")
-  ? process.env.DATABASE_URL
-  : fileUrl;
+process.env.DATABASE_URL = fileUrl;
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({
+  datasources: { db: { url: fileUrl } },
+});
 
 export const uploadsDir = path.resolve(
   process.env.UPLOADS_DIR || path.join(dataDir, "uploads"),
 );
 fs.mkdirSync(uploadsDir, { recursive: true });
 
-export { dbPath };
+export { dbPath, fileUrl };

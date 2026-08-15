@@ -14,7 +14,7 @@
     "build:server": "tsc -p tsconfig.server.json",
     "build:all": "npm run build && npm run build:server",
     "start": "tsx server/index.ts",
-    "start:prod": "npx prisma db push && tsx server/index.ts",
+    "start:prod": "node scripts/start-sqlite.mjs",
     "db:generate": "prisma generate",
     "db:migrate": "prisma db push",
     "db:push": "prisma db push",
