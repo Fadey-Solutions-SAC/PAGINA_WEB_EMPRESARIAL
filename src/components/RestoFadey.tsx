@@ -55,7 +55,8 @@ const plans = [
     modules: [
       "Inventario inteligente — alertas y stock",
       "Funcionamiento en vivo — salón, cocina y bar",
-      "Clientes y fidelización",
+      "Clientes",
+      "Fidelización — encuestas online a tus clientes, con recopilación de datos en el sistema",
       "Reportes de ventas detallados",
       "Control de turnos",
       "Hasta 12 usuarios",
