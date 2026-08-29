@@ -5,35 +5,15 @@ import { randomUUID } from "node:crypto";
 import { prisma, uploadsDir } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
-
-async function notifyPosPaymentDecision(
-  user: { id: string; licenseKey: string; webServiceUrl: string | null },
-  status: "approved" | "rejected",
-) {
-  const baseUrl = String(user.webServiceUrl || "").replace(/\/+$/, "");
-  const secret = process.env.API_INGEST_SECRET || "";
-  if (!baseUrl || !secret) return;
-
-  try {
-    const res = await fetch(`${baseUrl}/api/license/confirm`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${secret}`,
-      },
-      body: JSON.stringify({
-        clientId: user.licenseKey || user.id,
-        status,
-      }),
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      console.warn("[payments] POS confirm:", res.status, text.slice(0, 200));
-    }
-  } catch (err) {
-    console.warn("[payments] POS confirm error:", err);
-  }
-}
+import {
+  computeNextExpiration,
+  notifyPosPaymentDecision,
+  posNotifyUserMessage,
+} from "../utils/posNotify.js";
+import {
+  recordApprovedPaymentIncome,
+  removePaymentIncome,
+} from "../utils/financeLedger.js";
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadsDir),
@@ -65,11 +45,63 @@ paymentsRouter.get("/", requireAdmin, async (_req, res) => {
             username: true,
             clientName: true,
             licenseKey: true,
+            webServiceUrl: true,
           },
         },
       },
     });
     res.json(payments);
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
+paymentsRouter.post("/:id/notify-pos", requireAdmin, async (req, res) => {
+  try {
+    const id = String(req.params.id);
+    const payment = await prisma.payment.findUnique({
+      where: { id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            username: true,
+            clientName: true,
+            licenseKey: true,
+            webServiceUrl: true,
+          },
+        },
+      },
+    });
+    if (!payment) {
+      res.status(404).json({ error: "Pago no encontrado" });
+      return;
+    }
+    if (payment.status !== "approved" && payment.status !== "rejected") {
+      res.status(400).json({
+        error: "Solo se puede notificar al POS pagos aprobados o rechazados",
+      });
+      return;
+    }
+
+    const posNotify = await notifyPosPaymentDecision(
+      payment.user,
+      payment.status,
+      {
+        paymentId: payment.id,
+        period: payment.period,
+        expirationDate:
+          payment.status === "approved"
+            ? computeNextExpiration(payment.period)
+            : undefined,
+      },
+    );
+
+    res.json({
+      payment,
+      posNotify,
+      message: posNotifyUserMessage(posNotify, payment.status),
+    });
   } catch (err) {
     sendApiError(res, err);
   }
@@ -101,10 +133,35 @@ paymentsRouter.patch("/:id/status", requireAdmin, async (req, res) => {
         },
       },
     });
+
+    let posNotify = null;
     if (status === "approved" || status === "rejected") {
-      void notifyPosPaymentDecision(payment.user, status);
+      if (status === "approved") {
+        await recordApprovedPaymentIncome({
+          id: payment.id,
+          clientName: payment.clientName,
+          amount: payment.amount,
+        });
+      } else {
+        await removePaymentIncome(payment.id);
+      }
+      posNotify = await notifyPosPaymentDecision(payment.user, status, {
+        paymentId: payment.id,
+        period: payment.period,
+        expirationDate:
+          status === "approved"
+            ? computeNextExpiration(payment.period)
+            : undefined,
+      });
     }
-    res.json(payment);
+
+    res.json({
+      ...payment,
+      posNotify,
+      message: posNotify
+        ? posNotifyUserMessage(posNotify, status)
+        : undefined,
+    });
   } catch (err) {
     sendApiError(res, err);
   }
@@ -145,8 +202,36 @@ paymentsRouter.post(
           status: "approved",
           reviewedAt: new Date(),
         },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              clientName: true,
+              licenseKey: true,
+              webServiceUrl: true,
+            },
+          },
+        },
       });
-      res.status(201).json(payment);
+
+      const posNotify = await notifyPosPaymentDecision(payment.user, "approved", {
+        paymentId: payment.id,
+        period: payment.period,
+        expirationDate: computeNextExpiration(payment.period),
+      });
+
+      await recordApprovedPaymentIncome({
+        id: payment.id,
+        clientName: payment.clientName,
+        amount: payment.amount,
+      });
+
+      res.status(201).json({
+        ...payment,
+        posNotify,
+        message: posNotifyUserMessage(posNotify, "approved"),
+      });
     } catch (err) {
       sendApiError(res, err);
     }

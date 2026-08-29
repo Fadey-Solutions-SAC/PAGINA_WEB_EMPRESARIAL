@@ -30,6 +30,15 @@ enum PaymentStatus {
   rejected
 }
 
+enum FinanceCategory {
+  pago
+  personal
+  servidores
+  publicidad
+  equipos
+  impuestos
+}
+
 model Lead {
   id           String      @id @default(cuid())
   name         String
@@ -76,6 +85,18 @@ model Payment {
   receivedAt  DateTime      @default(now())
 
   @@index([userId, referencia])
+}
+
+model FinanceEntry {
+  id        String          @id @default(cuid())
+  category  FinanceCategory
+  amount    Float
+  label     String          @default("")
+  paymentId String?         @unique
+  createdAt DateTime        @default(now())
+
+  @@index([category, createdAt])
+  @@index([createdAt])
 }
 
 model CourseModule {

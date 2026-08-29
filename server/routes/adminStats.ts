@@ -7,7 +7,7 @@ import { sendApiError } from "../utils/errors.js";
 
 export const adminStatsRouter = Router();
 
-const WIPE_TARGETS = new Set(["payments", "users", "leads", "all"]);
+const WIPE_TARGETS = new Set(["payments", "users", "leads", "finance", "all"]);
 
 async function deletePaymentFiles() {
   const payments = await prisma.payment.findMany({
@@ -82,7 +82,7 @@ adminStatsRouter.post("/wipe", requireAdmin, async (req, res) => {
     }
     if (!WIPE_TARGETS.has(target)) {
       res.status(400).json({
-        error: "target debe ser payments, users, leads o all",
+        error: "target debe ser payments, users, leads, finance o all",
       });
       return;
     }
@@ -92,6 +92,14 @@ adminStatsRouter.post("/wipe", requireAdmin, async (req, res) => {
     if (target === "payments" || target === "all") {
       const result = await wipePayments();
       deleted.payments = result.count;
+      const finance = await prisma.financeEntry.deleteMany({
+        where: { paymentId: { not: null } },
+      });
+      deleted.financeFromPayments = finance.count;
+    }
+    if (target === "finance" || target === "all") {
+      const result = await prisma.financeEntry.deleteMany();
+      deleted.finance = result.count;
     }
     if (target === "users" || target === "all") {
       const result = await wipeUsers();

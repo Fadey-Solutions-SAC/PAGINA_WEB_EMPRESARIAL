@@ -14,6 +14,7 @@ import { progressRouter } from "./routes/progress.js";
 import { ingestRouter } from "./routes/ingest.js";
 import { compatRouter } from "./routes/compat.js";
 import { adminStatsRouter } from "./routes/adminStats.js";
+import { financeRouter } from "./routes/finance.js";
 import { themeRouter } from "./routes/theme.js";
 import { sendApiError } from "./utils/errors.js";
 
@@ -77,6 +78,7 @@ app.use("/api/courses", coursesRouter);
 app.use("/api/progress", progressRouter);
 app.use("/api/ingest", ingestRouter);
 app.use("/api/admin", adminStatsRouter);
+app.use("/api/admin/finance", financeRouter);
 app.use("/api/theme", themeRouter);
 
 app.use(

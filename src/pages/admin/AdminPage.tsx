@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { api, apiUrl } from "../../lib/api";
+import { api } from "../../lib/api";
 import { useAuth, type Product } from "../../lib/auth";
 import { useTheme, type SiteTheme } from "../../lib/theme";
+import { AdminDashboard } from "./AdminDashboard";
+import { AdminPayments } from "./AdminPayments";
 import "./Admin.css";
 
 type Section = "resumen" | "leads" | "users" | "payments" | "courses" | "config";
@@ -40,6 +42,7 @@ type Payment = {
   source: string;
   status: "pending" | "approved" | "rejected";
   receivedAt: string;
+  reviewedAt?: string | null;
   user: { id: string; username: string; clientName?: string; licenseKey?: string };
 };
 
@@ -52,16 +55,6 @@ type Course = {
   embedUrl?: string;
 };
 
-type Stats = {
-  leadsWeek: number;
-  usersActive: number;
-  paymentsMonth: number;
-  courses: number;
-  leadsTotal: number;
-  usersTotal: number;
-  unlinkedLeads: number;
-};
-
 const PRODUCT_LABEL: Record<Product, string> = {
   resto: "Resto Fadey",
   erp: "ERP Fadey",
@@ -72,7 +65,7 @@ const PRODUCT_LABEL: Record<Product, string> = {
 const ALL_PRODUCTS: Product[] = ["resto", "erp", "web", "soporte"];
 
 const NAV: { id: Section; label: string; ico: string }[] = [
-  { id: "resumen", label: "Resumen", ico: "◉" },
+  { id: "resumen", label: "Dashboard", ico: "◉" },
   { id: "leads", label: "Registros", ico: "▤" },
   { id: "users", label: "Usuarios", ico: "◎" },
   { id: "payments", label: "Pagos", ico: "▣" },
@@ -123,7 +116,6 @@ export function AdminPage() {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [payments, setPayments] = useState<Payment[]>([]);
   const [courses, setCourses] = useState<Course[]>([]);
-  const [stats, setStats] = useState<Stats | null>(null);
 
   const [leadFilter, setLeadFilter] = useState<"all" | Product | "unlinked">("all");
   const [userFilter, setUserFilter] = useState<"all" | "active" | "off" | Product>("all");
@@ -152,9 +144,6 @@ export function AdminPage() {
   } | null>(null);
   const [wipeConfirm, setWipeConfirm] = useState("");
   const [wiping, setWiping] = useState(false);
-  const [payFilter, setPayFilter] = useState<"all" | "pending" | "approved" | "rejected">(
-    "all",
-  );
 
   const [linkForm, setLinkForm] = useState({
     leadId: "",
@@ -186,18 +175,16 @@ export function AdminPage() {
     setLoading(true);
     setBanner("");
     try {
-      const [l, u, p, c, s] = await Promise.all([
+      const [l, u, p, c] = await Promise.all([
         api<Lead[]>("/api/leads", { token }),
         api<UserRow[]>("/api/users", { token }),
         api<Payment[]>("/api/payments", { token }),
         api<Course[]>("/api/courses", { token }),
-        api<Stats>("/api/admin/stats", { token }).catch(() => null),
       ]);
       setLeads(l);
       setUsers(u);
       setPayments(p);
       setCourses(c);
-      setStats(s);
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Error al cargar";
       setBanner(msg);
@@ -248,19 +235,6 @@ export function AdminPage() {
       );
     });
   }, [users, userFilter, q]);
-
-  const filteredPayments = useMemo(() => {
-    return payments.filter((p) => {
-      if (payFilter !== "all" && p.status !== payFilter) return false;
-      if (!q) return true;
-      return (
-        p.clientName.toLowerCase().includes(q) ||
-        p.period.toLowerCase().includes(q) ||
-        p.user.username.toLowerCase().includes(q) ||
-        p.user.id.toLowerCase().includes(q)
-      );
-    });
-  }, [payments, payFilter, q]);
 
   const pendingPayments = useMemo(
     () => payments.filter((p) => p.status === "pending").length,
@@ -385,7 +359,7 @@ export function AdminPage() {
     }
   }
 
-  async function wipeData(target: "payments" | "users" | "leads" | "all") {
+  async function wipeData(target: "payments" | "users" | "leads" | "finance" | "all") {
     if (!token) return;
     if (wipeConfirm.trim().toUpperCase() !== "BORRAR") {
       setBanner('Escribe BORRAR en el campo de confirmación');
@@ -395,7 +369,8 @@ export function AdminPage() {
       payments: "todos los pagos",
       users: "todos los usuarios vinculados",
       leads: "todos los registros de contacto",
-      all: "pagos, usuarios y registros",
+      finance: "todos los informes del dashboard",
+      all: "pagos, usuarios, registros e informes",
     };
     if (!window.confirm(`¿Borrar ${labels[target]}? No se puede deshacer.`)) return;
     setWiping(true);
@@ -428,21 +403,47 @@ export function AdminPage() {
   ) {
     if (!token) return;
     try {
-      await api(`/api/payments/${id}/status`, {
+      const result = await api<{
+        message?: string;
+        posNotify?: { ok?: boolean; error?: string };
+      }>(`/api/payments/${id}/status`, {
         method: "PATCH",
         token,
         body: JSON.stringify({ status }),
       });
-      showToast(
-        status === "approved"
-          ? "Pago aprobado"
-          : status === "rejected"
-            ? "Pago rechazado"
-            : "Pago pendiente",
-      );
+      if (result.message) {
+        showToast(result.message);
+        if (result.posNotify && !result.posNotify.ok) {
+          setBanner(result.message);
+        }
+      } else {
+        showToast(
+          status === "approved"
+            ? "Pago aprobado"
+            : status === "rejected"
+              ? "Pago rechazado"
+              : "Pago pendiente",
+        );
+      }
       await load();
     } catch (err) {
       setBanner(err instanceof Error ? err.message : "No se pudo actualizar el pago");
+    }
+  }
+
+  async function notifyPosNow(id: string) {
+    if (!token) return;
+    try {
+      const result = await api<{ message?: string }>(`/api/payments/${id}/notify-pos`, {
+        method: "POST",
+        token,
+      });
+      showToast(result.message || "Confirmación enviada al POS");
+      if (result.message && !result.message.includes("desbloqueado")) {
+        setBanner(result.message);
+      }
+    } catch (err) {
+      setBanner(err instanceof Error ? err.message : "No se pudo avisar al POS");
     }
   }
 
@@ -544,6 +545,9 @@ export function AdminPage() {
                 {item.ico}
               </span>
               {item.label}
+              {item.id === "payments" && pendingPayments > 0 && (
+                <span className="pay-tabs__count">{pendingPayments}</span>
+              )}
             </button>
           ))}
         </nav>
@@ -595,63 +599,11 @@ export function AdminPage() {
           )}
 
           {section === "resumen" && (
-            <>
-              <div className="admin__kpis">
-                <div className="admin__kpi">
-                  <span>Registros (7 días)</span>
-                  <strong>{loading ? "—" : stats?.leadsWeek ?? leads.length}</strong>
-                  <em>{stats?.unlinkedLeads ?? 0} sin vincular</em>
-                </div>
-                <div className="admin__kpi">
-                  <span>Usuarios activos</span>
-                  <strong>{loading ? "—" : stats?.usersActive ?? 0}</strong>
-                  <em>{stats?.usersTotal ?? users.length} totales</em>
-                </div>
-                <div className="admin__kpi">
-                  <span>Pagos del mes</span>
-                  <strong>{loading ? "—" : stats?.paymentsMonth ?? 0}</strong>
-                  <em>{pendingPayments} pendientes de aprobar</em>
-                </div>
-                <div className="admin__kpi">
-                  <span>Cursos</span>
-                  <strong>{loading ? "—" : stats?.courses ?? courses.length}</strong>
-                  <em>Tutoriales + academia</em>
-                </div>
-              </div>
-              <div className="admin__quick">
-                <button
-                  type="button"
-                  className="admin__btn admin__btn--primary"
-                  onClick={() => {
-                    setSection("users");
-                    openLink();
-                  }}
-                >
-                  Vincular web service
-                </button>
-                <button
-                  type="button"
-                  className="admin__btn"
-                  onClick={() => setSection("payments")}
-                >
-                  Subir comprobante
-                </button>
-                <button
-                  type="button"
-                  className="admin__btn"
-                  onClick={() => setSection("courses")}
-                >
-                  Agregar video
-                </button>
-                <button
-                  type="button"
-                  className="admin__btn"
-                  onClick={() => setSection("leads")}
-                >
-                  Ver registros
-                </button>
-              </div>
-            </>
+            <AdminDashboard
+              token={token}
+              onError={setBanner}
+              onToast={showToast}
+            />
           )}
 
           {section === "leads" && (
@@ -870,102 +822,17 @@ export function AdminPage() {
           )}
 
           {section === "payments" && (
-            <div className="admin__grid-2">
-              <div className="admin__card">
-                <div className="admin__card-head">
-                  <h2>Comprobantes PNG</h2>
-                  {pendingPayments > 0 && (
-                    <span className="admin__badge admin__badge--warn">
-                      {pendingPayments} por aprobar
-                    </span>
-                  )}
-                </div>
-                <div className="admin__card-body">
-                  <div className="admin__filters">
-                    <select
-                      value={payFilter}
-                      onChange={(e) =>
-                        setPayFilter(e.target.value as typeof payFilter)
-                      }
-                    >
-                      <option value="all">Todos</option>
-                      <option value="pending">Pendientes</option>
-                      <option value="approved">Aprobados</option>
-                      <option value="rejected">Rechazados</option>
-                    </select>
-                  </div>
-                  {filteredPayments.length === 0 ? (
-                    <div className="admin__empty">
-                      <strong>Sin pagos</strong>
-                      Los web services envían PNG con el ID de cliente/licencia; aquí los apruebas.
-                    </div>
-                  ) : (
-                    <div className="admin__pay-grid">
-                      {filteredPayments.map((p) => (
-                        <article key={p.id} className="admin__pay-card">
-                          <img
-                            src={apiUrl(p.receiptPath)}
-                            alt={`Comprobante ${p.period}`}
-                            onClick={() => setLightbox(apiUrl(p.receiptPath))}
-                          />
-                          <div className="meta">
-                            <strong>{p.clientName}</strong>
-                            <div>{p.period}</div>
-                            <div style={{ color: "#8fa6b8", fontSize: "0.78rem" }}>
-                              ID {(p.user.licenseKey || p.user.id).slice(0, 8)}… ·{" "}
-                              {p.source} ·{" "}
-                              {new Date(p.receivedAt).toLocaleDateString()}
-                            </div>
-                            <div style={{ marginTop: "0.45rem" }}>
-                              <span
-                                className={`admin__badge ${
-                                  p.status === "approved"
-                                    ? "admin__badge--ok"
-                                    : p.status === "rejected"
-                                      ? "admin__badge--off"
-                                      : "admin__badge--warn"
-                                }`}
-                              >
-                                {p.status === "approved"
-                                  ? "Aprobado"
-                                  : p.status === "rejected"
-                                    ? "Rechazado"
-                                    : "Pendiente"}
-                              </span>
-                            </div>
-                            {p.status === "pending" && (
-                              <div
-                                style={{
-                                  display: "flex",
-                                  gap: "0.35rem",
-                                  marginTop: "0.55rem",
-                                  flexWrap: "wrap",
-                                }}
-                              >
-                                <button
-                                  type="button"
-                                  className="admin__btn admin__btn--primary"
-                                  onClick={() => void setPaymentStatus(p.id, "approved")}
-                                >
-                                  Aprobar
-                                </button>
-                                <button
-                                  type="button"
-                                  className="admin__btn admin__btn--danger"
-                                  onClick={() => void setPaymentStatus(p.id, "rejected")}
-                                >
-                                  Rechazar
-                                </button>
-                              </div>
-                            )}
-                          </div>
-                        </article>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="admin__card">
+            <>
+              <AdminPayments
+                payments={payments}
+                loading={loading}
+                searchQuery={q}
+                onApprove={(id) => void setPaymentStatus(id, "approved")}
+                onReject={(id) => void setPaymentStatus(id, "rejected")}
+                onNotifyPos={(id) => void notifyPosNow(id)}
+                onLightbox={setLightbox}
+              />
+              <div className="admin__card" style={{ marginTop: "1rem" }}>
                 <div className="admin__card-head">
                   <h2>Registrar pago manual</h2>
                 </div>
@@ -1036,7 +903,7 @@ export function AdminPage() {
                   </form>
                 </div>
               </div>
-            </div>
+            </>
           )}
 
           {section === "courses" && (
@@ -1243,6 +1110,14 @@ export function AdminPage() {
                       onClick={() => void wipeData("leads")}
                     >
                       Borrar registros
+                    </button>
+                    <button
+                      type="button"
+                      className="admin__btn admin__btn--danger"
+                      disabled={wiping}
+                      onClick={() => void wipeData("finance")}
+                    >
+                      Borrar informes
                     </button>
                     <button
                       type="button"

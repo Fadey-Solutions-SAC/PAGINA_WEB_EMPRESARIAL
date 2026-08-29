@@ -42,7 +42,8 @@ npm run dev
 | Admin vincula por web service | `/admin` → pega URL → consulta restaurante → genera usuario |
 | Web service envía pago PNG | `POST /api/ingest/payments` con header `X-Api-Key` |
 | Resto FADEY envía comprobante | `POST /api/payments` JSON + `Authorization: Bearer` (mismo secreto que `API_INGEST_SECRET`) |
-| Admin aprueba / rechaza pagos | `/admin` → Pagos |
+| Admin aprueba / rechaza pagos | `/admin` → Pagos → al aprobar la central llama al POS (`POST /api/license/confirm`) |
+| Reenviar confirmación al POS | `/admin` → Pagos → botón **Confirmar al POS** (pagos ya aprobados) |
 | Cliente ve academia | `/academia` |
 
 ## Despliegue
@@ -64,7 +65,7 @@ npm run dev
 
 **Disk:** name `fadey-data`, mount `/data`, 1 GB.
 
-**Start command:** `npx prisma db push && npm run start`
+**Start command:** `npm run start:prod`
 
 Puedes borrar `DATABASE_URL` si la tenías (ya no se usa Postgres).
 
