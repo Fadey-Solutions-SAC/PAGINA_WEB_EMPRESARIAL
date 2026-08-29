@@ -41,6 +41,7 @@ npm run dev
 | Registro desde contacto | `POST /api/leads` (formulario `#contacto`) |
 | Admin vincula por web service | `/admin` → pega URL → consulta restaurante → genera usuario |
 | Web service envía pago PNG | `POST /api/ingest/payments` con header `X-Api-Key` |
+| Resto FADEY envía comprobante | `POST /api/payments` JSON + `Authorization: Bearer` (mismo secreto que `API_INGEST_SECRET`) |
 | Admin aprueba / rechaza pagos | `/admin` → Pagos |
 | Cliente ve academia | `/academia` |
 
@@ -58,6 +59,7 @@ npm run dev
 | `CORS_ORIGIN` | `https://fadeysolutions.pe,https://www.fadeysolutions.pe` |
 | `ADMIN_PASSWORD` | tu contraseña admin |
 | `API_INGEST_SECRET` | tu secreto |
+| `API_SECRET_KEY` | opcional; mismo valor que `API_INGEST_SECRET` (Resto FADEY POS usa Bearer) |
 | `JWT_SECRET` | Generate |
 
 **Disk:** name `fadey-data`, mount `/data`, 1 GB.

@@ -5,7 +5,7 @@ import { useAuth, type Product } from "../../lib/auth";
 import { useTheme, type SiteTheme } from "../../lib/theme";
 import "./Admin.css";
 
-type Section = "resumen" | "leads" | "users" | "payments" | "courses";
+type Section = "resumen" | "leads" | "users" | "payments" | "courses" | "config";
 
 type Lead = {
   id: string;
@@ -77,6 +77,7 @@ const NAV: { id: Section; label: string; ico: string }[] = [
   { id: "users", label: "Usuarios", ico: "◎" },
   { id: "payments", label: "Pagos", ico: "▣" },
   { id: "courses", label: "Cursos", ico: "▶" },
+  { id: "config", label: "Configuración", ico: "⚙" },
 ];
 
 function badgeClass(p: Product) {
@@ -142,12 +143,15 @@ export function AdminPage() {
   const [wsProbing, setWsProbing] = useState(false);
   const [wsRestaurant, setWsRestaurant] = useState<{
     name: string;
+    ownerName?: string;
     legalName?: string;
     email?: string;
     ruc?: string;
     phone?: string;
     address?: string;
   } | null>(null);
+  const [wipeConfirm, setWipeConfirm] = useState("");
+  const [wiping, setWiping] = useState(false);
   const [payFilter, setPayFilter] = useState<"all" | "pending" | "approved" | "rejected">(
     "all",
   );
@@ -381,6 +385,43 @@ export function AdminPage() {
     }
   }
 
+  async function wipeData(target: "payments" | "users" | "leads" | "all") {
+    if (!token) return;
+    if (wipeConfirm.trim().toUpperCase() !== "BORRAR") {
+      setBanner('Escribe BORRAR en el campo de confirmación');
+      return;
+    }
+    const labels = {
+      payments: "todos los pagos",
+      users: "todos los usuarios vinculados",
+      leads: "todos los registros de contacto",
+      all: "pagos, usuarios y registros",
+    };
+    if (!window.confirm(`¿Borrar ${labels[target]}? No se puede deshacer.`)) return;
+    setWiping(true);
+    setBanner("");
+    try {
+      const result = await api<{ deleted: Record<string, number>; note?: string }>(
+        "/api/admin/wipe",
+        {
+          method: "POST",
+          token,
+          body: JSON.stringify({ target, confirm: "BORRAR" }),
+        },
+      );
+      const summary = Object.entries(result.deleted || {})
+        .map(([key, count]) => `${key}: ${count}`)
+        .join(", ");
+      showToast(summary ? `Borrado: ${summary}` : "Datos borrados");
+      setWipeConfirm("");
+      await load();
+    } catch (err) {
+      setBanner(err instanceof Error ? err.message : "No se pudo borrar");
+    } finally {
+      setWiping(false);
+    }
+  }
+
   async function setPaymentStatus(
     id: string,
     status: "approved" | "rejected" | "pending",
@@ -506,29 +547,6 @@ export function AdminPage() {
             </button>
           ))}
         </nav>
-        <div className="admin__theme" role="group" aria-label="Color del sitio">
-          <span className="admin__theme-label">Color del sitio</span>
-          <div className="admin__theme-options">
-            <button
-              type="button"
-              className={`admin__theme-btn admin__theme-btn--blue ${theme === "blue" ? "is-active" : ""}`}
-              aria-pressed={theme === "blue"}
-              onClick={() => void pickSiteTheme("blue")}
-            >
-              <span className="admin__theme-swatch" aria-hidden="true" />
-              Azul
-            </button>
-            <button
-              type="button"
-              className={`admin__theme-btn admin__theme-btn--emerald ${theme === "emerald" ? "is-active" : ""}`}
-              aria-pressed={theme === "emerald"}
-              onClick={() => void pickSiteTheme("emerald")}
-            >
-              <span className="admin__theme-swatch" aria-hidden="true" />
-              Verde
-            </button>
-          </div>
-        </div>
         <div className="admin__side-foot">
           <Link to="/">← Ir al sitio</Link>
           <button type="button" onClick={logout}>
@@ -1141,6 +1159,104 @@ export function AdminPage() {
               </div>
             </div>
           )}
+
+          {section === "config" && (
+            <div className="admin__grid-2">
+              <div className="admin__card">
+                <div className="admin__card-head">
+                  <h2>Color del sitio</h2>
+                </div>
+                <div className="admin__card-body">
+                  <p style={{ color: "#8fa6b8", marginTop: 0 }}>
+                    Aplica a la landing y al portal en todos los dispositivos.
+                  </p>
+                  <div className="admin__theme-options">
+                    <button
+                      type="button"
+                      className={`admin__theme-btn admin__theme-btn--blue ${theme === "blue" ? "is-active" : ""}`}
+                      aria-pressed={theme === "blue"}
+                      onClick={() => void pickSiteTheme("blue")}
+                    >
+                      <span className="admin__theme-swatch" aria-hidden="true" />
+                      Azul
+                    </button>
+                    <button
+                      type="button"
+                      className={`admin__theme-btn admin__theme-btn--emerald ${theme === "emerald" ? "is-active" : ""}`}
+                      aria-pressed={theme === "emerald"}
+                      onClick={() => void pickSiteTheme("emerald")}
+                    >
+                      <span className="admin__theme-swatch" aria-hidden="true" />
+                      Verde
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="admin__card">
+                <div className="admin__card-head">
+                  <h2>Borrar datos de prueba</h2>
+                </div>
+                <div className="admin__card-body">
+                  <p style={{ color: "#8fa6b8", marginTop: 0 }}>
+                    Limpia el central para volver a probar vinculación, pagos y
+                    registros. Los ingresos/egresos del POS Resto se borran en el
+                    web service, no aquí.
+                  </p>
+                  <label className="admin__field">
+                    Confirmación (escribe BORRAR)
+                    <input
+                      value={wipeConfirm}
+                      onChange={(e) => setWipeConfirm(e.target.value)}
+                      placeholder="BORRAR"
+                      autoComplete="off"
+                    />
+                  </label>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.5rem",
+                      marginTop: "0.75rem",
+                    }}
+                  >
+                    <button
+                      type="button"
+                      className="admin__btn admin__btn--danger"
+                      disabled={wiping}
+                      onClick={() => void wipeData("payments")}
+                    >
+                      Borrar pagos
+                    </button>
+                    <button
+                      type="button"
+                      className="admin__btn admin__btn--danger"
+                      disabled={wiping}
+                      onClick={() => void wipeData("users")}
+                    >
+                      Borrar usuarios
+                    </button>
+                    <button
+                      type="button"
+                      className="admin__btn admin__btn--danger"
+                      disabled={wiping}
+                      onClick={() => void wipeData("leads")}
+                    >
+                      Borrar registros
+                    </button>
+                    <button
+                      type="button"
+                      className="admin__btn admin__btn--danger"
+                      disabled={wiping}
+                      onClick={() => void wipeData("all")}
+                    >
+                      Borrar todo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1313,6 +1429,9 @@ export function AdminPage() {
                     {wsRestaurant && (
                       <div className="admin__ws-preview">
                         <strong>{wsRestaurant.name}</strong>
+                        {wsRestaurant.ownerName && (
+                          <div>Dueño/admin: {wsRestaurant.ownerName}</div>
+                        )}
                         {wsRestaurant.ruc && <div>RUC: {wsRestaurant.ruc}</div>}
                         {wsRestaurant.email && <div>{wsRestaurant.email}</div>}
                         {wsRestaurant.phone && <div>{wsRestaurant.phone}</div>}

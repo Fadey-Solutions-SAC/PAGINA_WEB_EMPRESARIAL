@@ -9,25 +9,46 @@ import { asProducts } from "../utils/products.js";
 
 const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
 
-function genUsername(clientName: string) {
-  const base =
-    clientName
-      .toLowerCase()
+function firstNameToken(raw: string) {
+  const token =
+    raw
+      .trim()
+      .split(/\s+/)[0]
+      ?.toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9]+/g, "")
-      .slice(0, 12) || "cliente";
-  const suffix = Math.floor(1000 + Math.random() * 9000);
-  return `${base}${suffix}`;
+      .replace(/[^a-z]/g, "") || "";
+  return token || "admin";
 }
 
-function genPassword() {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
-  let out = "";
-  for (let i = 0; i < 10; i++) {
-    out += chars[Math.floor(Math.random() * chars.length)];
+/** Primer nombre del dueño/admin + 3 dígitos aleatorios (usuario y contraseña). */
+function genOwnerCredential(ownerName: string) {
+  const first = firstNameToken(ownerName);
+  const suffix = Math.floor(100 + Math.random() * 900);
+  return `${first}${suffix}`;
+}
+
+async function genUniqueOwnerCredential(ownerName: string) {
+  let credential = genOwnerCredential(ownerName);
+  while (await prisma.clientUser.findUnique({ where: { username: credential } })) {
+    credential = genOwnerCredential(ownerName);
   }
-  return out;
+  return credential;
+}
+
+function resolveOwnerName(restaurant: RestaurantInfo) {
+  if (restaurant.ownerName) return restaurant.ownerName;
+  if (restaurant.legalName) return restaurant.legalName;
+  return restaurant.name;
+}
+
+async function genOwnerAccess(ownerName: string) {
+  const username = await genUniqueOwnerCredential(ownerName);
+  let password = genOwnerCredential(ownerName);
+  while (password === username) {
+    password = genOwnerCredential(ownerName);
+  }
+  return { username, password };
 }
 
 function normalizeBaseUrl(raw: string) {
@@ -40,6 +61,7 @@ function normalizeBaseUrl(raw: string) {
 
 type RestaurantInfo = {
   name: string;
+  ownerName?: string;
   legalName?: string;
   email?: string;
   ruc?: string;
@@ -85,8 +107,19 @@ async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
         lastError = `La respuesta de ${apiPath} no trae nombre del restaurante`;
         continue;
       }
+      const ownerRaw = String(
+        data.ownerName ||
+          data.owner ||
+          data.adminName ||
+          data.admin ||
+          data.dueno ||
+          data.nombreDueno ||
+          data.legalName ||
+          "",
+      ).trim();
       return {
         name,
+        ownerName: ownerRaw ? ownerRaw.split(/\s+/)[0] : undefined,
         legalName: data.legalName ? String(data.legalName) : undefined,
         email: data.email ? String(data.email) : undefined,
         ruc: data.ruc ? String(data.ruc) : undefined,
@@ -184,11 +217,9 @@ usersRouter.post("/link-webservice", requireAdmin, async (req, res) => {
     }
 
     const restaurant = await fetchRestaurantInfo(baseUrl);
-    let username = genUsername(restaurant.name);
-    const password = genPassword();
-    while (await prisma.clientUser.findUnique({ where: { username } })) {
-      username = genUsername(restaurant.name);
-    }
+    const { username, password } = await genOwnerAccess(
+      resolveOwnerName(restaurant),
+    );
 
     const clientId = randomUUID();
     const passwordHash = await bcrypt.hash(password, 10);
@@ -216,6 +247,13 @@ usersRouter.post("/link-webservice", requireAdmin, async (req, res) => {
       webServiceUrl: user.webServiceUrl,
       restaurant,
       note: "Guarda usuario, contraseña e ID de cliente/licencia. El ID controla y aprueba pagos.",
+      posEnv: {
+        CLIENT_ID: user.licenseKey,
+        LICENSE_KEY: user.licenseKey,
+        API_SECRET_KEY: "igual que API_INGEST_SECRET en la API Fadey (Render)",
+        CENTRAL_API_URL: "URL de la API Fadey en Render (no el sitio fadeysolutions.pe)",
+        RENDER_PUBLIC_URL: user.webServiceUrl || baseUrl,
+      },
     });
   } catch (err) {
     if (err instanceof Error && !err.message.includes("DATABASE")) {
@@ -244,12 +282,17 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
       return;
     }
 
+    const ownerName = clientName;
     let username =
-      String(req.body?.username || "").trim() || genUsername(clientName);
-    const password = String(req.body?.password || "").trim() || genPassword();
+      String(req.body?.username || "").trim() ||
+      (await genUniqueOwnerCredential(ownerName));
+    const password =
+      String(req.body?.password || "").trim() || genOwnerCredential(ownerName);
 
-    while (await prisma.clientUser.findUnique({ where: { username } })) {
-      username = genUsername(clientName);
+    if (!req.body?.username) {
+      while (await prisma.clientUser.findUnique({ where: { username } })) {
+        username = await genUniqueOwnerCredential(ownerName);
+      }
     }
 
     const clientId = randomUUID();
@@ -293,7 +336,17 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
 usersRouter.post("/:id/reset-password", requireAdmin, async (req, res) => {
   try {
     const id = String(req.params.id);
-    const password = genPassword();
+    const existing = await prisma.clientUser.findUnique({
+      where: { id },
+      select: { clientName: true, restaurantData: true },
+    });
+    if (!existing) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+    const stored = existing.restaurantData as RestaurantInfo | null;
+    const ownerName = stored?.ownerName || stored?.legalName || existing.clientName;
+    const password = genOwnerCredential(ownerName);
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await prisma.clientUser.update({
       where: { id },

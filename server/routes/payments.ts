@@ -6,6 +6,35 @@ import { prisma, uploadsDir } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
 
+async function notifyPosPaymentDecision(
+  user: { id: string; licenseKey: string; webServiceUrl: string | null },
+  status: "approved" | "rejected",
+) {
+  const baseUrl = String(user.webServiceUrl || "").replace(/\/+$/, "");
+  const secret = process.env.API_INGEST_SECRET || "";
+  if (!baseUrl || !secret) return;
+
+  try {
+    const res = await fetch(`${baseUrl}/api/license/confirm`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${secret}`,
+      },
+      body: JSON.stringify({
+        clientId: user.licenseKey || user.id,
+        status,
+      }),
+    });
+    if (!res.ok) {
+      const text = await res.text();
+      console.warn("[payments] POS confirm:", res.status, text.slice(0, 200));
+    }
+  } catch (err) {
+    console.warn("[payments] POS confirm error:", err);
+  }
+}
+
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadsDir),
   filename: (_req, file, cb) => {
@@ -62,10 +91,19 @@ paymentsRouter.patch("/:id/status", requireAdmin, async (req, res) => {
       },
       include: {
         user: {
-          select: { id: true, username: true, clientName: true, licenseKey: true },
+          select: {
+            id: true,
+            username: true,
+            clientName: true,
+            licenseKey: true,
+            webServiceUrl: true,
+          },
         },
       },
     });
+    if (status === "approved" || status === "rejected") {
+      void notifyPosPaymentDecision(payment.user, status);
+    }
     res.json(payment);
   } catch (err) {
     sendApiError(res, err);
