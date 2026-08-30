@@ -559,17 +559,20 @@ export function AdminPage() {
         </div>
       </aside>
 
-      <div className={`admin__main admin__main--${section}`}>
+      <div className="admin__main">
         <header className="admin__topbar">
-          <div>
-            <button
-              type="button"
-              className="admin__btn admin__menu-btn"
-              onClick={() => setSidebarOpen((v) => !v)}
-            >
-              Menú
-            </button>
+          <button
+            type="button"
+            className="admin__btn admin__menu-btn"
+            onClick={() => setSidebarOpen((v) => !v)}
+          >
+            Menú
+          </button>
+          <div className="admin__topbar-title">
             <h1>{title}</h1>
+            <span className="admin__topbar-sep" aria-hidden="true">
+              ·
+            </span>
             <p>Gestión Fadey · clientes, pagos y academia</p>
           </div>
           <div className="admin__top-actions">
@@ -586,7 +589,7 @@ export function AdminPage() {
           </div>
         </header>
 
-        <div className="admin__content">
+        <div className={`admin__content admin__content--${section}`}>
           {banner && (
             <div className="admin__banner admin__banner--error" role="alert">
               {banner}

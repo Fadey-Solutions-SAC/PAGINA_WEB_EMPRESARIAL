@@ -15,10 +15,10 @@
   --admin-bg-web: url("/bg-web-neon.png");
   --admin-bg-geometry: url("/bg-geometry.png");
   --admin-bg-overlay: rgba(5, 13, 22, 0.62);
-  --sidebar-w: 250px;
+  --sidebar-w: 11.25rem;
   min-height: 100dvh;
   display: grid;
-  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
   background: var(--admin-bg);
   color: var(--admin-text);
   font-family: var(--font-body);
@@ -38,12 +38,13 @@ html[data-theme="emerald"] .admin {
   position: sticky;
   top: 0;
   height: 100dvh;
+  width: var(--sidebar-w);
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  padding: 1.25rem 1rem;
+  gap: 0.85rem;
+  padding: 0.85rem 0.55rem;
   border-right: 1px solid var(--admin-line);
-  background: rgba(7, 16, 26, 0.95);
+  background: rgba(7, 16, 26, 0.98);
   backdrop-filter: blur(12px);
   z-index: 20;
 }
@@ -51,27 +52,29 @@ html[data-theme="emerald"] .admin {
 .admin__brand {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.25rem 0.35rem;
+  gap: 0.45rem;
+  padding: 0.15rem 0.25rem;
 }
 
 .admin__brand img {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   box-shadow: 0 0 0 1px rgba(0, 207, 255, 0.4);
+  flex-shrink: 0;
 }
 
 .admin__brand strong {
   display: block;
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: 0.78rem;
   letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .admin__brand span {
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  font-size: 0.58rem;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--admin-muted);
 }
@@ -86,16 +89,17 @@ html[data-theme="emerald"] .admin {
 .admin__nav button {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.4rem;
   width: 100%;
   text-align: left;
-  padding: 0.7rem 0.85rem;
-  border-radius: 12px;
+  padding: 0.48rem 0.5rem;
+  border-radius: 10px;
   border: 1px solid transparent;
   color: var(--admin-muted);
   background: transparent;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
   cursor: pointer;
   transition: 0.18s ease;
 }
@@ -112,9 +116,11 @@ html[data-theme="emerald"] .admin {
 }
 
 .admin__nav-ico {
-  width: 1.25rem;
+  width: 0.95rem;
   text-align: center;
   opacity: 0.9;
+  flex-shrink: 0;
+  font-size: 0.72rem;
 }
 
 .admin__theme {
@@ -191,24 +197,35 @@ html[data-theme="emerald"] .admin {
 .admin__side-foot a,
 .admin__side-foot button {
   color: var(--admin-muted);
-  font-size: 0.85rem;
+  font-size: 0.74rem;
   text-align: left;
-  padding: 0.45rem 0.55rem;
+  padding: 0.35rem 0.45rem;
+  white-space: nowrap;
 }
 
 .admin__main {
-  position: relative;
-  isolation: isolate;
   min-width: 0;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  background-color: var(--admin-bg);
+  background: var(--admin-bg);
   overflow: hidden;
 }
 
-.admin__main::before,
-.admin__main::after {
+.admin__content {
+  position: relative;
+  isolation: isolate;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem 1.1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin__content::before,
+.admin__content::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -216,13 +233,13 @@ html[data-theme="emerald"] .admin {
   z-index: 0;
 }
 
-.admin__main::after {
+.admin__content::after {
   background:
     linear-gradient(
       180deg,
-      rgba(5, 13, 22, 0.35) 0%,
-      var(--admin-bg-overlay) 38%,
-      rgba(5, 13, 22, 0.78) 100%
+      rgba(5, 13, 22, 0.28) 0%,
+      var(--admin-bg-overlay) 42%,
+      rgba(5, 13, 22, 0.72) 100%
     ),
     radial-gradient(
       ellipse 70% 55% at 85% 92%,
@@ -231,13 +248,13 @@ html[data-theme="emerald"] .admin {
     );
 }
 
-html[data-theme="emerald"] .admin__main::after {
+html[data-theme="emerald"] .admin__content::after {
   background:
     linear-gradient(
       180deg,
-      rgba(3, 38, 28, 0.32) 0%,
-      var(--admin-bg-overlay) 38%,
-      rgba(2, 25, 18, 0.76) 100%
+      rgba(3, 38, 28, 0.26) 0%,
+      var(--admin-bg-overlay) 42%,
+      rgba(2, 25, 18, 0.72) 100%
     ),
     radial-gradient(
       ellipse 70% 55% at 85% 92%,
@@ -246,43 +263,43 @@ html[data-theme="emerald"] .admin__main::after {
     );
 }
 
-html[data-theme="emerald"] .admin__main--config::after {
+html[data-theme="emerald"] .admin__content--config::after {
   background:
     var(--admin-bg-geometry) left top / 72% auto no-repeat,
     linear-gradient(
       180deg,
-      rgba(3, 38, 28, 0.4) 0%,
+      rgba(3, 38, 28, 0.38) 0%,
       var(--admin-bg-overlay) 45%,
-      rgba(2, 25, 18, 0.82) 100%
+      rgba(2, 25, 18, 0.78) 100%
     );
 }
 
-.admin__main > * {
+.admin__content > * {
   position: relative;
   z-index: 1;
 }
 
 /* Dashboard — hero ERP (red de luces diagonal) */
-.admin__main--resumen::before {
+.admin__content--resumen::before {
   background: var(--admin-bg-hero) center right / cover no-repeat;
   opacity: 0.58;
   transform: scale(1.04);
 }
 
 /* Registros — olas (estilo Resto) */
-.admin__main--leads::before {
+.admin__content--leads::before {
   background: var(--admin-bg-waves) center right / cover no-repeat;
   opacity: 0.68;
 }
 
 /* Usuarios — red de nodos lateral */
-.admin__main--users::before {
+.admin__content--users::before {
   background: var(--admin-bg-network) left center / cover no-repeat;
   opacity: 0.66;
 }
 
 /* Pagos — combinación olas + red */
-.admin__main--payments::before {
+.admin__content--payments::before {
   background:
     var(--admin-bg-network) right bottom / cover no-repeat,
     var(--admin-bg-waves) left top / cover no-repeat;
@@ -290,27 +307,27 @@ html[data-theme="emerald"] .admin__main--config::after {
 }
 
 /* Cursos — neón web */
-.admin__main--courses::before {
+.admin__content--courses::before {
   background: var(--admin-bg-web) center / cover no-repeat;
   opacity: 0.55;
 }
 
 /* Configuración — geometría suave */
-.admin__main--config::before {
+.admin__content--config::before {
   background:
     linear-gradient(90deg, rgba(5, 13, 22, 0.2), transparent 42%),
     var(--admin-bg-waves) center / cover no-repeat;
   opacity: 0.64;
 }
 
-.admin__main--config::after {
+.admin__content--config::after {
   background:
     var(--admin-bg-geometry) left top / 72% auto no-repeat,
     linear-gradient(
       180deg,
-      rgba(5, 13, 22, 0.42) 0%,
+      rgba(5, 13, 22, 0.38) 0%,
       var(--admin-bg-overlay) 45%,
-      rgba(5, 13, 22, 0.82) 100%
+      rgba(5, 13, 22, 0.78) 100%
     );
   opacity: 1;
 }
@@ -321,63 +338,82 @@ html[data-theme="emerald"] .admin__main--config::after {
   z-index: 15;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.35rem;
+  gap: 0.65rem;
+  padding: 0.42rem 0.85rem;
   border-bottom: 1px solid var(--admin-line);
-  background: rgba(5, 13, 22, 0.72);
-  backdrop-filter: blur(16px);
+  background: rgba(5, 13, 22, 0.96);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+}
+
+.admin__topbar-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .admin__topbar h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 0.98rem;
   letter-spacing: -0.02em;
+  flex-shrink: 0;
+}
+
+.admin__topbar-sep {
+  color: rgba(143, 166, 184, 0.45);
+  font-size: 0.85rem;
+  flex-shrink: 0;
 }
 
 .admin__topbar p {
-  margin: 0.15rem 0 0;
+  margin: 0;
   color: var(--admin-muted);
-  font-size: 0.85rem;
+  font-size: 0.74rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .admin__top-actions {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.45rem;
+  flex-shrink: 0;
+}
+
+.admin__topbar .admin__btn {
+  padding: 0.34rem 0.62rem;
+  font-size: 0.76rem;
+  border-radius: 8px;
 }
 
 .admin__chip {
-  padding: 0.35rem 0.7rem;
+  padding: 0.22rem 0.5rem;
   border-radius: 999px;
   border: 1px solid rgba(0, 207, 255, 0.35);
   background: rgba(0, 207, 255, 0.1);
   color: var(--admin-cyan-soft);
-  font-size: 0.75rem;
+  font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
 .admin__search {
-  min-width: 200px;
-  padding: 0.55rem 0.8rem;
-  border-radius: 10px;
+  width: min(11rem, 18vw);
+  min-width: 0;
+  padding: 0.38rem 0.6rem;
+  border-radius: 8px;
   border: 1px solid var(--admin-line);
   background: var(--admin-panel);
   color: #fff;
-  font-size: 0.88rem;
+  font-size: 0.78rem;
 }
 
-.admin__content {
-  flex: 1;
-  min-height: 0;
-  padding: 1.25rem 1.35rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.15rem;
-}
 
 .admin__banner {
   padding: 0.85rem 1rem;
