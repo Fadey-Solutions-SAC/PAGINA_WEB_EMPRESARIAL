@@ -2,22 +2,36 @@
 
 .admin {
   --admin-bg: #050d16;
-  --admin-panel: #0b1624;
-  --admin-panel-2: #101e2e;
+  --admin-panel: rgba(11, 22, 36, 0.82);
+  --admin-panel-2: rgba(16, 30, 46, 0.88);
   --admin-line: rgba(148, 163, 184, 0.18);
   --admin-text: #e8f1f7;
   --admin-muted: #8fa6b8;
   --admin-cyan: #00cfff;
   --admin-cyan-soft: #7debff;
+  --admin-bg-hero: url("/hero-network.png");
+  --admin-bg-waves: url("/bg-blue-waves.png");
+  --admin-bg-network: url("/bg-blue-network.png");
+  --admin-bg-web: url("/bg-web-neon.png");
+  --admin-bg-geometry: url("/bg-geometry.png");
+  --admin-bg-overlay: rgba(5, 13, 22, 0.62);
   --sidebar-w: 250px;
   min-height: 100dvh;
   display: grid;
   grid-template-columns: var(--sidebar-w) 1fr;
-  background:
-    radial-gradient(ellipse 50% 40% at 0% 0%, rgba(0, 207, 255, 0.08), transparent 55%),
-    var(--admin-bg);
+  background: var(--admin-bg);
   color: var(--admin-text);
   font-family: var(--font-body);
+}
+
+html[data-theme="emerald"] .admin {
+  --admin-bg: #021912;
+  --admin-bg-hero: url("/hero-network-emerald.png");
+  --admin-bg-waves: url("/bg-emerald-waves.png");
+  --admin-bg-network: url("/bg-emerald-network.png");
+  --admin-bg-web: url("/bg-web-neon-emerald.png");
+  --admin-bg-geometry: url("/bg-geometry-emerald.png");
+  --admin-bg-overlay: rgba(3, 38, 28, 0.58);
 }
 
 .admin__sidebar {
@@ -183,9 +197,122 @@
 }
 
 .admin__main {
+  position: relative;
+  isolation: isolate;
   min-width: 0;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  background-color: var(--admin-bg);
+  overflow: hidden;
+}
+
+.admin__main::before,
+.admin__main::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.admin__main::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(5, 13, 22, 0.35) 0%,
+      var(--admin-bg-overlay) 38%,
+      rgba(5, 13, 22, 0.78) 100%
+    ),
+    radial-gradient(
+      ellipse 70% 55% at 85% 92%,
+      rgba(var(--accent-rgb, 0, 207, 255), 0.1),
+      transparent 68%
+    );
+}
+
+html[data-theme="emerald"] .admin__main::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3, 38, 28, 0.32) 0%,
+      var(--admin-bg-overlay) 38%,
+      rgba(2, 25, 18, 0.76) 100%
+    ),
+    radial-gradient(
+      ellipse 70% 55% at 85% 92%,
+      rgba(var(--accent-rgb, 0, 230, 118), 0.1),
+      transparent 68%
+    );
+}
+
+html[data-theme="emerald"] .admin__main--config::after {
+  background:
+    var(--admin-bg-geometry) left top / 72% auto no-repeat,
+    linear-gradient(
+      180deg,
+      rgba(3, 38, 28, 0.4) 0%,
+      var(--admin-bg-overlay) 45%,
+      rgba(2, 25, 18, 0.82) 100%
+    );
+}
+
+.admin__main > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dashboard — hero ERP (red de luces diagonal) */
+.admin__main--resumen::before {
+  background: var(--admin-bg-hero) center right / cover no-repeat;
+  opacity: 0.58;
+  transform: scale(1.04);
+}
+
+/* Registros — olas (estilo Resto) */
+.admin__main--leads::before {
+  background: var(--admin-bg-waves) center right / cover no-repeat;
+  opacity: 0.68;
+}
+
+/* Usuarios — red de nodos lateral */
+.admin__main--users::before {
+  background: var(--admin-bg-network) left center / cover no-repeat;
+  opacity: 0.66;
+}
+
+/* Pagos — combinación olas + red */
+.admin__main--payments::before {
+  background:
+    var(--admin-bg-network) right bottom / cover no-repeat,
+    var(--admin-bg-waves) left top / cover no-repeat;
+  opacity: 0.62;
+}
+
+/* Cursos — neón web */
+.admin__main--courses::before {
+  background: var(--admin-bg-web) center / cover no-repeat;
+  opacity: 0.55;
+}
+
+/* Configuración — geometría suave */
+.admin__main--config::before {
+  background:
+    linear-gradient(90deg, rgba(5, 13, 22, 0.2), transparent 42%),
+    var(--admin-bg-waves) center / cover no-repeat;
+  opacity: 0.64;
+}
+
+.admin__main--config::after {
+  background:
+    var(--admin-bg-geometry) left top / 72% auto no-repeat,
+    linear-gradient(
+      180deg,
+      rgba(5, 13, 22, 0.42) 0%,
+      var(--admin-bg-overlay) 45%,
+      rgba(5, 13, 22, 0.82) 100%
+    );
+  opacity: 1;
 }
 
 .admin__topbar {
@@ -198,8 +325,8 @@
   gap: 1rem;
   padding: 1rem 1.35rem;
   border-bottom: 1px solid var(--admin-line);
-  background: rgba(5, 13, 22, 0.88);
-  backdrop-filter: blur(14px);
+  background: rgba(5, 13, 22, 0.72);
+  backdrop-filter: blur(16px);
 }
 
 .admin__topbar h1 {
@@ -244,6 +371,8 @@
 }
 
 .admin__content {
+  flex: 1;
+  min-height: 0;
   padding: 1.25rem 1.35rem 2.5rem;
   display: flex;
   flex-direction: column;
@@ -302,6 +431,7 @@
   background: linear-gradient(160deg, var(--admin-panel-2), var(--admin-panel));
   border: 1px solid var(--admin-line);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .admin__kpi span {
@@ -339,6 +469,7 @@
   background: var(--admin-panel);
   border: 1px solid var(--admin-line);
   overflow: hidden;
+  backdrop-filter: blur(12px);
 }
 
 .admin__card-head {
@@ -973,6 +1104,7 @@
   border-radius: 14px;
   padding: 0.85rem 0.95rem;
   background: rgba(8, 20, 32, 0.72);
+  backdrop-filter: blur(10px);
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
@@ -1007,7 +1139,8 @@
   border: 1px solid rgba(120, 170, 210, 0.18);
   border-radius: 16px;
   padding: 1rem;
-  background: rgba(8, 20, 32, 0.82);
+  background: rgba(8, 20, 32, 0.78);
+  backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
   gap: 0.65rem;

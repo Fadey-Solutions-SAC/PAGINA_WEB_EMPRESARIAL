@@ -559,7 +559,7 @@ export function AdminPage() {
         </div>
       </aside>
 
-      <div className="admin__main">
+      <div className={`admin__main admin__main--${section}`}>
         <header className="admin__topbar">
           <div>
             <button
