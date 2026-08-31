@@ -120,6 +120,25 @@
   margin-bottom: 1rem;
 }
 
+.portal__impersonation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(125, 235, 255, 0.35);
+  background: rgba(56, 189, 248, 0.12);
+  color: #dbeafe;
+  font-size: 0.88rem;
+}
+
+.portal__impersonation strong {
+  color: #fff;
+}
+
 .portal__top-actions {
   display: flex;
   gap: 0.65rem;

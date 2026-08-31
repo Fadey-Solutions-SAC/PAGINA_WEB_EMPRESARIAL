@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../lib/api";
 import { useAuth, type Product } from "../lib/auth";
 import "./Portal.css";
@@ -26,7 +26,8 @@ const PRODUCT_LABEL: Record<Product, string> = {
 };
 
 export function AcademiaPage() {
-  const { token, logout, auth } = useAuth();
+  const { token, logout, auth, isImpersonating, exitImpersonation } = useAuth();
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<Course[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -80,8 +81,29 @@ export function AcademiaPage() {
     });
   }
 
+  async function backToAdmin() {
+    await exitImpersonation();
+    navigate("/admin", { state: { section: "clientview" } });
+  }
+
   return (
     <div className="portal portal--wide">
+      {isImpersonating && (
+        <div className="portal__impersonation" role="status">
+          <span>
+            Viendo como{" "}
+            <strong>
+              {auth.status === "ready" ? auth.clientName : "cliente"}
+            </strong>
+            {" · "}
+            portal real del cliente
+          </span>
+          <button type="button" className="btn btn--primary" onClick={() => void backToAdmin()}>
+            ← Volver al admin
+          </button>
+        </div>
+      )}
+
       <header className="portal__top">
         <div>
           <h1>Academia Fadey</h1>
@@ -92,9 +114,13 @@ export function AcademiaPage() {
           </p>
         </div>
         <div className="portal__top-actions">
-          <Link to="/">Sitio</Link>
-          <button type="button" className="btn btn--dark" onClick={logout}>
-            Salir
+          {!isImpersonating && <Link to="/">Sitio</Link>}
+          <button
+            type="button"
+            className="btn btn--dark"
+            onClick={() => (isImpersonating ? void backToAdmin() : logout())}
+          >
+            {isImpersonating ? "Salir de la vista" : "Salir"}
           </button>
         </div>
       </header>

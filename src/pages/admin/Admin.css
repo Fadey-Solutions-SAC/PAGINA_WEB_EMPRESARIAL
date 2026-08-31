@@ -1542,6 +1542,12 @@ html[data-theme="emerald"] .admin__content--config .admin__card {
   margin-top: 0.25rem;
 }
 
+.client-view-list__enter {
+  margin-top: 0.35rem;
+  font-size: 0.76rem;
+  color: #7debff;
+}
+
 .client-view-portal__bar {
   display: flex;
   align-items: center;

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { api } from "../../lib/api";
 import { useAuth, type Product } from "../../lib/auth";
 import { useTheme, type SiteTheme } from "../../lib/theme";
@@ -96,8 +96,8 @@ function credDisplay(value: string) {
 export function AdminPage() {
   const { token, logout } = useAuth();
   const { theme, setTheme } = useTheme();
+  const location = useLocation();
   const [section, setSection] = useState<Section>("resumen");
-  const [clientPreviewId, setClientPreviewId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [banner, setBanner] = useState("");
@@ -210,6 +210,11 @@ export function AdminPage() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => {
+    const next = (location.state as { section?: Section } | null)?.section;
+    if (next) setSection(next);
+  }, [location.state]);
 
   const q = search.trim().toLowerCase();
 
@@ -550,14 +555,11 @@ export function AdminPage() {
 
   const title =
     section === "clientview"
-      ? clientPreviewId
-        ? users.find((u) => u.id === clientPreviewId)?.clientName || "Vista de cliente"
-        : "Vista de cliente"
+      ? "Vista de cliente"
       : NAV.find((n) => n.id === section)?.label || "Panel admin";
 
   function openClientView() {
     setSection("clientview");
-    setClientPreviewId(null);
     setSidebarOpen(false);
   }
 
@@ -579,7 +581,6 @@ export function AdminPage() {
               className={section === item.id ? "is-active" : ""}
               onClick={() => {
                 setSection(item.id);
-                setClientPreviewId(null);
                 setSidebarOpen(false);
               }}
             >
@@ -895,8 +896,6 @@ export function AdminPage() {
             <AdminClientView
               token={token}
               clients={users}
-              selectedId={clientPreviewId}
-              onSelect={setClientPreviewId}
               onError={setBanner}
               search={q}
             />

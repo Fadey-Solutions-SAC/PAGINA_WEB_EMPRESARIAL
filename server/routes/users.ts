@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
 import type { Prisma, Product } from "@prisma/client";
 import { prisma } from "../db.js";
-import { requireAdmin } from "../middleware/auth.js";
+import { requireAdmin, signToken } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
 import { asProducts } from "../utils/products.js";
 import {
@@ -312,6 +312,46 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
       clientName: user.clientName,
       products: asProducts(user.products),
       note: "Guarda la contraseña y el ID de cliente/licencia ahora.",
+    });
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
+usersRouter.post("/:id/enter-as-client", requireAdmin, async (req, res) => {
+  try {
+    const id = String(req.params.id);
+    const user = await prisma.clientUser.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        clientName: true,
+        products: true,
+        active: true,
+      },
+    });
+    if (!user) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+
+    const products = asProducts(user.products);
+    const token = signToken({
+      role: "client",
+      userId: user.id,
+      products,
+      impersonated: true,
+    });
+
+    res.json({
+      token,
+      role: "client",
+      userId: user.id,
+      username: user.username,
+      clientName: user.clientName,
+      products,
+      active: user.active,
     });
   } catch (err) {
     sendApiError(res, err);

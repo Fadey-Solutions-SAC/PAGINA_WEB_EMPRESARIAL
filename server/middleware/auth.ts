@@ -4,7 +4,12 @@ import type { Product } from "@prisma/client";
 
 export type JwtPayload =
   | { role: "admin" }
-  | { role: "client"; userId: string; products: Product[] };
+  | {
+      role: "client";
+      userId: string;
+      products: Product[];
+      impersonated?: boolean;
+    };
 
 export type AuthedRequest = Request & { auth?: JwtPayload };
 

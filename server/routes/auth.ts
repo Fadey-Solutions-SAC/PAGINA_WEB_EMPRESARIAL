@@ -92,7 +92,9 @@ authRouter.get("/me", requireAuth, async (req: AuthedRequest, res) => {
     const user = await prisma.clientUser.findUnique({
       where: { id: req.auth.userId },
     });
-    if (!user || !user.active) {
+    const impersonated =
+      req.auth.role === "client" && req.auth.impersonated === true;
+    if (!user || (!user.active && !impersonated)) {
       res.status(403).json({
         error: FADEY_POLICY_SUSPENSION_MESSAGE,
         code: FADEY_POLICY_SUSPENSION_CODE,
@@ -105,6 +107,7 @@ authRouter.get("/me", requireAuth, async (req: AuthedRequest, res) => {
       username: user.username,
       clientName: user.clientName,
       products: asProducts(user.products),
+      impersonating: impersonated,
     });
     return;
   }
