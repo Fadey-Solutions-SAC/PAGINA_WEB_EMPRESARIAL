@@ -163,13 +163,6 @@ export function AdminPage() {
     products: ["resto"] as Product[],
   });
 
-  const [payForm, setPayForm] = useState({
-    userId: "",
-    clientName: "",
-    period: "",
-    file: null as File | null,
-  });
-
   const [courseForm, setCourseForm] = useState({
     product: "resto" as Product,
     kind: "tutorial" as "tutorial" | "academia",
@@ -492,21 +485,6 @@ export function AdminPage() {
     } catch (err) {
       setBanner(err instanceof Error ? err.message : "No se pudo cargar acceso");
     }
-  }
-
-  async function submitPayment(e: FormEvent) {
-    e.preventDefault();
-    if (!token || !payForm.file) return;
-    const fd = new FormData();
-    fd.append("userId", payForm.userId);
-    fd.append("clientName", payForm.clientName);
-    fd.append("period", payForm.period);
-    fd.append("receipt", payForm.file);
-    await api("/api/payments", { method: "POST", token, body: fd });
-    setPayForm({ userId: "", clientName: "", period: "", file: null });
-    showToast("Pago registrado");
-    await load();
-    setSection("payments");
   }
 
   async function submitCourse(e: FormEvent) {
@@ -843,88 +821,15 @@ export function AdminPage() {
           )}
 
           {section === "payments" && (
-            <>
-              <AdminPayments
-                payments={payments}
-                loading={loading}
-                searchQuery={q}
-                onApprove={(id) => void setPaymentStatus(id, "approved")}
-                onReject={(id) => void setPaymentStatus(id, "rejected")}
-                onNotifyPos={(id) => void notifyPosNow(id)}
-                onLightbox={setLightbox}
-              />
-              <div className="admin__card" style={{ marginTop: "1rem" }}>
-                <div className="admin__card-head">
-                  <h2>Registrar pago manual</h2>
-                </div>
-                <div className="admin__card-body">
-                  <form onSubmit={(e) => void submitPayment(e)}>
-                    <label className="admin__field">
-                      Usuario
-                      <select
-                        required
-                        value={payForm.userId}
-                        onChange={(e) => {
-                          const u = users.find((x) => x.id === e.target.value);
-                          setPayForm((prev) => ({
-                            ...prev,
-                            userId: e.target.value,
-                            clientName: u?.clientName || prev.clientName,
-                          }));
-                        }}
-                      >
-                        <option value="">Seleccionar</option>
-                        {users.map((u) => (
-                          <option key={u.id} value={u.id}>
-                            {u.clientName} ({credDisplay(u.username)})
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label className="admin__field">
-                      Nombre en comprobante
-                      <input
-                        required
-                        value={payForm.clientName}
-                        onChange={(e) =>
-                          setPayForm((prev) => ({
-                            ...prev,
-                            clientName: e.target.value,
-                          }))
-                        }
-                      />
-                    </label>
-                    <label className="admin__field">
-                      Periodo (ej. 2026-08)
-                      <input
-                        required
-                        value={payForm.period}
-                        onChange={(e) =>
-                          setPayForm((prev) => ({ ...prev, period: e.target.value }))
-                        }
-                      />
-                    </label>
-                    <label className="admin__field">
-                      Comprobante PNG
-                      <input
-                        required
-                        type="file"
-                        accept="image/png"
-                        onChange={(e) =>
-                          setPayForm((prev) => ({
-                            ...prev,
-                            file: e.target.files?.[0] || null,
-                          }))
-                        }
-                      />
-                    </label>
-                    <button type="submit" className="admin__btn admin__btn--primary">
-                      Guardar pago
-                    </button>
-                  </form>
-                </div>
-              </div>
-            </>
+            <AdminPayments
+              payments={payments}
+              loading={loading}
+              searchQuery={q}
+              onApprove={(id) => void setPaymentStatus(id, "approved")}
+              onReject={(id) => void setPaymentStatus(id, "rejected")}
+              onNotifyPos={(id) => void notifyPosNow(id)}
+              onLightbox={setLightbox}
+            />
           )}
 
           {section === "courses" && (

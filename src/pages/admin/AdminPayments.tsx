@@ -216,7 +216,7 @@ export function AdminPayments({
       </div>
 
       {loading ? (
-        <div className="admin__skeleton" style={{ height: 420 }} />
+        <div className="admin__skeleton pay-workspace__loader" />
       ) : tab === "approved" ? (
         <div className="pay-split">
           <aside className="pay-clients admin__card">
