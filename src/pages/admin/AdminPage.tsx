@@ -454,12 +454,38 @@ export function AdminPage() {
 
   async function toggleUser(u: UserRow) {
     if (!token) return;
-    await api(`/api/users/${u.id}`, {
+    const result = await api<{
+      posNotify?: { ok?: boolean; skipped?: boolean; error?: string };
+      posNotifyMessage?: string;
+    }>(`/api/users/${u.id}`, {
       method: "PATCH",
       token,
       body: JSON.stringify({ active: !u.active }),
     });
-    showToast(u.active ? "Usuario desactivado" : "Usuario activado");
+    if (result.posNotifyMessage) {
+      if (result.posNotify?.ok) showToast(result.posNotifyMessage);
+      else setBanner(result.posNotifyMessage);
+    } else {
+      showToast(u.active ? "Usuario desactivado" : "Usuario activado");
+    }
+    await load();
+  }
+
+  async function updateWebServiceUrl(userId: string, currentUrl: string) {
+    if (!token) return;
+    const next = window.prompt(
+      "URL del web service (API del POS, ej. https://resto-fadey-pos.vercel.app)",
+      currentUrl,
+    );
+    if (!next?.trim()) return;
+    let url = next.trim();
+    if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
+    await api(`/api/users/${userId}`, {
+      method: "PATCH",
+      token,
+      body: JSON.stringify({ webServiceUrl: url.replace(/\/+$/, "") }),
+    });
+    showToast("Web service actualizado");
     await load();
   }
 
@@ -763,14 +789,20 @@ export function AdminPage() {
                             <td>{u.clientName}</td>
                             <td style={{ maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis" }}>
                               {u.webServiceUrl ? (
-                                <a
-                                  href={u.webServiceUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
+                                <button
+                                  type="button"
+                                  className="linkish"
+                                  title="Clic para corregir URL del POS"
+                                  onClick={() =>
+                                    void updateWebServiceUrl(
+                                      u.id,
+                                      u.webServiceUrl || "",
+                                    )
+                                  }
                                   style={{ color: "#7debff", fontSize: "0.8rem" }}
                                 >
                                   {u.webServiceUrl.replace(/^https?:\/\//, "")}
-                                </a>
+                                </button>
                               ) : (
                                 <span style={{ color: "#8fa6b8" }}>—</span>
                               )}

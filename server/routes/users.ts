@@ -14,6 +14,14 @@ import {
   readPortalAccess,
   withPortalAccess,
 } from "../utils/credentials.js";
+import {
+  notifyPosPolicyStatus,
+  posPolicyNotifyUserMessage,
+} from "../utils/posNotify.js";
+import {
+  assertWebServiceUrlExclusive,
+  normalizeWebServiceUrl,
+} from "../utils/webServiceUrl.js";
 
 const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
 
@@ -24,11 +32,11 @@ function resolveOwnerName(restaurant: RestaurantInfo) {
 }
 
 function normalizeBaseUrl(raw: string) {
-  const trimmed = raw.trim().replace(/\/+$/, "");
-  if (!/^https?:\/\//i.test(trimmed)) {
+  const normalized = normalizeWebServiceUrl(raw);
+  if (!normalized) {
     throw new Error("La URL debe empezar con http:// o https://");
   }
-  return trimmed;
+  return normalized;
 }
 
 type RestaurantInfo = {
@@ -281,7 +289,7 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
         clientName,
         products,
         webServiceUrl: req.body?.webServiceUrl
-          ? String(req.body.webServiceUrl).trim()
+          ? normalizeWebServiceUrl(String(req.body.webServiceUrl))
           : null,
         restaurantData: withPortalAccess(null, username, password),
       },
@@ -346,6 +354,20 @@ usersRouter.get("/:id/access", requireAdmin, async (req, res) => {
 usersRouter.patch("/:id", requireAdmin, async (req, res) => {
   try {
     const id = String(req.params.id);
+    const existing = await prisma.clientUser.findUnique({
+      where: { id },
+      select: {
+        active: true,
+        webServiceUrl: true,
+        licenseKey: true,
+        restaurantData: true,
+      },
+    });
+    if (!existing) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+
     const data: Prisma.ClientUserUpdateInput = {};
 
     if (req.body?.clientName) {
@@ -365,9 +387,17 @@ usersRouter.patch("/:id", requireAdmin, async (req, res) => {
       return;
     }
     if (req.body?.webServiceUrl !== undefined) {
-      data.webServiceUrl = req.body.webServiceUrl
-        ? String(req.body.webServiceUrl).trim()
+      const nextUrl = req.body.webServiceUrl
+        ? normalizeWebServiceUrl(String(req.body.webServiceUrl))
         : null;
+      if (nextUrl) {
+        const exclusive = await assertWebServiceUrlExclusive(id, nextUrl);
+        if (!exclusive.ok) {
+          res.status(409).json({ error: exclusive.error });
+          return;
+        }
+      }
+      data.webServiceUrl = nextUrl;
     }
 
     const user = await prisma.clientUser.update({
@@ -381,9 +411,26 @@ usersRouter.patch("/:id", requireAdmin, async (req, res) => {
         active: true,
         webServiceUrl: true,
         licenseKey: true,
+        restaurantData: true,
       },
     });
-    res.json({ ...mapUser(user), clientId: user.id });
+
+    let posNotify = null;
+    if (
+      typeof req.body?.active === "boolean" &&
+      req.body.active !== existing.active
+    ) {
+      posNotify = await notifyPosPolicyStatus(user, req.body.active);
+    }
+
+    res.json({
+      ...mapUser(user),
+      clientId: user.id,
+      posNotify,
+      posNotifyMessage: posNotify
+        ? posPolicyNotifyUserMessage(posNotify, user.active)
+        : undefined,
+    });
   } catch (err) {
     sendApiError(res, err);
   }

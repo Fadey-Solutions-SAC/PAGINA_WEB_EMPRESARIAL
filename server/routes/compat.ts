@@ -326,12 +326,12 @@ compatRouter.post("/clients/profile", posAuth, async (req, res) => {
       lastActivity: req.body?.lastActivity,
     };
 
+    // webServiceUrl solo lo fija el admin (vincular / corregir en panel). El POS no debe cambiarlo.
     await prisma.clientUser.update({
       where: { id: user.id },
       data: {
         clientName: restaurantName || user.clientName,
         restaurantData,
-        webServiceUrl: renderUrl || user.webServiceUrl,
       },
     });
 
