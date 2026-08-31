@@ -5,6 +5,9 @@ import { randomUUID } from "node:crypto";
 import type { PaymentStatus } from "@prisma/client";
 import { prisma, uploadsDir } from "../db.js";
 import { sendApiError } from "../utils/errors.js";
+import {
+  FADEY_POLICY_SUSPENSION_MESSAGE,
+} from "../utils/policySuspension.js";
 
 export const compatRouter = Router();
 
@@ -248,6 +251,19 @@ compatRouter.get("/license-status/:clientId", posAuth, async (req, res) => {
     const user = await findLinkedUser(clientRef);
     if (!user) {
       res.status(404).json({ error: "clientId no registrado en el panel" });
+      return;
+    }
+
+    if (!user.active) {
+      res.json({
+        ok: true,
+        licenseStatus: "suspendido",
+        policySuspended: true,
+        suspensionMessage: FADEY_POLICY_SUSPENSION_MESSAGE,
+        clientId: user.id,
+        licenseKey: user.licenseKey,
+        payment: null,
+      });
       return;
     }
 

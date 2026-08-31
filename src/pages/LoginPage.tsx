@@ -22,7 +22,7 @@ export function LoginPage() {
     setError("");
     setLoading(true);
 
-    const user = username.trim();
+    const user = username.trim().toUpperCase();
     const pass = password.trim();
 
     try {
@@ -56,8 +56,9 @@ export function LoginPage() {
 
       try {
         await loginClient(user, pass);
-      } catch {
-        setError("Credenciales inválidas");
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "";
+        setError(msg || "Credenciales inválidas");
       }
     } finally {
       setLoading(false);
@@ -107,10 +108,11 @@ export function LoginPage() {
               Usuario
               <input
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value.toUpperCase())}
                 name="fadey-login-user"
                 autoComplete="off"
                 placeholder="Tu usuario"
+                style={{ textTransform: "uppercase" }}
               />
             </label>
             <label>

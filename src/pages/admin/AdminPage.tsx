@@ -81,6 +81,10 @@ function copyText(text: string) {
   return navigator.clipboard.writeText(text);
 }
 
+function credDisplay(value: string) {
+  return value.toUpperCase();
+}
+
 export function AdminPage() {
   const { token, logout } = useAuth();
   const { theme, setTheme } = useTheme();
@@ -121,6 +125,14 @@ export function AdminPage() {
   const [userFilter, setUserFilter] = useState<"all" | "active" | "off" | Product>("all");
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [linkOpen, setLinkOpen] = useState(false);
+  const [accessCreds, setAccessCreds] = useState<{
+    id: string;
+    username: string;
+    password: string | null;
+    licenseKey: string;
+    webServiceUrl?: string | null;
+    clientName: string;
+  } | null>(null);
   const [createdCreds, setCreatedCreds] = useState<{
     id: string;
     username: string;
@@ -318,8 +330,8 @@ export function AdminPage() {
       });
       setCreatedCreds({
         id: result.id,
-        username: result.username,
-        password: result.password,
+        username: credDisplay(result.username),
+        password: credDisplay(result.password),
         licenseKey: result.licenseKey,
         webServiceUrl: result.webServiceUrl,
         clientName: result.clientName,
@@ -347,8 +359,8 @@ export function AdminPage() {
       });
       setCreatedCreds({
         id: result.id,
-        username: result.username,
-        password: result.password,
+        username: credDisplay(result.username),
+        password: credDisplay(result.password),
         licenseKey: result.licenseKey,
         clientName: linkForm.clientName,
       });
@@ -458,22 +470,28 @@ export function AdminPage() {
     await load();
   }
 
-  async function resetPassword(u: UserRow) {
+  async function openUserAccess(u: UserRow) {
     if (!token) return;
-    const result = await api<{ password: string; username: string }>(
-      `/api/users/${u.id}/reset-password`,
-      { method: "POST", token },
-    );
-    setCreatedCreds({
-      id: u.id,
-      username: result.username,
-      password: result.password,
-      licenseKey: u.licenseKey || u.id,
-      clientName: u.clientName,
-      webServiceUrl: u.webServiceUrl,
-    });
-    setLinkOpen(true);
-    showToast("Contraseña regenerada");
+    try {
+      const result = await api<{
+        id: string;
+        username: string;
+        password: string | null;
+        licenseKey: string;
+        webServiceUrl: string | null;
+        clientName: string;
+      }>(`/api/users/${u.id}/access`, { token });
+      setAccessCreds({
+        id: result.id,
+        username: credDisplay(result.username),
+        password: result.password ? credDisplay(result.password) : null,
+        licenseKey: result.licenseKey,
+        webServiceUrl: result.webServiceUrl,
+        clientName: result.clientName,
+      });
+    } catch (err) {
+      setBanner(err instanceof Error ? err.message : "No se pudo cargar acceso");
+    }
   }
 
   async function submitPayment(e: FormEvent) {
@@ -671,7 +689,7 @@ export function AdminPage() {
                             <td>
                               {l.linkedUser ? (
                                 <span className="admin__badge admin__badge--ok">
-                                  {l.linkedUser.username}
+                                  {credDisplay(l.linkedUser.username)}
                                 </span>
                               ) : (
                                 <span className="admin__badge admin__badge--warn">
@@ -763,7 +781,7 @@ export function AdminPage() {
                                 {(u.licenseKey || u.id).slice(0, 8)}…
                               </button>
                             </td>
-                            <td>{u.username}</td>
+                            <td>{credDisplay(u.username)}</td>
                             <td>{u.clientName}</td>
                             <td style={{ maxWidth: 160, overflow: "hidden", textOverflow: "ellipsis" }}>
                               {u.webServiceUrl ? (
@@ -809,9 +827,9 @@ export function AdminPage() {
                               <button
                                 type="button"
                                 className="admin__btn"
-                                onClick={() => void resetPassword(u)}
+                                onClick={() => void openUserAccess(u)}
                               >
-                                Reset pass
+                                Ver acceso
                               </button>
                             </td>
                           </tr>
@@ -858,7 +876,7 @@ export function AdminPage() {
                         <option value="">Seleccionar</option>
                         {users.map((u) => (
                           <option key={u.id} value={u.id}>
-                            {u.clientName} ({u.username})
+                            {u.clientName} ({credDisplay(u.username)})
                           </option>
                         ))}
                       </select>
@@ -1190,8 +1208,8 @@ export function AdminPage() {
               <>
                 <h3>Licencia y acceso generados</h3>
                 <p style={{ color: "#8fa6b8" }}>
-                  Guarda estos datos ahora. La contraseña no se vuelve a mostrar.
-                  El ID de cliente controla los pagos del web service.
+                  Acceso fijo entre central y POS. Queda guardado; puedes verlo y
+                  copiarlo cuando lo necesites desde Ver acceso.
                 </p>
                 {createdCreds.clientName && (
                   <p style={{ marginTop: 0 }}>
@@ -1447,6 +1465,95 @@ export function AdminPage() {
                 )}
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {accessCreds && (
+        <div className="admin__modal-backdrop" role="presentation">
+          <div className="admin__modal" role="dialog" aria-label="Acceso del cliente">
+            <h3>Acceso central ↔ POS</h3>
+            <p style={{ color: "#8fa6b8" }}>
+              Credenciales fijas de comunicación. Solo consulta y copia; no se regeneran.
+            </p>
+            {accessCreds.clientName && (
+              <p style={{ marginTop: 0 }}>
+                Cliente: <strong>{accessCreds.clientName}</strong>
+              </p>
+            )}
+            <div className="admin__creds">
+              <div>
+                ID cliente / licencia:{" "}
+                <code>{accessCreds.licenseKey || accessCreds.id}</code>{" "}
+                <button
+                  type="button"
+                  className="linkish"
+                  onClick={() => {
+                    void copyText(accessCreds.licenseKey || accessCreds.id);
+                    showToast("Copiado");
+                  }}
+                >
+                  Copiar
+                </button>
+              </div>
+              <div>
+                usuario: <code>{accessCreds.username}</code>{" "}
+                <button
+                  type="button"
+                  className="linkish"
+                  onClick={() => {
+                    void copyText(accessCreds.username);
+                    showToast("Copiado");
+                  }}
+                >
+                  Copiar
+                </button>
+              </div>
+              <div>
+                contraseña:{" "}
+                {accessCreds.password ? (
+                  <>
+                    <code>{accessCreds.password}</code>{" "}
+                    <button
+                      type="button"
+                      className="linkish"
+                      onClick={() => {
+                        void copyText(accessCreds.password!);
+                        showToast("Copiado");
+                      }}
+                    >
+                      Copiar
+                    </button>
+                  </>
+                ) : (
+                  <span style={{ color: "#8fa6b8" }}>
+                    No guardada (usuario anterior al respaldo de acceso)
+                  </span>
+                )}
+              </div>
+              {accessCreds.webServiceUrl && (
+                <div>
+                  web service: <code>{accessCreds.webServiceUrl}</code>{" "}
+                  <button
+                    type="button"
+                    className="linkish"
+                    onClick={() => {
+                      void copyText(accessCreds.webServiceUrl!);
+                      showToast("Copiado");
+                    }}
+                  >
+                    Copiar
+                  </button>
+                </div>
+              )}
+            </div>
+            <button
+              type="button"
+              className="admin__btn admin__btn--primary"
+              onClick={() => setAccessCreds(null)}
+            >
+              Cerrar
+            </button>
           </div>
         </div>
       )}

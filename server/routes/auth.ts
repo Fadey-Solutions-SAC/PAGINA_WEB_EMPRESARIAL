@@ -4,6 +4,11 @@ import rateLimit from "express-rate-limit";
 import { prisma } from "../db.js";
 import { signToken, requireAuth, type AuthedRequest } from "../middleware/auth.js";
 import { asProducts } from "../utils/products.js";
+import { normalizeCredential } from "../utils/credentials.js";
+import {
+  FADEY_POLICY_SUSPENSION_CODE,
+  FADEY_POLICY_SUSPENSION_MESSAGE,
+} from "../utils/policySuspension.js";
 
 export const authRouter = Router();
 
@@ -35,15 +40,26 @@ authRouter.post("/admin", loginLimit, async (req, res) => {
 });
 
 authRouter.post("/login", loginLimit, async (req, res) => {
-  const username = String(req.body?.username || "").trim();
+  const rawUsername = String(req.body?.username || "").trim();
   const password = String(req.body?.password || "");
-  if (!username || !password) {
+  if (!rawUsername || !password) {
     res.status(400).json({ error: "Usuario y contraseña requeridos" });
     return;
   }
-  const user = await prisma.clientUser.findUnique({ where: { username } });
-  if (!user || !user.active) {
+  const upperUsername = normalizeCredential(rawUsername);
+  let user = await prisma.clientUser.findUnique({ where: { username: upperUsername } });
+  if (!user && rawUsername !== upperUsername) {
+    user = await prisma.clientUser.findUnique({ where: { username: rawUsername } });
+  }
+  if (!user) {
     res.status(401).json({ error: "Credenciales inválidas" });
+    return;
+  }
+  if (!user.active) {
+    res.status(403).json({
+      error: FADEY_POLICY_SUSPENSION_MESSAGE,
+      code: FADEY_POLICY_SUSPENSION_CODE,
+    });
     return;
   }
   const ok = await bcrypt.compare(password, user.passwordHash);
@@ -77,7 +93,10 @@ authRouter.get("/me", requireAuth, async (req: AuthedRequest, res) => {
       where: { id: req.auth.userId },
     });
     if (!user || !user.active) {
-      res.status(401).json({ error: "Usuario inactivo" });
+      res.status(403).json({
+        error: FADEY_POLICY_SUSPENSION_MESSAGE,
+        code: FADEY_POLICY_SUSPENSION_CODE,
+      });
       return;
     }
     res.json({
