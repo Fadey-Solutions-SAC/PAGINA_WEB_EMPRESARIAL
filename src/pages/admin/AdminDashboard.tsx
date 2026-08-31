@@ -56,9 +56,9 @@ function shortDate(iso: string) {
 }
 
 function ProfitChart({ data }: { data: FinanceDashboard["chart"] }) {
-  const { points, min, max } = useMemo(() => {
+  const { points } = useMemo(() => {
     if (!data.length) {
-      return { points: "", min: 0, max: 0 };
+      return { points: "" };
     }
     const values = data.map((d) => d.ganancias);
     const lo = Math.min(0, ...values);
@@ -75,7 +75,7 @@ function ProfitChart({ data }: { data: FinanceDashboard["chart"] }) {
         return `${x},${y}`;
       })
       .join(" ");
-    return { points: pts, min: minV, max: maxV };
+    return { points: pts };
   }, [data]);
 
   return (
@@ -97,9 +97,6 @@ function ProfitChart({ data }: { data: FinanceDashboard["chart"] }) {
         <span>Ganancias acumuladas</span>
         <span>{data[data.length - 1]?.date.slice(8) || ""}</span>
       </div>
-      <p className="dash-chart__hint">
-        Rango del mes · min {money(min)} · max {money(max)}
-      </p>
     </div>
   );
 }
@@ -216,9 +213,6 @@ export function AdminDashboard({ token, onError, onToast }: Props) {
           </div>
           {!loading && data && <ProfitChart data={data.chart} />}
           {loading && <div className="admin__skeleton" style={{ height: 140 }} />}
-          <p className="dash__profit-note">
-            Mes − (personal + servidores + publicidad + equipos + impuestos)
-          </p>
         </aside>
       </div>
 

@@ -5,9 +5,17 @@ import { useAuth, type Product } from "../../lib/auth";
 import { useTheme, type SiteTheme } from "../../lib/theme";
 import { AdminDashboard } from "./AdminDashboard";
 import { AdminPayments } from "./AdminPayments";
+import { AdminClientView } from "./AdminClientView";
 import "./Admin.css";
 
-type Section = "resumen" | "leads" | "users" | "payments" | "courses" | "config";
+type Section =
+  | "resumen"
+  | "leads"
+  | "users"
+  | "payments"
+  | "courses"
+  | "config"
+  | "clientview";
 
 type Lead = {
   id: string;
@@ -89,6 +97,7 @@ export function AdminPage() {
   const { token, logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [section, setSection] = useState<Section>("resumen");
+  const [clientPreviewId, setClientPreviewId] = useState<string | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [banner, setBanner] = useState("");
@@ -540,7 +549,17 @@ export function AdminPage() {
   }
 
   const title =
-    NAV.find((n) => n.id === section)?.label || "Panel admin";
+    section === "clientview"
+      ? clientPreviewId
+        ? users.find((u) => u.id === clientPreviewId)?.clientName || "Vista de cliente"
+        : "Vista de cliente"
+      : NAV.find((n) => n.id === section)?.label || "Panel admin";
+
+  function openClientView() {
+    setSection("clientview");
+    setClientPreviewId(null);
+    setSidebarOpen(false);
+  }
 
   return (
     <div className="admin">
@@ -560,6 +579,7 @@ export function AdminPage() {
               className={section === item.id ? "is-active" : ""}
               onClick={() => {
                 setSection(item.id);
+                setClientPreviewId(null);
                 setSidebarOpen(false);
               }}
             >
@@ -574,6 +594,13 @@ export function AdminPage() {
           ))}
         </nav>
         <div className="admin__side-foot">
+          <button
+            type="button"
+            className={section === "clientview" ? "is-active" : ""}
+            onClick={openClientView}
+          >
+            Vista de cliente
+          </button>
           <Link to="/">← Ir al sitio</Link>
           <button type="button" onClick={logout}>
             Cerrar sesión
@@ -861,6 +888,17 @@ export function AdminPage() {
               onReject={(id) => void setPaymentStatus(id, "rejected")}
               onNotifyPos={(id) => void notifyPosNow(id)}
               onLightbox={setLightbox}
+            />
+          )}
+
+          {section === "clientview" && (
+            <AdminClientView
+              token={token}
+              clients={users}
+              selectedId={clientPreviewId}
+              onSelect={setClientPreviewId}
+              onError={setBanner}
+              search={q}
             />
           )}
 

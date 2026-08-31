@@ -22,6 +22,7 @@ import {
   assertWebServiceUrlExclusive,
   normalizeWebServiceUrl,
 } from "../utils/webServiceUrl.js";
+import { youtubeEmbed } from "../utils/youtube.js";
 
 const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
 
@@ -311,6 +312,55 @@ usersRouter.post("/link", requireAdmin, async (req, res) => {
       clientName: user.clientName,
       products: asProducts(user.products),
       note: "Guarda la contraseña y el ID de cliente/licencia ahora.",
+    });
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
+usersRouter.get("/:id/portal-preview", requireAdmin, async (req, res) => {
+  try {
+    const id = String(req.params.id);
+    const user = await prisma.clientUser.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        clientName: true,
+        products: true,
+        active: true,
+      },
+    });
+    if (!user) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+
+    const products = asProducts(user.products);
+    const [courses, progress] = await Promise.all([
+      prisma.courseModule.findMany({
+        where: { product: { in: products } },
+        orderBy: [{ product: "asc" }, { kind: "asc" }, { sortOrder: "asc" }],
+      }),
+      prisma.progress.findMany({
+        where: { userId: id },
+        select: { moduleId: true, completed: true },
+      }),
+    ]);
+
+    res.json({
+      user: {
+        id: user.id,
+        username: user.username,
+        clientName: user.clientName,
+        products,
+        active: user.active,
+      },
+      courses: courses.map((c) => ({
+        ...c,
+        embedUrl: youtubeEmbed(c.youtubeUrl),
+      })),
+      progress,
     });
   } catch (err) {
     sendApiError(res, err);
