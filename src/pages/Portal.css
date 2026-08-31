@@ -143,6 +143,17 @@
   display: flex;
   gap: 0.65rem;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.portal__client-name {
+  max-width: min(420px, 42vw);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #f8fafc;
+  text-align: right;
+  line-height: 1.25;
 }
 
 .portal__top-actions a {
@@ -231,9 +242,83 @@
 
 .academia__layout {
   display: grid;
-  grid-template-columns: minmax(220px, 280px) 1fr;
+  grid-template-columns: minmax(140px, 180px) 1fr;
   gap: 1rem;
-  align-items: start;
+  align-items: stretch;
+}
+
+.academia__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border-radius: 14px;
+  background: #0d1a28;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  min-height: 320px;
+}
+
+.academia__nav-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.academia__nav button {
+  text-align: center;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.55);
+  color: #e8f1f7;
+  border-radius: 10px;
+  padding: 0.75rem 0.65rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.academia__nav-main button.is-active {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: rgba(var(--accent-rgb), 0.14);
+  color: #fff;
+}
+
+.academia__nav-logout {
+  margin-top: auto;
+  color: #9db4c7 !important;
+  background: transparent !important;
+  border-color: rgba(148, 163, 184, 0.18) !important;
+  font-size: 0.78rem !important;
+  font-weight: 500 !important;
+  padding: 0.55rem 0.65rem !important;
+}
+
+.academia__nav-logout:hover {
+  color: #fff !important;
+  border-color: rgba(248, 113, 113, 0.35) !important;
+  background: rgba(248, 113, 113, 0.08) !important;
+}
+
+.academia__module-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 0.85rem;
+}
+
+.academia__module-tabs button {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: transparent;
+  color: #c5d5e4;
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.academia__module-tabs button.is-active {
+  border-color: rgba(var(--accent-rgb), 0.45);
+  background: rgba(var(--accent-rgb), 0.1);
+  color: #fff;
 }
 
 .academia__list {

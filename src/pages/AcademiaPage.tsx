@@ -30,11 +30,9 @@ export function AcademiaPage() {
   const navigate = useNavigate();
   const [courses, setCourses] = useState<Course[]>([]);
   const [progress, setProgress] = useState<ProgressRow[]>([]);
+  const [activeSection, setActiveSection] = useState<"tutorial" | "academia">("tutorial");
   const [activeId, setActiveId] = useState<string | null>(null);
   const [error, setError] = useState("");
-
-  const products =
-    auth.status === "ready" && auth.role === "client" ? auth.products || [] : [];
 
   const load = useCallback(async () => {
     if (!token) return;
@@ -45,7 +43,11 @@ export function AcademiaPage() {
       ]);
       setCourses(c);
       setProgress(p);
-      setActiveId((prev) => prev ?? c[0]?.id ?? null);
+      const firstTutorial = c.find((item) => item.kind === "tutorial");
+      setActiveId((prev) => {
+        if (prev && c.some((item) => item.id === prev)) return prev;
+        return firstTutorial?.id ?? c[0]?.id ?? null;
+      });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al cargar");
     }
@@ -61,8 +63,21 @@ export function AcademiaPage() {
   );
 
   const tutorials = courses.filter((c) => c.kind === "tutorial");
-  const academia = courses.filter((c) => c.kind === "academia");
-  const active = courses.find((c) => c.id === activeId) || null;
+  const academiaCourses = courses.filter((c) => c.kind === "academia");
+  const sectionCourses = activeSection === "tutorial" ? tutorials : academiaCourses;
+  const active = sectionCourses.find((c) => c.id === activeId) || sectionCourses[0] || null;
+
+  const clientName =
+    auth.status === "ready" && auth.role === "client" ? auth.clientName : "";
+
+  function selectSection(section: "tutorial" | "academia") {
+    setActiveSection(section);
+    const next =
+      section === "tutorial"
+        ? tutorials[0]?.id ?? null
+        : academiaCourses[0]?.id ?? null;
+    setActiveId(next);
+  }
 
   const total = courses.length;
   const done = courses.filter((c) => doneSet.has(c.id)).length;
@@ -88,40 +103,15 @@ export function AcademiaPage() {
 
   return (
     <div className="portal portal--wide">
-      {isImpersonating && (
-        <div className="portal__impersonation" role="status">
-          <span>
-            Viendo como{" "}
-            <strong>
-              {auth.status === "ready" ? auth.clientName : "cliente"}
-            </strong>
-            {" · "}
-            portal real del cliente
-          </span>
-          <button type="button" className="btn btn--primary" onClick={() => void backToAdmin()}>
-            ← Volver al admin
-          </button>
-        </div>
-      )}
-
       <header className="portal__top">
         <div>
           <h1>Academia Fadey</h1>
-          <p>
-            {auth.status === "ready" && auth.role === "client"
-              ? `${auth.clientName} · ${products.map((p) => PRODUCT_LABEL[p]).join(", ")}`
-              : "Cliente"}
-          </p>
         </div>
         <div className="portal__top-actions">
+          {clientName && (
+            <span className="portal__client-name">{clientName}</span>
+          )}
           {!isImpersonating && <Link to="/">Sitio</Link>}
-          <button
-            type="button"
-            className="btn btn--dark"
-            onClick={() => (isImpersonating ? void backToAdmin() : logout())}
-          >
-            {isImpersonating ? "Salir de la vista" : "Salir"}
-          </button>
         </div>
       </header>
 
@@ -135,44 +125,53 @@ export function AcademiaPage() {
       </div>
 
       <div className="academia__layout">
-        <aside className="academia__list">
-          <h2>Tutoriales</h2>
-          {tutorials.length === 0 && <p className="portal__muted">Sin tutoriales aún.</p>}
-          {tutorials.map((c) => (
+        <aside className="academia__nav">
+          <div className="academia__nav-main">
             <button
-              key={c.id}
               type="button"
-              className={activeId === c.id ? "is-active" : ""}
-              onClick={() => setActiveId(c.id)}
+              className={activeSection === "tutorial" ? "is-active" : ""}
+              onClick={() => selectSection("tutorial")}
             >
-              {doneSet.has(c.id) ? "✓ " : ""}
-              {c.title}
-              <span>{PRODUCT_LABEL[c.product]}</span>
+              Tutorial
             </button>
-          ))}
-          <h2>Academia</h2>
-          {academia.length === 0 && <p className="portal__muted">Sin videos de academia aún.</p>}
-          {academia.map((c) => (
             <button
-              key={c.id}
               type="button"
-              className={activeId === c.id ? "is-active" : ""}
-              onClick={() => setActiveId(c.id)}
+              className={activeSection === "academia" ? "is-active" : ""}
+              onClick={() => selectSection("academia")}
             >
-              {doneSet.has(c.id) ? "✓ " : ""}
-              {c.title}
-              <span>{PRODUCT_LABEL[c.product]}</span>
+              Academia
             </button>
-          ))}
+          </div>
+          <button
+            type="button"
+            className="academia__nav-logout"
+            onClick={() => (isImpersonating ? void backToAdmin() : logout())}
+          >
+            Cerrar sesión
+          </button>
         </aside>
 
         <div className="academia__player">
+          {sectionCourses.length > 1 && (
+            <div className="academia__module-tabs">
+              {sectionCourses.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  className={active?.id === c.id ? "is-active" : ""}
+                  onClick={() => setActiveId(c.id)}
+                >
+                  {doneSet.has(c.id) ? "✓ " : ""}
+                  {c.title}
+                </button>
+              ))}
+            </div>
+          )}
+
           {active ? (
             <>
               <h2>{active.title}</h2>
-              <p className="portal__muted">
-                {PRODUCT_LABEL[active.product]} · {active.kind}
-              </p>
+              <p className="portal__muted">{PRODUCT_LABEL[active.product]}</p>
               <div className="academia__frame">
                 <iframe
                   title={active.title}
@@ -193,7 +192,9 @@ export function AcademiaPage() {
             </>
           ) : (
             <p className="portal__muted">
-              Cuando el admin publique videos de tu producto, aparecerán aquí.
+              {activeSection === "tutorial"
+                ? "Cuando el admin publique tutoriales de tu producto, aparecerán aquí."
+                : "Cuando el admin publique videos de academia de tu producto, aparecerán aquí."}
             </p>
           )}
         </div>
