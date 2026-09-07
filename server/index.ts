@@ -16,6 +16,7 @@ import { compatRouter } from "./routes/compat.js";
 import { adminStatsRouter } from "./routes/adminStats.js";
 import { financeRouter } from "./routes/finance.js";
 import { themeRouter } from "./routes/theme.js";
+import { reclamacionesRouter } from "./routes/reclamaciones.js";
 import { sendApiError } from "./utils/errors.js";
 
 const app = express();
@@ -80,6 +81,7 @@ app.use("/api/ingest", ingestRouter);
 app.use("/api/admin", adminStatsRouter);
 app.use("/api/admin/finance", financeRouter);
 app.use("/api/theme", themeRouter);
+app.use("/api/reclamaciones", reclamacionesRouter);
 
 app.use(
   (

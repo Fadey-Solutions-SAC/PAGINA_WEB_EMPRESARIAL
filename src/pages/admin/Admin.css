@@ -277,6 +277,11 @@ html[data-theme="emerald"] .admin {
   opacity: calc(var(--admin-bg-img-opacity) + 0.08);
 }
 
+.admin__content--reclamaciones::before {
+  background: var(--admin-bg-waves) center left / cover no-repeat;
+  opacity: calc(var(--admin-bg-img-opacity) + 0.08);
+}
+
 /* Usuarios — red lateral */
 .admin__content--users::before {
   background: var(--admin-bg-network) left center / cover no-repeat;

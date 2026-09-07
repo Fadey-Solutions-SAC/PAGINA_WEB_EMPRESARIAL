@@ -121,3 +121,43 @@ model Progress {
 
   @@unique([userId, moduleId])
 }
+
+enum ClaimKind {
+  reclamo
+  queja
+}
+
+enum ClaimGoods {
+  producto
+  servicio
+}
+
+enum ClaimStatus {
+  pendiente
+  atendido
+  cerrado
+}
+
+/// Libro de reclamaciones (Código de Protección y Defensa del Consumidor - Perú)
+model Reclamacion {
+  id               String      @id @default(cuid())
+  folio            String      @unique
+  consumerName     String
+  documentType     String
+  documentNumber   String
+  address          String
+  phone            String
+  email            String
+  guardianName     String?
+  goodsType        ClaimGoods
+  goodsDescription String
+  claimedAmount    Float?
+  claimKind        ClaimKind
+  detail           String
+  request          String
+  status           ClaimStatus @default(pendiente)
+  createdAt        DateTime    @default(now())
+
+  @@index([createdAt])
+  @@index([status])
+}

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { mailtoInfo, msgQuoteProduct, waUrl } from "../lib/whatsapp";
 import "./Footer.css";
 
@@ -10,7 +11,7 @@ export function Footer() {
     <footer className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <a href="#inicio" className="footer__logo">
+          <a href="/#inicio" className="footer__logo">
             <span className="footer__mark">
               <img
                 src="/logo-fadey.png"
@@ -34,16 +35,16 @@ export function Footer() {
           <h4>Soluciones</h4>
           <ul>
             <li>
-              <a href="#resto">Resto Fadey</a>
+              <a href="/#resto">Resto Fadey</a>
             </li>
             <li>
-              <a href="#erp">ERP Fadey</a>
+              <a href="/#erp">ERP Fadey</a>
             </li>
             <li>
-              <a href="#web">Desarrollo web</a>
+              <a href="/#web">Desarrollo web</a>
             </li>
             <li>
-              <a href="#soporte">Soporte</a>
+              <a href="/#soporte">Soporte</a>
             </li>
           </ul>
         </div>
@@ -52,10 +53,13 @@ export function Footer() {
           <h4>Empresa</h4>
           <ul>
             <li>
-              <a href="#modelo">Nuestras soluciones</a>
+              <a href="/#modelo">Nuestras soluciones</a>
             </li>
             <li>
-              <a href="#contacto">Contacto</a>
+              <a href="/#contacto">Contacto</a>
+            </li>
+            <li>
+              <Link to="/libro-de-reclamaciones">Libro de reclamaciones</Link>
             </li>
           </ul>
         </div>
@@ -93,6 +97,9 @@ export function Footer() {
           © {new Date().getFullYear()} Fadey Solutions S.A.C. Todos los derechos
           reservados.
         </p>
+        <Link className="footer__legal" to="/libro-de-reclamaciones">
+          Libro de reclamaciones
+        </Link>
       </div>
     </footer>
   );

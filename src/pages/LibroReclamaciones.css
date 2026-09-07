@@ -1,0 +1,216 @@
+.libro {
+  padding: calc(var(--header-h) + 2rem) 0 3.5rem;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(var(--accent-rgb), 0.14), transparent 42%),
+    linear-gradient(180deg, #071018 0%, #0a1624 48%, #071018 100%);
+  color: #e8f1f7;
+  min-height: 70dvh;
+}
+
+.libro__wrap {
+  max-width: 820px;
+}
+
+.libro__banner {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.libro__banner-mark {
+  flex-shrink: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #071018;
+  background: linear-gradient(135deg, var(--cyan), var(--cyan-soft));
+  box-shadow: 0 10px 28px rgba(var(--accent-rgb), 0.28);
+}
+
+.libro__eyebrow {
+  color: var(--cyan-soft);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.35rem;
+}
+
+.libro h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin: 0;
+  color: #fff;
+}
+
+.libro__lead {
+  margin-top: 0.55rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 58ch;
+}
+
+.libro__provider {
+  margin-bottom: 1.35rem;
+  padding: 1rem 1.1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(13, 26, 40, 0.85);
+}
+
+.libro__provider h2 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  color: #fff;
+}
+
+.libro__provider dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 1.25rem;
+  margin: 0;
+}
+
+.libro__provider dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #9db4c7;
+}
+
+.libro__provider dd {
+  margin: 0.15rem 0 0;
+  color: #e8f1f7;
+  font-size: 0.95rem;
+}
+
+.libro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background: rgba(13, 26, 40, 0.92);
+}
+
+.libro-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.libro-form legend {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0.35rem;
+  padding: 0;
+}
+
+.libro-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  color: #c5d5e4;
+}
+
+.libro-form input,
+.libro-form select,
+.libro-form textarea {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(7, 16, 24, 0.9);
+  color: #fff;
+  padding: 0.7rem 0.8rem;
+  font: inherit;
+}
+
+.libro-form textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.libro-form input:focus,
+.libro-form select:focus,
+.libro-form textarea:focus {
+  outline: none;
+  border-color: rgba(var(--accent-rgb), 0.65);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.15);
+}
+
+.libro-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.libro-form__row--3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.libro-form__note {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #9db4c7;
+}
+
+.libro-form__error {
+  margin: 0;
+  color: #fca5a5;
+  font-size: 0.9rem;
+}
+
+.libro__success {
+  padding: 1.35rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.libro__success strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 0.45rem;
+}
+
+.libro__success p {
+  color: #c5d5e4;
+  line-height: 1.55;
+  margin: 0 0 1rem;
+}
+
+.libro__success code {
+  color: var(--cyan-soft);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.libro__success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+@media (max-width: 760px) {
+  .libro__provider dl,
+  .libro-form__row,
+  .libro-form__row--3 {
+    grid-template-columns: 1fr;
+  }
+}

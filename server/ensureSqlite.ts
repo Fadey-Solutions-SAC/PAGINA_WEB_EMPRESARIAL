@@ -1,10 +1,15 @@
 import { execSync } from "node:child_process";
 import { prisma, dbPath, fileUrl } from "./db.js";
 
-/** Si la tabla Lead no existe, aplica el schema SQLite. */
+async function schemaReady() {
+  await prisma.lead.findFirst({ take: 1 });
+  await prisma.reclamacion.findFirst({ take: 1 });
+}
+
+/** Si faltan tablas del schema, aplica prisma db push en SQLite. */
 export async function ensureSqliteSchema() {
   try {
-    await prisma.lead.findFirst({ take: 1 });
+    await schemaReady();
     return { ok: true, pushed: false };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -21,8 +26,7 @@ export async function ensureSqliteSchema() {
       stdio: "inherit",
       env: { ...process.env, DATABASE_URL: fileUrl },
     });
-    // Reintentar
-    await prisma.lead.findFirst({ take: 1 });
+    await schemaReady();
     console.log("[fadey-api] Schema SQLite listo.");
     return { ok: true, pushed: true };
   }

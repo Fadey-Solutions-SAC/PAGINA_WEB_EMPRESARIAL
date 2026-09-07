@@ -6,11 +6,13 @@ import { useTheme, type SiteTheme } from "../../lib/theme";
 import { AdminDashboard } from "./AdminDashboard";
 import { AdminPayments } from "./AdminPayments";
 import { AdminClientView } from "./AdminClientView";
+import { AdminReclamaciones } from "./AdminReclamaciones";
 import "./Admin.css";
 
 type Section =
   | "resumen"
   | "leads"
+  | "reclamaciones"
   | "users"
   | "payments"
   | "courses"
@@ -75,6 +77,7 @@ const ALL_PRODUCTS: Product[] = ["resto", "erp", "web", "soporte"];
 const NAV: { id: Section; label: string; ico: string }[] = [
   { id: "resumen", label: "Dashboard", ico: "◉" },
   { id: "leads", label: "Registros", ico: "▤" },
+  { id: "reclamaciones", label: "Reclamos", ico: "▤" },
   { id: "users", label: "Usuarios", ico: "◎" },
   { id: "payments", label: "Pagos", ico: "▣" },
   { id: "courses", label: "Cursos", ico: "▶" },
@@ -746,6 +749,15 @@ export function AdminPage() {
                 )}
               </div>
             </div>
+          )}
+
+          {section === "reclamaciones" && (
+            <AdminReclamaciones
+              token={token}
+              search={q}
+              onError={setBanner}
+              onToast={showToast}
+            />
           )}
 
           {section === "users" && (
