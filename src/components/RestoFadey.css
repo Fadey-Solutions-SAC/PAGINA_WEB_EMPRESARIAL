@@ -79,8 +79,9 @@
   line-height: 1.1;
   letter-spacing: -0.02em;
   margin: 0;
-  text-wrap: balance;
+  text-wrap: pretty;
   overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .resto .section__lead {
@@ -877,6 +878,23 @@
   }
 }
 
+@media (min-width: 921px) {
+  .resto__content {
+    container-type: inline-size;
+    container-name: resto-copy;
+    padding-inline: 0;
+  }
+
+  .resto .section__title {
+    font-size: clamp(2.15rem, 6.25cqi, 3.05rem);
+    line-height: 1.06;
+  }
+
+  .resto .section__lead {
+    font-size: clamp(1.06rem, 2.85cqi, 1.24rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .resto-plan__promo-neon-flow {
     animation: none;
@@ -924,6 +942,11 @@
   .resto__content {
     order: 1;
     overflow: visible;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    container-type: inline-size;
+    container-name: resto-copy;
   }
 
   .resto__visual {
@@ -946,14 +969,25 @@
   .resto .section__title {
     max-width: none;
     width: 100%;
-    font-size: clamp(1.9rem, 8.4vw, 2.55rem);
-    line-height: 1.12;
+    font-size: clamp(2rem, 12cqi, 2.85rem);
+    line-height: 1.06;
     letter-spacing: -0.035em;
+    text-wrap: pretty;
   }
 
   .resto .section__lead {
-    font-size: 1.02rem;
-    margin-top: 0.5rem;
+    width: 100%;
+    max-width: 100%;
+    font-size: clamp(1.05rem, 4.35cqi, 1.2rem);
+    line-height: 1.45;
+    margin-top: 0.55rem;
+    text-wrap: pretty;
+  }
+
+  .resto__offer {
+    width: 100%;
+    font-size: clamp(1rem, 3.85cqi, 1.14rem);
+    line-height: 1.35;
   }
 
   .resto__brand-mark {
