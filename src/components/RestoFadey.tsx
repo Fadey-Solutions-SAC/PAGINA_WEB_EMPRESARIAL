@@ -103,10 +103,10 @@ export function RestoFadey() {
               <div className="resto__brand">
                 <img
                   className="resto__brand-mark"
-                  src="/resto-fadey-mark.png"
-                  alt="Resto-FADEY"
-                  width={200}
-                  height={45}
+                  src="/resto-fadey-logo.png"
+                  alt="Resto Fadey"
+                  width={320}
+                  height={72}
                   decoding="async"
                 />
               </div>
@@ -187,9 +187,8 @@ export function RestoFadey() {
           <div className="resto-plans__head reveal">
             <h3>Planes Resto Fadey</h3>
             <p>
-              Cada plan incluye más módulos y capacidad según el tamaño de tu
-              negocio gastronómico.
-            </p>
+               CADA PLAN TE SUMA MODULOS A TU ECOSISTEMA DE OPCIONES EN TU NEGOCIO, QUE ESPERAS? ¡LLEVA LOS QUE NECESITES!</p>
+            <p>SE CONSTRUYEN PLANES ESPECIALES ADAPTADOS A TU NEGOCIO ¡COTIZA YA!</p>
           </div>
 
           <div className="resto-plans__grid">

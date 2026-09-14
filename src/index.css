@@ -40,9 +40,14 @@
   --radius-md: 16px;
   --radius-lg: 24px;
   --max: 1180px;
+  --layout-max: 1760px;
+  --layout-inline: clamp(1rem, 2.25vw, 1.35rem);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --header-h: 72px;
+  --scrollbar-size: 5px;
+  --scrollbar-thumb: var(--cyan);
+  --scrollbar-track: rgba(var(--surface-deep-rgb), 0.25);
 }
 
 /* Tema verde: esmeralda vivo (más saturado, menos cian pálido) */
@@ -78,6 +83,13 @@ html[data-theme="emerald"] {
   --laptop-from: #00e676;
   --laptop-mid: #0a7a48;
   --laptop-to: #03261c;
+  --scrollbar-thumb: #00e676;
+  --scrollbar-track: rgba(2, 26, 20, 0.45);
+}
+
+html[data-theme="blue"] {
+  --scrollbar-thumb: #00cfff;
+  --scrollbar-track: rgba(var(--surface-deep-rgb), 0.35);
 }
 
 /* Diseños de fondo verdes (mismos patrones, versión esmeralda) — sin velos/neblina */
@@ -97,6 +109,8 @@ html[data-theme="emerald"] .web {
 
 html[data-theme="emerald"] .hero__bg {
   background-image: var(--bg-hero) !important;
+  background-position: center center !important;
+  background-size: cover !important;
   opacity: 0.62 !important;
   filter: none !important;
 }
@@ -317,6 +331,26 @@ html {
   /* Solo este offset: al ir a #resto / snap, el inicio queda bajo el header */
   scroll-padding-top: var(--header-h);
   scroll-snap-type: y mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+html::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--cyan-soft);
 }
 
 body {
@@ -331,6 +365,10 @@ body {
 img,
 svg {
   display: block;
+  max-width: 100%;
+}
+
+.hero__promo {
   max-width: 100%;
 }
 
