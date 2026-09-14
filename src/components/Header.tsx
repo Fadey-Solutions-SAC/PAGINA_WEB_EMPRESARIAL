@@ -165,7 +165,7 @@ export function Header() {
             onClick={(e) => {
               if (window.location.pathname === "/") {
                 e.preventDefault();
-                goToSection(link.href.replace(/^\/?/, ""));
+                goToSection(link.href);
               }
               closeMenu();
             }}
