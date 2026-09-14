@@ -92,7 +92,7 @@ export function Hero() {
 
       <div className="hero__layout">
         <div className="hero__stage">
-          <div className="hero__content">
+          <div className="hero__copy">
             <h1 className="hero__title">
               Tecnología que <span>potencia</span> tu negocio
             </h1>
@@ -105,23 +105,6 @@ export function Hero() {
               desarrollamos soluciones profesionales adaptadas a lo que
               realmente necesitas.
             </p>
-
-            <div className="hero__actions">
-              <button
-                type="button"
-                className="btn btn--primary"
-                onClick={() => goToSection("#contacto")}
-              >
-                Solicitar una cotización
-              </button>
-              <button
-                type="button"
-                className="btn btn--ghost"
-                onClick={() => setExploreOpen(true)}
-              >
-                Ver nuestras soluciones
-              </button>
-            </div>
           </div>
 
           <div className="hero__visual">
@@ -133,6 +116,23 @@ export function Hero() {
               height={800}
               decoding="async"
             />
+          </div>
+
+          <div className="hero__actions">
+            <button
+              type="button"
+              className="btn btn--primary"
+              onClick={() => goToSection("#contacto")}
+            >
+              Solicitar una cotización
+            </button>
+            <button
+              type="button"
+              className="btn btn--ghost"
+              onClick={() => setExploreOpen(true)}
+            >
+              Ver nuestras soluciones
+            </button>
           </div>
         </div>
 
