@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTheme, useTripleClick } from "../lib/theme";
 import { msgQuoteProduct, waUrl } from "../lib/whatsapp";
+import { goToSection } from "../lib/goToSection";
 import "./Header.css";
 
 const links = [
@@ -61,7 +62,15 @@ export function Header() {
             title="Triple clic para cambiar tema"
             onClick={(e) => {
               onBrandTriple();
-              if (e.detail >= 3) e.preventDefault();
+              if (e.detail >= 3) {
+                e.preventDefault();
+                return;
+              }
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                goToSection("#inicio");
+                closeMenu();
+              }
             }}
           >
             <span className="header__mark">

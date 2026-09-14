@@ -1,4 +1,5 @@
 import { useReveal } from "../hooks/useReveal";
+import { useLandingScroll } from "../hooks/useLandingScroll";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { RestoFadey } from "../components/RestoFadey";
@@ -12,6 +13,7 @@ import { WhatsAppFloat } from "../components/WhatsAppFloat";
 
 export function LandingPage() {
   useReveal();
+  useLandingScroll();
 
   return (
     <>
