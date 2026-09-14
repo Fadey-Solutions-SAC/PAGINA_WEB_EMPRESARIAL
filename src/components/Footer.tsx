@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { goToSection } from "../lib/goToSection";
 import { mailtoInfo, msgQuoteProduct, waUrl } from "../lib/whatsapp";
 import "./Footer.css";
 
@@ -11,7 +12,15 @@ export function Footer() {
     <footer className="footer">
       <div className="container footer__grid">
         <div className="footer__brand">
-          <a href="/#inicio" className="footer__logo">
+          <a
+            href="/#inicio"
+            className="footer__logo"
+            onClick={(e) => {
+              if (window.location.pathname !== "/") return;
+              e.preventDefault();
+              goToSection("#inicio");
+            }}
+          >
             <span className="footer__mark">
               <img
                 src="/logo-fadey.png"
@@ -35,16 +44,52 @@ export function Footer() {
           <h4>Soluciones</h4>
           <ul>
             <li>
-              <a href="/#resto">Resto Fadey</a>
+              <a
+                href="/#resto"
+                onClick={(e) => {
+                  if (window.location.pathname !== "/") return;
+                  e.preventDefault();
+                  goToSection("#resto");
+                }}
+              >
+                Resto Fadey
+              </a>
             </li>
             <li>
-              <a href="/#erp">ERP Fadey</a>
+              <a
+                href="/#erp"
+                onClick={(e) => {
+                  if (window.location.pathname !== "/") return;
+                  e.preventDefault();
+                  goToSection("#erp");
+                }}
+              >
+                ERP Fadey
+              </a>
             </li>
             <li>
-              <a href="/#web">Desarrollo web</a>
+              <a
+                href="/#web"
+                onClick={(e) => {
+                  if (window.location.pathname !== "/") return;
+                  e.preventDefault();
+                  goToSection("#web");
+                }}
+              >
+                Desarrollo web
+              </a>
             </li>
             <li>
-              <a href="/#soporte">Soporte</a>
+              <a
+                href="/#soporte"
+                onClick={(e) => {
+                  if (window.location.pathname !== "/") return;
+                  e.preventDefault();
+                  goToSection("#soporte");
+                }}
+              >
+                Soporte
+              </a>
             </li>
           </ul>
         </div>

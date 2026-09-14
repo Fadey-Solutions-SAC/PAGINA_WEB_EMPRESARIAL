@@ -326,6 +326,11 @@ html[data-theme="emerald"] .login__bg {
   padding: 0;
 }
 
+html[data-landing-scroll="pending"] {
+  scroll-snap-type: none !important;
+  scroll-behavior: auto !important;
+}
+
 html {
   scroll-behavior: smooth;
   /* Solo este offset: al ir a #resto / snap, el inicio queda bajo el header */

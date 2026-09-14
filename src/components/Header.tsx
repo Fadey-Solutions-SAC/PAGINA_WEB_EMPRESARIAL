@@ -89,7 +89,16 @@ export function Header() {
 
           <nav className="header__nav header__nav--desktop" aria-label="Principal">
             {links.map((link) => (
-              <a key={link.href} href={link.href}>
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => {
+                  if (window.location.pathname !== "/") return;
+                  e.preventDefault();
+                  goToSection(link.href);
+                  closeMenu();
+                }}
+              >
                 {link.label}
               </a>
             ))}
@@ -150,7 +159,17 @@ export function Header() {
         aria-hidden={!open}
       >
         {links.map((link) => (
-          <a key={link.href} href={link.href} onClick={closeMenu}>
+          <a
+            key={link.href}
+            href={link.href}
+            onClick={(e) => {
+              if (window.location.pathname === "/") {
+                e.preventDefault();
+                goToSection(link.href.replace(/^\/?/, ""));
+              }
+              closeMenu();
+            }}
+          >
             {link.label}
           </a>
         ))}

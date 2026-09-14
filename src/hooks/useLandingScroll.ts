@@ -1,48 +1,68 @@
 import { useEffect } from "react";
 
-function scrollToLandingTarget(behavior: ScrollBehavior = "auto") {
-  const hash = window.location.hash.slice(1);
-  if (!hash || hash === "inicio") {
-    window.scrollTo({ top: 0, left: 0, behavior });
-    return;
-  }
-  const el = document.getElementById(hash);
-  if (el) {
-    el.scrollIntoView({ behavior, block: "start" });
-    return;
-  }
+function scrollToHero(behavior: ScrollBehavior = "auto") {
   window.scrollTo({ top: 0, left: 0, behavior });
 }
 
-/**
- * Home: always start at hero unless URL has a section hash.
- * Fixes mobile "desktop site" toggle keeping scroll on Resto/ERP.
- */
+/** Home siempre arranca en el hero; el hash solo aplica tras clic en la misma sesión (goToSection). */
 export function useLandingScroll() {
   useEffect(() => {
-    const prevRestoration = history.scrollRestoration;
-    history.scrollRestoration = "manual";
+    const path = window.location.pathname || "/";
+    if (path !== "/" && path !== "/index.html") {
+      return;
+    }
 
-    scrollToLandingTarget("auto");
-    const t = window.setTimeout(() => scrollToLandingTarget("auto"), 120);
+    const html = document.documentElement;
+    html.setAttribute("data-landing-scroll", "pending");
 
-    const onHashChange = () => scrollToLandingTarget("auto");
-    window.addEventListener("hashchange", onHashChange);
+    try {
+      history.scrollRestoration = "manual";
+    } catch {
+      /* ignore */
+    }
+
+    const cleanUrl = () => {
+      const hash = window.location.hash.slice(1);
+      if (hash && hash !== "inicio") {
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search,
+        );
+      }
+    };
+
+    const finishLanding = () => {
+      scrollToHero("auto");
+      cleanUrl();
+      html.setAttribute("data-landing-scroll", "ready");
+    };
+
+    finishLanding();
+    const t1 = window.setTimeout(finishLanding, 0);
+    const t2 = window.setTimeout(finishLanding, 150);
+    const t3 = window.setTimeout(finishLanding, 400);
+
+    const onPageshow = (e: PageTransitionEvent) => {
+      if (e.persisted) {
+        finishLanding();
+      }
+    };
+    window.addEventListener("pageshow", onPageshow);
 
     const desktopMq = window.matchMedia("(min-width: 921px)");
     const onDesktopChange = (e: MediaQueryListEvent) => {
-      if (!e.matches) return;
-      const hash = window.location.hash.slice(1);
-      if (!hash || hash === "inicio") {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      if (e.matches) {
+        finishLanding();
       }
     };
     desktopMq.addEventListener("change", onDesktopChange);
 
     return () => {
-      history.scrollRestoration = prevRestoration;
-      window.clearTimeout(t);
-      window.removeEventListener("hashchange", onHashChange);
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
+      window.clearTimeout(t3);
+      window.removeEventListener("pageshow", onPageshow);
       desktopMq.removeEventListener("change", onDesktopChange);
     };
   }, []);

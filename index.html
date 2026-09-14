@@ -5,6 +5,21 @@
     <link rel="icon" type="image/png" href="/logo-fadey.png" />
     <meta name="theme-color" content="#041018" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <script>
+      (function () {
+        try {
+          history.scrollRestoration = "manual";
+        } catch (e) {}
+        var path = location.pathname || "/";
+        if (path === "/" || path === "/index.html") {
+          document.documentElement.setAttribute("data-landing-scroll", "pending");
+          if (location.hash && location.hash !== "#inicio") {
+            history.replaceState(null, "", path + location.search);
+          }
+          window.scrollTo(0, 0);
+        }
+      })();
+    </script>
     <meta
       name="description"
       content="Fadey Solutions S.A.C. — Resto Fadey, ERP Fadey, desarrollo web y soporte. Tecnología que impulsa tu negocio."
