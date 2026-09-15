@@ -2,7 +2,7 @@ import { useReveal } from "../hooks/useReveal";
 import { useLandingScroll } from "../hooks/useLandingScroll";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
-import { RestoFadey } from "../components/RestoFadey";
+import { FadeyWhy, RestoFadey } from "../components/RestoFadey";
 import { ERP } from "../components/ERP";
 import { WebDevelopment } from "../components/WebDevelopment";
 import { Maintenance } from "../components/Maintenance";
@@ -20,6 +20,7 @@ export function LandingPage() {
       <Header />
       <main>
         <Hero />
+        <FadeyWhy />
         <RestoFadey />
         <ERP />
         <WebDevelopment />

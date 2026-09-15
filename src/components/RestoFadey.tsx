@@ -325,90 +325,172 @@ function RestoPlanIcon({ kind }: { kind: (typeof planTierDefs)[number]["icon"] }
   }
 }
 
-export function RestoFadey() {
+export function FadeyWhy() {
   return (
-    <>
-      <section className="resto section section--light section--light-a" id="resto">
-        <div className="container resto__shell">
-          <div className="resto__grid">
-            <div className="resto__content reveal">
-              <div className="resto__brand">
-                <img
-                  className="resto__brand-banner resto__brand-banner--blue"
-                  src="/resto-fadey-banner-blue.png"
-                  alt="Resto Fadey"
-                  width={904}
-                  height={209}
-                  decoding="async"
-                />
-              </div>
-              <h2 className="section__title">
-                Controla todo tu negocio gastronómico desde un solo lugar
-              </h2>
-              <p className="section__lead">
-                Gestiona pedidos, caja, cocina o barra e inventario en una sola
-                plataforma.
-              </p>
-              <p className="section__lead resto__lead-extra">
-                Automatiza tu operación, reduce errores y decide con información
-                en tiempo real.
-              </p>
-              <ul
-                className="resto__audience"
-                aria-label="Tipos de negocio compatibles con Resto Fadey"
-              >
-                {audience.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-              <p className="resto__offer">
-                Planes desde <strong>S/ 99</strong> al mes · Sin complicaciones ·
-                Listo para empezar
-              </p>
-              <ul className="resto__benefits" aria-label="Beneficios de Resto Fadey">
-                {benefits.map((item) => (
-                  <li key={item}>
-                    <span aria-hidden="true">✓</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <section
+      className="fadey-why section section--light section--light-b"
+      id="fadey-por-que"
+      aria-labelledby="fadey-why-title"
+    >
+      <div className="fadey-why__shell">
+        <div className="fadey-why__intro reveal">
+          <p className="fadey-why__eyebrow">→ ¿Por qué elegir Fadey Solutions?</p>
+          <h2 id="fadey-why-title" className="fadey-why__headline">
+            Más que tecnología,{" "}
+            <span className="fadey-why__headline-accent">
+              somos tu aliado de crecimiento.
+            </span>
+          </h2>
+          <p className="fadey-why__lead">
+            En Fadey Solutions no solo desarrollamos sistemas y páginas web:
+            creamos soluciones reales para que tu negocio sea más eficiente,
+            competitivo y esté siempre un paso adelante.
+          </p>
+        </div>
 
-            <div className="resto__visual reveal">
-              <div className="resto-shot resto-shot--video">
-                <video
-                  className="resto-shot__video"
-                  src="/resto-fadey-demo.mp4?v=2"
-                  controls
-                  playsInline
-                  preload="metadata"
-                  width={560}
-                  height={368}
-                  aria-label="Video explicativo de Resto Fadey"
-                >
-                  Tu navegador no reproduce video.{" "}
-                  <a href="/resto-fadey-demo.mp4">Descarga el video</a>.
-                </video>
+        <div className="fadey-why__visual reveal">
+          <div className="fadey-why__dashboard-wrap">
+            <span
+              className="fadey-why__ia-badge"
+              title="Inteligencia artificial Fadey"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="6" y="6" width="12" height="12" rx="2" />
+                <path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4" />
+                <circle cx="12" cy="12" r="2.5" />
+              </svg>
+              IA Fadey
+            </span>
+            <img
+              className="fadey-why__dashboard"
+              src="/fadey-why-dashboard.jpg?v=1"
+              alt="Resto Fadey en tablet: reportes, ventas, métodos de pago e indicadores del negocio"
+              width={1024}
+              height={768}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </div>
+
+        <div className="fadey-why__cards">
+          {whyFadeyCards.map((card) => (
+            <article
+              key={card.n}
+              className={`fadey-why-card fadey-why-card--${card.accent} reveal`}
+            >
+              <div className="fadey-why-card__icon">
+                <WhyFadeyIcon kind={card.icon} />
               </div>
-              <div className="resto__cta">
-                <a className="btn btn--primary" href="#resto-planes">
-                  Ver planes y beneficios
-                </a>
-                <a
-                  className="btn btn--ghost"
-                  href={WHATSAPP_DEMO_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Solicitar una demostración
-                </a>
-              </div>
+              <span className="fadey-why-card__num" aria-hidden="true">
+                {card.n}
+              </span>
+              <h3 className="fadey-why-card__title">
+                {card.titleBefore}
+                <em>{card.titleAccent}</em>
+              </h3>
+              <p className="fadey-why-card__desc">{card.desc}</p>
+              <ul className="fadey-why-card__list">
+                {card.bullets.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RestoIntro() {
+  return (
+    <section className="resto section section--light section--light-a" id="resto">
+      <div className="container resto__shell">
+        <div className="resto__grid">
+          <div className="resto__content reveal">
+            <div className="resto__brand">
+              <img
+                className="resto__brand-banner resto__brand-banner--blue"
+                src="/resto-fadey-banner-blue.png"
+                alt="Resto Fadey"
+                width={904}
+                height={209}
+                decoding="async"
+              />
+            </div>
+            <h2 className="section__title">
+              Controla todo tu negocio gastronómico desde un solo lugar
+            </h2>
+            <p className="section__lead">
+              Gestiona pedidos, caja, cocina o barra e inventario en una sola
+              plataforma.
+            </p>
+            <p className="section__lead resto__lead-extra">
+              Automatiza tu operación, reduce errores y decide con información
+              en tiempo real.
+            </p>
+            <ul
+              className="resto__audience"
+              aria-label="Tipos de negocio compatibles con Resto Fadey"
+            >
+              {audience.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <p className="resto__offer">
+              Planes desde <strong>S/ 99</strong> al mes · Sin complicaciones ·
+              Listo para empezar
+            </p>
+            <ul className="resto__benefits" aria-label="Beneficios de Resto Fadey">
+              {benefits.map((item) => (
+                <li key={item}>
+                  <span aria-hidden="true">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="resto__visual reveal">
+            <div className="resto-shot resto-shot--video">
+              <video
+                className="resto-shot__video"
+                src="/resto-fadey-demo.mp4?v=2"
+                controls
+                playsInline
+                preload="metadata"
+                width={560}
+                height={368}
+                aria-label="Video explicativo de Resto Fadey"
+              >
+                Tu navegador no reproduce video.{" "}
+                <a href="/resto-fadey-demo.mp4">Descarga el video</a>.
+              </video>
+            </div>
+            <div className="resto__cta">
+              <a className="btn btn--primary" href="#resto-planes">
+                Ver planes y beneficios
+              </a>
+              <a
+                className="btn btn--ghost"
+                href={WHATSAPP_DEMO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Solicitar una demostración
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
+export function RestoFadey() {
+  return (
+    <>
       <section
         className="resto-modules section section--blue section--blue-a resto-modules--theme-green"
         id="resto-modulos"
@@ -507,71 +589,7 @@ export function RestoFadey() {
         </div>
       </section>
 
-      <section
-        className="fadey-why section section--light section--light-b"
-        id="fadey-por-que"
-        aria-labelledby="fadey-why-title"
-      >
-        <div className="fadey-why__shell">
-          <div className="fadey-why__intro reveal">
-            <p className="fadey-why__eyebrow">→ ¿Por qué elegir Fadey Solutions?</p>
-            <h2 id="fadey-why-title" className="fadey-why__headline">
-              Más que tecnología,{" "}
-              <span className="fadey-why__headline-accent">
-                somos tu aliado de crecimiento.
-              </span>
-            </h2>
-            <p className="fadey-why__lead">
-              En Fadey Solutions no solo desarrollamos sistemas y páginas web:
-              creamos soluciones reales para que tu negocio sea más eficiente,
-              competitivo y esté siempre un paso adelante.
-            </p>
-          </div>
-
-          <div className="fadey-why__visual reveal">
-            <div className="fadey-why__dashboard-wrap">
-              <span className="fadey-why__ia-badge" title="Integración IA">
-                <span aria-hidden="true">✦</span> IA
-              </span>
-              <img
-                className="fadey-why__dashboard"
-                src="/fadey-why-dashboard.jpg?v=1"
-                alt="Resto Fadey en tablet: reportes, ventas, métodos de pago e indicadores del negocio"
-                width={1024}
-                height={768}
-                loading="lazy"
-                decoding="async"
-              />
-            </div>
-          </div>
-
-          <div className="fadey-why__cards">
-            {whyFadeyCards.map((card) => (
-              <article
-                key={card.n}
-                className={`fadey-why-card fadey-why-card--${card.accent} reveal`}
-              >
-                <div className="fadey-why-card__icon">
-                  <WhyFadeyIcon kind={card.icon} />
-                </div>
-                <span className="fadey-why-card__num" aria-hidden="true">
-                  {card.n}
-                </span>
-                <h3 className="fadey-why-card__title">
-                  {card.titleBefore}
-                  <em>{card.titleAccent}</em>
-                </h3>
-                <p className="fadey-why-card__desc">{card.desc}</p>
-                <ul className="fadey-why-card__list">
-                  {card.bullets.map((line) => (
-                    <li key={line}>{line}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+      <RestoIntro />
 
       <section
         className="resto-plans section section--blue section--blue-b"
