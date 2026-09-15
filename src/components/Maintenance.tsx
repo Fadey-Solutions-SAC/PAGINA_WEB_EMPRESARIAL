@@ -38,7 +38,7 @@ function CheckIcon() {
 
 export function Maintenance() {
   return (
-    <section className="maint section section--light section--light-c" id="soporte">
+    <section className="maint section section--blue section--blue-d" id="soporte">
       <div className="container">
         <div className="maint__intro reveal">
           <span className="section__label">04 · Soporte</span>

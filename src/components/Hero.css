@@ -5,6 +5,9 @@
   --hero-btn: clamp(0.98rem, 0.88rem + 0.35vw, 1.1rem);
 
   position: relative;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
   min-height: 100svh;
   min-height: 100dvh;
   height: 100svh;
@@ -46,9 +49,10 @@
 .hero__bg {
   position: absolute;
   inset: 0;
-  background:
-    url("/hero-network.png") center center / cover no-repeat;
-  opacity: 0.58;
+  width: 100%;
+  min-height: 100%;
+  background: var(--bg-hero) center center / cover no-repeat;
+  opacity: 1;
   pointer-events: none;
   transform: none;
 }
@@ -56,6 +60,8 @@
 .hero__overlay {
   position: absolute;
   inset: 0;
+  width: 100%;
+  min-height: 100%;
   pointer-events: none;
   background:
     linear-gradient(
@@ -102,8 +108,8 @@
   z-index: 1;
   flex: 1 1 0;
   min-height: 0;
-  width: min(calc(100% - 2.5rem), var(--layout-max), 100%);
-  max-width: 100%;
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: none;
   margin-inline: auto;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
@@ -798,7 +804,8 @@
   }
 
   .hero__layout {
-    width: min(calc(100% - 2.5rem), var(--layout-max));
+    width: calc(100% - 2 * var(--layout-inline));
+    max-width: none;
     flex: none !important;
     min-height: auto !important;
     height: auto !important;

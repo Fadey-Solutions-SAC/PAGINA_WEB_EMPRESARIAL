@@ -54,7 +54,7 @@ const offerings = [
 
 export function SolutionsModel() {
   return (
-    <section className="model section section--blue section--blue-c" id="modelo">
+    <section className="model section section--light section--light-a" id="modelo">
       <div className="container">
         <div className="model__intro reveal">
           <span className="section__label">Nuestras soluciones</span>

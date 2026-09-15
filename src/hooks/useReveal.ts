@@ -34,11 +34,15 @@ export function useReveal() {
       return () => mobileMq.removeEventListener("change", applyMobileScroll);
     }
 
+    const markVisible = (el: Element) => {
+      el.classList.add("is-visible");
+    };
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
+            markVisible(entry.target);
             observer.unobserve(entry.target);
           }
         });
@@ -47,8 +51,28 @@ export function useReveal() {
     );
 
     elements.forEach((el) => observer.observe(el));
+
+    /* Con scroll-snap, al encajar una sección revelamos todo su contenido .reveal */
+    const snapSections = document.querySelectorAll<HTMLElement>(
+      "main .section, main .hero",
+    );
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target
+            .querySelectorAll<HTMLElement>(".reveal")
+            .forEach((el) => markVisible(el));
+        });
+      },
+      { threshold: 0.42, rootMargin: "0px" },
+    );
+
+    snapSections.forEach((section) => sectionObserver.observe(section));
+
     return () => {
       observer.disconnect();
+      sectionObserver.disconnect();
       mobileMq.removeEventListener("change", applyMobileScroll);
     };
   }, []);

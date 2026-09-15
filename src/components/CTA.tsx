@@ -43,7 +43,7 @@ export function CTA() {
 
   return (
     <section
-      className="cta section section--light section--light-d"
+      className="cta section section--blue section--blue-a"
       id="contacto"
     >
       <div className="container">

@@ -25,7 +25,8 @@
 }
 
 .header .container.header__inner {
-  width: min(calc(100% - 2.5rem), var(--layout-max));
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: none;
 }
 
 .header__inner {

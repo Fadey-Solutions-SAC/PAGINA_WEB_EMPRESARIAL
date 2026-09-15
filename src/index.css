@@ -39,15 +39,22 @@
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
-  --max: 1180px;
-  --layout-max: 1760px;
-  --layout-inline: clamp(1rem, 2.25vw, 1.35rem);
+  --max: 100%;
+  --layout-max: 100%;
+  --layout-inline: clamp(1rem, 2.25vw, 2.5rem);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --header-h: 72px;
   --scrollbar-size: 5px;
   --scrollbar-thumb: var(--cyan);
   --scrollbar-track: rgba(var(--surface-deep-rgb), 0.25);
+
+  /* Fondos de sección (tema azul por defecto; emerald los sobreescribe) */
+  --bg-hero: url("/bg-blue-diagonal.png");
+  --bg-dark-diagonal: url("/bg-blue-diagonal.png");
+  --bg-dark-curve: url("/bg-blue-curve.png");
+  --bg-light-hex: url("/bg-white-hex.png");
+  --bg-light-wave: url("/bg-white-wave.png");
 }
 
 /* Tema verde: esmeralda vivo (más saturado, menos cian pálido) */
@@ -90,20 +97,25 @@ html[data-theme="emerald"] {
 html[data-theme="blue"] {
   --scrollbar-thumb: #00cfff;
   --scrollbar-track: rgba(var(--surface-deep-rgb), 0.35);
+  --bg-hero: url("/bg-blue-diagonal.png");
+  --bg-dark-diagonal: url("/bg-blue-diagonal.png");
+  --bg-dark-curve: url("/bg-blue-curve.png");
+  --bg-light-hex: url("/bg-white-hex.png");
+  --bg-light-wave: url("/bg-white-wave.png");
 }
 
-/* Diseños de fondo verdes (mismos patrones, versión esmeralda) — sin velos/neblina */
+/* Fondos oscuros en verde; blancos compartidos con tema azul */
 html[data-theme="emerald"] {
-  --bg-hero: url("/hero-network-emerald.png");
-  --bg-waves: url("/bg-emerald-waves.png");
-  --bg-network: url("/bg-emerald-network.png");
-  --bg-web-neon: url("/bg-web-neon-emerald.png");
-  --bg-geometry: url("/bg-geometry-emerald.png");
+  --bg-hero: url("/bg-green-diagonal.png");
+  --bg-dark-diagonal: url("/bg-green-diagonal.png");
+  --bg-dark-curve: url("/bg-green-curve.png");
+  --bg-light-hex: url("/bg-white-hex.png");
+  --bg-light-wave: url("/bg-white-wave.png");
+  background-color: #03261c;
 }
 
 html[data-theme="emerald"] .section--blue,
-html[data-theme="emerald"] .hero,
-html[data-theme="emerald"] .web {
+html[data-theme="emerald"] .hero {
   background-color: #03261c;
 }
 
@@ -111,55 +123,17 @@ html[data-theme="emerald"] .hero__bg {
   background-image: var(--bg-hero) !important;
   background-position: center center !important;
   background-size: cover !important;
-  opacity: 0.62 !important;
+  opacity: 1 !important;
   filter: none !important;
 }
 
-html[data-theme="emerald"] .section--blue-a::before {
-  background: var(--bg-waves) center right / cover no-repeat !important;
-  opacity: 0.9 !important;
-  filter: none !important;
-}
-
-html[data-theme="emerald"] .section--blue-b::before {
-  background: var(--bg-network) left center / cover no-repeat !important;
-  opacity: 0.88 !important;
-  filter: none !important;
-}
-
-html[data-theme="emerald"] .section--blue-c::before {
-  background:
-    var(--bg-network) right bottom / cover no-repeat,
-    var(--bg-waves) left top / cover no-repeat !important;
-  opacity: 0.85 !important;
-  filter: none !important;
-}
-
-html[data-theme="emerald"] .section--blue-d::before {
-  background: var(--bg-waves) center / cover no-repeat !important;
-  opacity: 0.88 !important;
-  filter: none !important;
-}
-
-html[data-theme="emerald"] .web__bg {
-  background-image: var(--bg-web-neon) !important;
-  opacity: 0.8 !important;
-  filter: none !important;
-}
-
-html[data-theme="emerald"] .section--light::before {
-  background-image: var(--bg-geometry) !important;
-  opacity: 0.6 !important;
-  filter: none !important;
-}
-
-/* Sin neblina: overlays limpios (sin degradados verdes suaves ni radiales) */
+/* Overlays suaves en tema esmeralda (la foto de fondo se ve completa) */
 html[data-theme="emerald"] .section--blue::after,
 html[data-theme="emerald"] .section--blue-a::after,
 html[data-theme="emerald"] .section--blue-b::after,
 html[data-theme="emerald"] .section--blue-c::after,
 html[data-theme="emerald"] .section--blue-d::after {
-  background: rgba(3, 38, 28, 0.35) !important;
+  background: rgba(3, 38, 28, 0.22) !important;
 }
 
 html[data-theme="emerald"] .hero__overlay {
@@ -175,7 +149,7 @@ html[data-theme="emerald"] .section--light-a::after,
 html[data-theme="emerald"] .section--light-b::after,
 html[data-theme="emerald"] .section--light-c::after,
 html[data-theme="emerald"] .section--light-d::after {
-  background: rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.28) !important;
 }
 
 /* Apaga glows/blur verdes (efecto neblina) */
@@ -188,8 +162,6 @@ html[data-theme="emerald"] .login__glow {
 html[data-theme="emerald"] .section--blue .section__title,
 html[data-theme="emerald"] .hero__title,
 html[data-theme="emerald"] .hero__desc,
-html[data-theme="emerald"] .web .section__title,
-html[data-theme="emerald"] .web .section__lead,
 html[data-theme="emerald"] .erp .section__title,
 html[data-theme="emerald"] .resto .section__title,
 html[data-theme="emerald"] .resto .section__lead {
@@ -231,7 +203,6 @@ html[data-theme="emerald"] .hero__intent-item:hover {
   background: #0c4a3a;
 }
 
-html[data-theme="emerald"] .web-card,
 html[data-theme="emerald"] .model-card {
   background: #021912 !important;
   border-color: rgba(0, 230, 118, 0.3) !important;
@@ -239,10 +210,51 @@ html[data-theme="emerald"] .model-card {
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35) !important;
 }
 
-html[data-theme="emerald"] .web-card:hover {
-  background: #0d4334 !important;
-  border-color: var(--cyan) !important;
-  box-shadow: 0 0 0 1px rgba(0, 230, 118, 0.2) !important;
+/* Desarrollo web (#web) es section--light: tarjetas claras y texto oscuro legible */
+html[data-theme="emerald"] .web.section--light .web-card {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(0, 168, 90, 0.22) !important;
+  backdrop-filter: none !important;
+  box-shadow: 0 12px 28px rgba(2, 26, 20, 0.1) !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web-card h3 {
+  color: #021a14 !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web-card p {
+  color: #1a3328 !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web-card:hover {
+  background: #fff !important;
+  border-color: rgba(0, 230, 118, 0.45) !important;
+  box-shadow: 0 16px 36px rgba(2, 26, 20, 0.12) !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web__pricing {
+  background: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 168, 90, 0.2) !important;
+  box-shadow: 0 12px 28px rgba(2, 26, 20, 0.08) !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web__pricing-head h3 {
+  color: #021a14 !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web__pricing-head p,
+html[data-theme="emerald"] .web.section--light .web-tier p,
+html[data-theme="emerald"] .web.section--light .web-tier span {
+  color: #3d5c4a !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web-tier {
+  background: rgba(230, 247, 237, 0.85) !important;
+  border-color: rgba(0, 168, 90, 0.18) !important;
+}
+
+html[data-theme="emerald"] .web.section--light .web-tier strong {
+  color: #00a85a !important;
 }
 
 html[data-theme="emerald"] .erp-panel,
@@ -338,6 +350,12 @@ html {
   scroll-snap-type: y mandatory;
   scrollbar-width: thin;
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background: var(--navy);
 }
 
 html::-webkit-scrollbar {
@@ -364,7 +382,31 @@ body {
   color: var(--white);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
   overflow-x: hidden;
+}
+
+#root,
+main {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.hero,
+.section,
+.footer {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  box-sizing: border-box;
 }
 
 img,
@@ -394,8 +436,10 @@ ul {
 }
 
 .container {
-  width: min(100% - 2.5rem, var(--max));
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: none;
   margin-inline: auto;
+  box-sizing: border-box;
 }
 
 .section {
@@ -414,13 +458,20 @@ ul {
 }
 
 .section > .container {
-  width: min(100% - 2.5rem, var(--max));
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: none;
   flex: 0 0 auto;
   margin-top: 0;
   margin-bottom: 0;
-  align-self: center;
+  align-self: stretch;
 }
 
+/*
+  Landing rhythm: hero oscuro → alternar section--light / section--blue.
+  Fondos (public/): bg-*-diagonal|curve (azul/verde según tema),
+  bg-white-hex|wave (blancos, iguales en ambos temas).
+  Variantes a–d cambian posición (cover) para no repetir el mismo encuadre.
+*/
 /* Light sections — geometric tech background variations */
 .section--light {
   overflow: hidden;
@@ -433,29 +484,22 @@ ul {
   content: "";
   position: absolute;
   inset: 0;
+  width: 100%;
+  min-height: 100%;
+  transform: none;
   pointer-events: none;
   z-index: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .section--light::before {
-  background: url("/bg-geometry.png") center / cover no-repeat;
-  opacity: 0.72;
-  filter: saturate(1.15) contrast(1.08);
+  background: var(--bg-light-hex) center / cover no-repeat;
+  opacity: 1;
 }
 
 .section--light::after {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(247, 250, 252, 0.62) 0%,
-      rgba(232, 241, 247, 0.38) 45%,
-      rgba(247, 250, 252, 0.55) 100%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 85% 15%,
-      rgba(var(--accent-rgb), 0.18),
-      transparent 60%
-    );
+  background: rgba(255, 255, 255, 0.32);
 }
 
 .section--light > * {
@@ -463,82 +507,44 @@ ul {
   z-index: 1;
 }
 
-/* Variation A: soft left wash */
+/* Variation A: hexágonos — Resto, modelo */
 .section--light-a::before {
-  background-position: left center;
-  opacity: 0.78;
+  background-image: var(--bg-light-hex);
+  background-position: 18% center;
 }
 
 .section--light-a::after {
-  background:
-    linear-gradient(
-      120deg,
-      rgba(247, 250, 252, 0.68) 0%,
-      rgba(232, 241, 247, 0.32) 48%,
-      rgba(247, 250, 252, 0.58) 100%
-    ),
-    radial-gradient(
-      ellipse 55% 50% at 12% 80%,
-      rgba(var(--accent-soft-rgb), 0.22),
-      transparent 65%
-    );
+  background: rgba(255, 255, 255, 0.26);
 }
 
-/* Variation B: flipped / cooler */
+/* Variation B: ondas — ¿Por qué Fadey? */
 .section--light-b::before {
+  background-image: var(--bg-light-wave);
   background-position: right top;
-  opacity: 0.8;
 }
 
 .section--light-b::after {
-  background:
-    linear-gradient(
-      160deg,
-      rgba(255, 255, 255, 0.58) 0%,
-      rgba(232, 241, 247, 0.28) 42%,
-      rgba(247, 250, 252, 0.52) 100%
-    ),
-    radial-gradient(
-      ellipse 60% 40% at 70% 30%,
-      rgba(var(--accent-rgb), 0.2),
-      transparent 70%
-    );
+  background: rgba(255, 255, 255, 0.24);
 }
 
-/* Variation C: soporte — claro, sin neblina */
+/* Variation C: hex — ERP */
 .section--light-c::before {
-  background-position: center bottom;
-  opacity: 0.55;
+  background-image: var(--bg-light-hex);
+  background-position: center 40%;
 }
 
 .section--light-c::after {
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.22) 50%,
-    rgba(255, 255, 255, 0.45) 100%
-  );
+  background: rgba(255, 255, 255, 0.3);
 }
 
-/* Variation D: contact — brighter diagonal cut */
+/* Variation D: ondas — Desarrollo web */
 .section--light-d::before {
-  background-position: 60% center;
-  opacity: 0.76;
+  background-image: var(--bg-light-wave);
+  background-position: 55% bottom;
 }
 
 .section--light-d::after {
-  background:
-    linear-gradient(
-      75deg,
-      rgba(255, 255, 255, 0.72) 0%,
-      rgba(232, 241, 247, 0.3) 40%,
-      rgba(247, 250, 252, 0.55) 100%
-    ),
-    radial-gradient(
-      ellipse 50% 55% at 90% 70%,
-      rgba(var(--accent-rgb), 0.22),
-      transparent 68%
-    );
+  background: rgba(255, 255, 255, 0.28);
 }
 
 /* Blue sections — tonalidad más clara y legible */
@@ -553,8 +559,13 @@ ul {
   content: "";
   position: absolute;
   inset: 0;
+  width: 100%;
+  min-height: 100%;
+  transform: none;
   pointer-events: none;
   z-index: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .section--blue > * {
@@ -562,89 +573,48 @@ ul {
   z-index: 1;
 }
 
-/* A: waves — Resto */
+.section--blue::before {
+  opacity: 1;
+}
+
+.section--blue::after {
+  background: rgba(var(--surface-deep-rgb), 0.2);
+}
+
+/* A: diagonal — módulos Resto, contacto */
 .section--blue-a::before {
-  background: url("/bg-blue-waves.png") center right / cover no-repeat;
-  opacity: 0.72;
+  background: var(--bg-dark-diagonal) center / cover no-repeat;
 }
 
 .section--blue-a::after {
-  background:
-    linear-gradient(
-      105deg,
-      rgba(var(--surface-rgb), 0.55) 0%,
-      rgba(18, 112, 176, 0.35) 48%,
-      rgba(26, 130, 200, 0.28) 100%
-    ),
-    radial-gradient(
-      ellipse 45% 50% at 80% 30%,
-      rgba(var(--accent-rgb), 0.22),
-      transparent 70%
-    );
+  background: rgba(var(--surface-deep-rgb), 0.18);
 }
 
-/* B: network — ERP */
+/* B: curva — planes Resto */
 .section--blue-b::before {
-  background: url("/bg-blue-network.png") left center / cover no-repeat;
-  opacity: 0.7;
+  background: var(--bg-dark-curve) 70% center / cover no-repeat;
 }
 
 .section--blue-b::after {
-  background:
-    linear-gradient(
-      120deg,
-      rgba(var(--surface-rgb), 0.5) 0%,
-      rgba(26, 106, 173, 0.32) 55%,
-      rgba(18, 112, 176, 0.4) 100%
-    ),
-    radial-gradient(
-      ellipse 50% 45% at 15% 75%,
-      rgba(var(--accent-rgb), 0.2),
-      transparent 65%
-    );
+  background: rgba(var(--surface-deep-rgb), 0.2);
 }
 
-/* C: combination waves + network — modelo */
+/* C: curva (posición distinta) — planes ERP */
 .section--blue-c::before {
-  background:
-    url("/bg-blue-network.png") right bottom / cover no-repeat,
-    url("/bg-blue-waves.png") left top / cover no-repeat;
-  opacity: 0.65;
+  background: var(--bg-dark-curve) 15% center / cover no-repeat;
 }
 
 .section--blue-c::after {
-  background:
-    linear-gradient(
-      160deg,
-      rgba(var(--surface-rgb), 0.5) 0%,
-      rgba(18, 112, 176, 0.32) 45%,
-      rgba(26, 106, 173, 0.4) 100%
-    ),
-    radial-gradient(
-      ellipse 55% 40% at 50% 50%,
-      rgba(var(--accent-rgb), 0.16),
-      transparent 70%
-    );
+  background: rgba(var(--surface-deep-rgb), 0.22);
 }
 
-/* D: flipped network + soft waves blend */
+/* D: diagonal (posición distinta) — soporte */
 .section--blue-d::before {
-  background:
-    linear-gradient(90deg, rgba(var(--surface-rgb), 0.15), transparent 40%),
-    url("/bg-blue-waves.png") center / cover no-repeat;
-  opacity: 0.7;
+  background: var(--bg-dark-diagonal) center bottom / cover no-repeat;
 }
 
 .section--blue-d::after {
-  background:
-    url("/bg-blue-network.png") left top / 70% auto no-repeat,
-    linear-gradient(
-      180deg,
-      rgba(var(--surface-rgb), 0.45) 0%,
-      rgba(18, 112, 176, 0.3) 100%
-    );
-  opacity: 0.5;
-  mix-blend-mode: soft-light;
+  background: rgba(var(--surface-deep-rgb), 0.2);
 }
 
 /* Mineral-inspired plan cards (visual only) */
@@ -949,13 +919,16 @@ ul {
     overscroll-behavior-y: auto;
   }
 
-  body {
+  body,
+  main,
+  #root {
     overflow-x: hidden;
     overscroll-behavior-y: auto;
   }
 
   .container {
-    width: min(100% - 1.15rem, var(--max));
+    width: calc(100% - 2 * var(--layout-inline));
+    max-width: none;
   }
 
   /* En móvil: alto al contenido. Sin padding extra del header entre secciones */
@@ -975,7 +948,8 @@ ul {
 
   .section > .container,
   .section > [class*="__shell"] {
-    width: min(100% - 1.5rem, var(--max));
+    width: calc(100% - 2 * var(--layout-inline));
+    max-width: none;
   }
 
   /* Fondos contenidos en los ::before/::after; el contenido no debe recortarse */
@@ -988,15 +962,9 @@ ul {
   .section--light::after,
   .section--blue::before,
   .section--blue::after {
-    transform: none !important;
     inset: 0;
-  }
-
-  /* Evita descargas pesadas de texturas en móvil (pantallas en blanco / lag) */
-  .section--light::before,
-  .section--blue::before {
-    background-image: none !important;
-    opacity: 1;
+    width: 100%;
+    transform: none !important;
   }
 
   .section--light {
@@ -1008,42 +976,16 @@ ul {
   }
 
   .section--light::after {
-    background: linear-gradient(
-      165deg,
-      rgba(247, 250, 252, 0.75) 0%,
-      rgba(217, 235, 248, 0.4) 100%
-    );
+    background: rgba(255, 255, 255, 0.35);
   }
 
   .section--blue::after {
-    background: linear-gradient(
-      165deg,
-      rgba(var(--surface-rgb), 0.88) 0%,
-      rgba(var(--surface-deep-rgb), 0.82) 55%,
-      rgba(var(--surface-rgb), 0.9) 100%
-    );
-  }
-
-  /* En móvil emerald: mantiene texturas verdes si hay espacio/CPU */
-  html[data-theme="emerald"] .section--blue-a::before {
-    background: var(--bg-waves) center right / cover no-repeat !important;
-    opacity: 0.55 !important;
-  }
-
-  html[data-theme="emerald"] .section--blue-b::before,
-  html[data-theme="emerald"] .section--blue-c::before {
-    background: var(--bg-network) center / cover no-repeat !important;
-    opacity: 0.5 !important;
-  }
-
-  html[data-theme="emerald"] .section--light::before {
-    background-image: var(--bg-geometry) !important;
-    opacity: 0.45 !important;
+    background: rgba(var(--surface-deep-rgb), 0.28);
   }
 
   html[data-theme="emerald"] .hero__bg {
     background-image: var(--bg-hero) !important;
-    opacity: 0.4 !important;
+    opacity: 0.85 !important;
   }
 
   html[data-theme="emerald"] .section--blue::after,

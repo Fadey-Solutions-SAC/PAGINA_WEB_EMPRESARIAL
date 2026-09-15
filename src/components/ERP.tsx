@@ -80,7 +80,7 @@ const WA_ERP_GENERAL = waUrl(msgErpNotify());
 export function ERP() {
   return (
     <>
-      <section className="erp section section--blue section--blue-b" id="erp">
+      <section className="erp section section--light section--light-c" id="erp">
         <div className="container erp__shell">
           <div className="erp__grid">
             <div className="erp__content reveal">
@@ -150,7 +150,7 @@ export function ERP() {
       </section>
 
       <section
-        className="erp-plans section section--light section--light-b"
+        className="erp-plans section section--blue section--blue-c"
         id="erp-planes"
       >
         <div className="container">

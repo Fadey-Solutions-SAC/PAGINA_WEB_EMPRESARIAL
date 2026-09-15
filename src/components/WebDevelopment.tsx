@@ -127,9 +127,7 @@ export function WebDevelopment() {
   }
 
   return (
-    <section className="web section" id="web">
-      <div className="web__bg" aria-hidden="true" />
-      <div className="web__overlay" aria-hidden="true" />
+    <section className="web section section--light section--light-d" id="web">
       <div className="container">
         <div className="web__intro reveal">
           <span className="section__label">03 · Desarrollo web</span>

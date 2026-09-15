@@ -1,5 +1,4 @@
 .erp.section {
-  color: #fff;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -18,7 +17,8 @@
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   flex: 1 1 auto;
-  width: min(100% - 2.5rem, var(--max));
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: none;
   max-width: 100%;
   margin-inline: auto;
   min-height: 0;
@@ -67,6 +67,40 @@
   box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.45);
 }
 
+.erp.section.section--light {
+  color: var(--navy-ink);
+}
+
+.erp.section.section--light .section__label {
+  color: var(--blue-section-deep);
+}
+
+.erp.section.section--light .section__title {
+  color: var(--navy-ink);
+  max-width: 16ch;
+}
+
+.erp.section.section--light .section__lead {
+  color: var(--text-body);
+}
+
+.erp.section.section--light .section__lead strong {
+  color: var(--blue-section-deep);
+}
+
+.erp.section.section--blue {
+  color: #fff;
+}
+
+.erp.section.section--blue .section__title {
+  color: #fff;
+  max-width: 16ch;
+}
+
+.erp.section.section--blue .section__lead {
+  color: var(--text-muted);
+}
+
 .erp .section__title {
   color: #fff;
   max-width: 16ch;
@@ -87,14 +121,14 @@
 
 .erp__modules {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.4rem;
   width: 100%;
   max-width: 100%;
   margin: 0;
   padding: 0.15rem 0 0.05rem;
-  overflow-x: auto;
+  overflow-x: hidden;
   scrollbar-width: none;
   z-index: 4;
   opacity: 1;
@@ -300,7 +334,8 @@
     height: auto;
     flex: 0 0 auto;
     grid-template-rows: auto auto;
-    width: min(100% - 1.5rem, var(--max));
+    width: calc(100% - 2 * var(--layout-inline));
+    max-width: none;
   }
 
   .erp__grid {
@@ -338,6 +373,18 @@
 
 .erp-plans {
   color: var(--navy);
+}
+
+.erp-plans.section.section--blue {
+  color: #e8f4fc;
+}
+
+.erp-plans.section.section--blue .erp-plans__head h3 {
+  color: #fff;
+}
+
+.erp-plans.section.section--blue .erp-plans__head p {
+  color: rgba(203, 213, 225, 0.92);
 }
 
 .erp-plans__head {

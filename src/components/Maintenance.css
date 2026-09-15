@@ -1,10 +1,51 @@
 .maint {
-  color: #0a1210;
   position: relative;
+}
+
+.maint.section.section--light {
+  color: #0a1210;
+}
+
+.maint.section.section--blue {
+  color: #e8f4fc;
 }
 
 .maint > .container {
   width: min(100% - 1.25rem, 1360px);
+}
+
+.maint.section.section--light .section__label {
+  color: var(--btn-dark);
+}
+
+.maint.section.section--light .section__title {
+  color: #0a1210;
+  margin-bottom: 0.35rem;
+}
+
+.maint.section.section--light .section__lead {
+  color: #1a2e28;
+  max-width: none;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.maint.section.section--blue .section__label {
+  color: var(--cyan-soft);
+}
+
+.maint.section.section--blue .section__title {
+  color: #fff;
+  margin-bottom: 0.35rem;
+}
+
+.maint.section.section--blue .section__lead {
+  color: var(--text-muted);
+  max-width: none;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 
 .maint .section__label {
@@ -24,7 +65,7 @@
   line-height: 1.45;
 }
 
-html[data-theme="blue"] .maint .section__lead {
+html[data-theme="blue"] .maint.section.section--light .section__lead {
   color: #243447;
 }
 

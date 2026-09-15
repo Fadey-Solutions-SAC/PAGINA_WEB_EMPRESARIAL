@@ -1,33 +1,23 @@
-﻿.web {
-  background: var(--blue-section-deep);
+.web {
   overflow: hidden;
-  color: #fff;
 }
 
-.web__bg {
-  position: absolute;
-  inset: 0;
-  background: url("/bg-web-neon.png") center / cover no-repeat;
-  opacity: 0.9;
-  pointer-events: none;
+.web.section.section--light {
+  color: var(--navy-ink);
 }
 
-.web__overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      115deg,
-      rgba(var(--surface-rgb), 0.72) 0%,
-      rgba(var(--surface-deep-rgb), 0.55) 42%,
-      rgba(var(--surface-rgb), 0.65) 100%
-    ),
-    radial-gradient(
-      ellipse 50% 50% at 70% 40%,
-      rgba(var(--accent-rgb), 0.12),
-      transparent 70%
-    );
+.web.section.section--light .section__label {
+  font-size: 1.7rem;
+  letter-spacing: 0.08em;
+  color: var(--blue-section-deep);
+}
+
+.web.section.section--light .section__title {
+  color: var(--navy-ink);
+}
+
+.web.section.section--light .section__lead {
+  color: var(--text-body);
 }
 
 .web .section__label {
@@ -36,11 +26,11 @@
 }
 
 .web .section__title {
-  color: #fff;
+  color: var(--navy-ink);
 }
 
 .web .section__lead {
-  color: var(--text-muted);
+  color: var(--text-body);
 }
 
 .web__intro {
@@ -56,6 +46,20 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
+}
+
+.web.section.section--light .web-card {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(11, 79, 138, 0.14);
+  box-shadow: 0 12px 28px rgba(7, 26, 51, 0.08);
+}
+
+.web.section.section--light .web-card h3 {
+  color: var(--navy-ink);
+}
+
+.web.section.section--light .web-card p {
+  color: var(--text-body);
 }
 
 .web-card {
@@ -114,6 +118,37 @@
   .web__grid {
     grid-template-columns: 1fr;
   }
+}
+
+.web.section.section--light .web__pricing {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(11, 79, 138, 0.14);
+  box-shadow: 0 12px 28px rgba(7, 26, 51, 0.08);
+}
+
+.web.section.section--light .web__pricing-head h3 {
+  color: var(--navy-ink);
+}
+
+.web.section.section--light .web__pricing-head p {
+  color: var(--text-body);
+}
+
+.web.section.section--light .web-tier {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(11, 79, 138, 0.12);
+}
+
+.web.section.section--light .web-tier p {
+  color: var(--text-body);
+}
+
+.web.section.section--light .web-tier strong {
+  color: var(--blue-section-deep);
+}
+
+.web.section.section--light .web-tier span {
+  color: var(--text-body);
 }
 
 .web__pricing {
@@ -185,7 +220,7 @@
 .web-modal {
   position: fixed;
   inset: 0;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   height: 100dvh;
   z-index: 10050;

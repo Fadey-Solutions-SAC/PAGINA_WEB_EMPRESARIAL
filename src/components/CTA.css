@@ -2,6 +2,30 @@
   color: var(--navy);
 }
 
+.cta.section.section--blue {
+  color: #e8f4fc;
+}
+
+.cta.section.section--blue .section__label {
+  color: var(--cyan-soft);
+}
+
+.cta.section.section--blue .section__title {
+  color: #fff;
+}
+
+.cta.section.section--blue .section__lead {
+  color: var(--text-muted);
+}
+
+.cta.section.section--blue .cta__quick-title {
+  color: #fff;
+}
+
+.cta.section.section--blue .cta__quick {
+  border-top-color: rgba(148, 163, 184, 0.28);
+}
+
 .cta__grid {
   display: grid;
   grid-template-columns: 1fr 1.05fr;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./RestoDemo.css";
 
 type ModuleId =
@@ -41,157 +41,140 @@ export const restoDemoModules = [
 ];
 
 const chartPoints = [
-  { t: "Lun", h: 48 },
-  { t: "Mar", h: 62 },
-  { t: "Mié", h: 55 },
-  { t: "Jue", h: 78 },
-  { t: "Vie", h: 92 },
-  { t: "Sáb", h: 88 },
-  { t: "Dom", h: 70 },
+  { t: "Lun", h: 38 },
+  { t: "Mar", h: 44 },
+  { t: "Mié", h: 41 },
+  { t: "Jue", h: 52 },
+  { t: "Vie", h: 58 },
+  { t: "Sáb", h: 55 },
+  { t: "Dom", h: 96 },
 ];
 
-const aiAlerts = [
-  {
-    title: "Sin stock",
-    text: "Cerveza Pilsen 355ml: 0 und. Solo se alerta stock en bebidas envasadas.",
-  },
-  {
-    title: "Stock bajo",
-    text: "Vino tinto reserva: quedan 4 botellas. Reabastece antes del finde.",
-  },
-  {
-    title: "Hora punta",
-    text: "17:00–19:00: proyectamos +22% de pedidos vs ayer.",
-  },
-  {
-    title: "Mesa lenta",
-    text: "Mesa 8 lleva 42 min ocupada. Sugiere cierre o postre.",
-  },
-];
-
-function AiAlerts({
-  open,
-  onToggle,
-  index,
+function DemoPage({
+  title,
+  subtitle,
+  badge,
+  showDate,
+  children,
 }: {
-  open: boolean;
-  onToggle: () => void;
-  index: number;
+  title: string;
+  subtitle: string;
+  badge?: React.ReactNode;
+  showDate?: boolean;
+  children: React.ReactNode;
 }) {
-  const alert = aiAlerts[index % aiAlerts.length];
-
   return (
-    <div className="resto-demo__ai">
-      <button
-        type="button"
-        className="resto-demo__ai-btn"
-        onClick={onToggle}
-        aria-expanded={open}
-        aria-label="Alertas de IA del sistema"
-      >
-        <span className="resto-demo__ai-dot" aria-hidden="true" />
-        IA
-        <em>{aiAlerts.length}</em>
-      </button>
-      {open && (
-        <div className="resto-demo__ai-panel" role="status">
-          <header>
-            <strong>Integración IA</strong>
-            <span>Alertas del sistema</span>
-          </header>
-          <p>
-            <b>{alert.title}</b>
-            {alert.text}
-          </p>
-          <ul>
-            {aiAlerts.map((a) => (
-              <li key={a.title}>
-                <span>{a.title}</span>
-                {a.text}
-              </li>
-            ))}
-          </ul>
+    <div className="resto-demo__view resto-demo__view--open">
+      <header className="resto-demo__head">
+        <div>
+          <h3>{title}</h3>
+          <p>{subtitle}</p>
         </div>
-      )}
+        <div className="resto-demo__head-actions">
+          {badge}
+          {showDate ? (
+            <button type="button" className="resto-demo__date-picker">
+              20 de mayo de 2024 <span aria-hidden="true">▾</span>
+            </button>
+          ) : null}
+        </div>
+      </header>
+      {children}
     </div>
   );
 }
 
-function EscritorioView({
-  aiOpen,
-  onToggleAi,
-  aiIndex,
+function KpiCard({
+  icon,
+  label,
+  value,
+  hint = "Ventas del día",
 }: {
-  aiOpen: boolean;
-  onToggleAi: () => void;
-  aiIndex: number;
+  icon: string;
+  label: string;
+  value: string;
+  hint?: string;
 }) {
   return (
-    <div className="resto-demo__view resto-demo__view--resumen resto-demo__view--open">
-      <header className="resto-demo__head">
-        <div>
-          <h3>Escritorio</h3>
-          <p>Vista general de tus ventas y operaciones.</p>
-        </div>
-        <AiAlerts open={aiOpen} onToggle={onToggleAi} index={aiIndex} />
-      </header>
+    <article className="resto-demo__kpi-card">
+      <span className="resto-demo__kpi-icon" aria-hidden="true">
+        {icon}
+      </span>
+      <div className="resto-demo__kpi-body">
+        <span className="resto-demo__kpi-label">{label}</span>
+        <strong>{value}</strong>
+        <small>{hint}</small>
+      </div>
+    </article>
+  );
+}
 
-      <div className="resto-demo__ai-banner" role="status">
-        <span>IA</span>
+function EscritorioView() {
+  return (
+    <DemoPage
+      title="Escritorio"
+      subtitle="Resumen de ventas y actividad del restaurante"
+      showDate
+    >
+      <div className="resto-demo__ai-banner resto-demo__ai-banner--suggest" role="status">
+        <span className="resto-demo__ai-spark" aria-hidden="true">
+          ✦
+        </span>
         <p>
-          <strong>Alerta:</strong> Cerveza Pilsen sin stock · Hora punta en 40
-          min
+          <strong>Sugerencia IA:</strong> Las ventas suelen aumentar los fines
+          de semana. Considera ajustar tu stock y personal.
         </p>
+        <button type="button" className="resto-demo__ai-dismiss" aria-label="Cerrar sugerencia">
+          ×
+        </button>
       </div>
 
       <div className="resto-demo__chart-card">
         <div className="resto-demo__chart-head">
-          <strong>Gráfica de ventas</strong>
-          <div className="resto-demo__chart-controls">
-            <span className="resto-demo__date">02/03/2026 - 08/03/2026</span>
-            <div className="resto-demo__tabs" role="tablist">
-              <button type="button" className="is-active">
-                Semana
-              </button>
-              <button type="button">Mes</button>
-              <button type="button">Todos</button>
-            </div>
+          <div className="resto-demo__chart-title">
+            <strong>Gráfica de ventas</strong>
+            <small>Ventas diarias de la semana</small>
           </div>
+          <label className="resto-demo__select">
+            <span className="resto-demo__sr">Periodo</span>
+            <select defaultValue="week">
+              <option value="week">Esta semana</option>
+              <option value="month">Este mes</option>
+            </select>
+          </label>
         </div>
-        <div className="resto-demo__chart" aria-hidden="true">
-          {chartPoints.map((p) => (
-            <div key={p.t} className="resto-demo__bar-col">
-              <div className="resto-demo__bar-track">
-                <div
-                  className="resto-demo__bar"
-                  style={{ height: `${p.h}%` }}
-                />
+        <div className="resto-demo__chart-wrap">
+          <div className="resto-demo__chart-axis" aria-hidden="true">
+            <span>S/ 2500</span>
+            <span>S/ 2000</span>
+            <span>S/ 1500</span>
+            <span>S/ 1000</span>
+            <span>S/ 500</span>
+            <span>S/ 0</span>
+          </div>
+          <div className="resto-demo__chart" aria-hidden="true">
+            {chartPoints.map((p) => (
+              <div key={p.t} className="resto-demo__bar-col">
+                <div className="resto-demo__bar-track">
+                  <div
+                    className="resto-demo__bar"
+                    style={{ height: `${p.h}%` }}
+                  />
+                </div>
+                <small>{p.t}</small>
               </div>
-              <small>{p.t}</small>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="resto-demo__kpis">
-        <article>
-          <span>Efectivo</span>
-          <strong>S/ 15,434</strong>
-        </article>
-        <article>
-          <span>Tarjeta</span>
-          <strong>S/ 9,839</strong>
-        </article>
-        <article>
-          <span>Yape/Plin</span>
-          <strong>S/ 11,784</strong>
-        </article>
-        <article>
-          <span>Total</span>
-          <strong>S/ 37,058</strong>
-        </article>
+      <div className="resto-demo__kpis resto-demo__kpis--cards">
+        <KpiCard icon="💵" label="Efectivo" value="S/. 13,346.45" />
+        <KpiCard icon="💳" label="Tarjeta" value="S/. 8,392.10" />
+        <KpiCard icon="📱" label="Yape/Plin" value="S/. 5,120.00" />
+        <KpiCard icon="↗" label="Total" value="S/. 26,858.55" />
       </div>
-    </div>
+    </DemoPage>
   );
 }
 
@@ -204,15 +187,12 @@ function CajaView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Caja</h3>
-          <p>Cobros, tickets y cierre de turno.</p>
-        </div>
-        <span className="resto-demo__badge">Hoy · 48 tickets</span>
-      </header>
-      <div className="resto-demo__kpis resto-demo__kpis--3">
+    <DemoPage
+      title="Caja"
+      subtitle="Cobros, tickets y cierre de turno"
+      badge={<span className="resto-demo__badge">Hoy · 48 tickets</span>}
+    >
+      <div className="resto-demo__kpis resto-demo__kpis--3 resto-demo__kpis--surface">
         <article>
           <span>En caja</span>
           <strong>S/ 4,820</strong>
@@ -250,7 +230,7 @@ function CajaView() {
           </div>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -264,15 +244,12 @@ function MesasView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Mesas</h3>
-          <p>Estado del salón en tiempo real.</p>
-        </div>
-        <span className="resto-demo__badge">18 mesas</span>
-      </header>
-      <div className="resto-demo__kpis resto-demo__kpis--3">
+    <DemoPage
+      title="Mesas"
+      subtitle="Estado del salón en tiempo real"
+      badge={<span className="resto-demo__badge">18 mesas</span>}
+    >
+      <div className="resto-demo__kpis resto-demo__kpis--3 resto-demo__kpis--surface">
         <article>
           <span>Libres</span>
           <strong>7</strong>
@@ -312,7 +289,7 @@ function MesasView() {
           </div>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -324,14 +301,11 @@ function CocinaView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Cocina</h3>
-          <p>Cola de preparación y tiempos.</p>
-        </div>
-        <span className="resto-demo__badge">6 en cola</span>
-      </header>
+    <DemoPage
+      title="Cocina"
+      subtitle="Cola de preparación y tiempos"
+      badge={<span className="resto-demo__badge">6 en cola</span>}
+    >
       <div className="resto-demo__cards">
         {orders.map((o) => (
           <article key={o.mesa} className="resto-demo__order">
@@ -346,7 +320,7 @@ function CocinaView() {
           </article>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -358,14 +332,11 @@ function BarView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Bar</h3>
-          <p>Bebidas y pedidos de barra.</p>
-        </div>
-        <span className="resto-demo__badge">4 activos</span>
-      </header>
+    <DemoPage
+      title="Bar"
+      subtitle="Bebidas y pedidos de barra"
+      badge={<span className="resto-demo__badge">4 activos</span>}
+    >
       <div className="resto-demo__cards">
         {drinks.map((o) => (
           <article key={`${o.mesa}-${o.items}`} className="resto-demo__order">
@@ -380,7 +351,7 @@ function BarView() {
           </article>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -393,15 +364,12 @@ function ClientesView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Clientes</h3>
-          <p>Historial y fidelización de comensales.</p>
-        </div>
-        <span className="resto-demo__badge">1,842 clientes</span>
-      </header>
-      <div className="resto-demo__kpis resto-demo__kpis--3">
+    <DemoPage
+      title="Clientes"
+      subtitle="Historial y fidelización de comensales"
+      badge={<span className="resto-demo__badge">1,842 clientes</span>}
+    >
+      <div className="resto-demo__kpis resto-demo__kpis--3 resto-demo__kpis--surface">
         <article>
           <span>Nuevos este mes</span>
           <strong>86</strong>
@@ -431,7 +399,7 @@ function ClientesView() {
           </div>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -444,14 +412,11 @@ function AlmacenView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Almacenes</h3>
-          <p>Ubicaciones y estado de tus depósitos.</p>
-        </div>
-        <span className="resto-demo__badge">4 almacenes</span>
-      </header>
+    <DemoPage
+      title="Almacenes"
+      subtitle="Ubicaciones y estado de tus depósitos"
+      badge={<span className="resto-demo__badge">4 almacenes</span>}
+    >
       <div className="resto-demo__table">
         <div className="resto-demo__tr resto-demo__tr--head">
           <span>Almacén</span>
@@ -476,7 +441,7 @@ function AlmacenView() {
           </div>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -490,14 +455,11 @@ function InventarioView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Inventario</h3>
-          <p>Stock de bebidas envasadas (cerveza, gaseosas, vinos…).</p>
-        </div>
-        <span className="resto-demo__badge">86 ítems</span>
-      </header>
+    <DemoPage
+      title="Inventario"
+      subtitle="Stock de bebidas envasadas (cerveza, gaseosas, vinos…)"
+      badge={<span className="resto-demo__badge">86 ítems</span>}
+    >
       <div className="resto-demo__table">
         <div className="resto-demo__tr resto-demo__tr--head">
           <span>Ítem</span>
@@ -524,21 +486,18 @@ function InventarioView() {
           </div>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
 function InformesView() {
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Informes</h3>
-          <p>Indicadores clave del local.</p>
-        </div>
-        <span className="resto-demo__badge">Semana actual</span>
-      </header>
-      <div className="resto-demo__kpis">
+    <DemoPage
+      title="Informes"
+      subtitle="Indicadores clave del local"
+      badge={<span className="resto-demo__badge">Semana actual</span>}
+    >
+      <div className="resto-demo__kpis resto-demo__kpis--surface">
         <article>
           <span>Ventas semana</span>
           <strong>S/ 28,640</strong>
@@ -574,7 +533,7 @@ function InformesView() {
           <strong>1.8%</strong>
         </div>
       </div>
-    </>
+    </DemoPage>
   );
 }
 
@@ -588,15 +547,12 @@ function ConfigView() {
   ];
 
   return (
-    <>
-      <header className="resto-demo__head">
-        <div>
-          <h3>Configuración</h3>
-          <p>Ajustes del local y del equipo.</p>
-        </div>
-        <span className="resto-demo__badge">Demo</span>
-      </header>
-      <div className="resto-demo__report-list">
+    <DemoPage
+      title="Configuración"
+      subtitle="Ajustes del local y del equipo"
+      badge={<span className="resto-demo__badge">Demo</span>}
+    >
+      <div className="resto-demo__report-list resto-demo__report-list--flush">
         {settings.map((s) => (
           <div key={s.label}>
             <span>{s.label}</span>
@@ -604,21 +560,11 @@ function ConfigView() {
           </div>
         ))}
       </div>
-    </>
+    </DemoPage>
   );
 }
 
-function ModuleBody({
-  id,
-  aiOpen,
-  onToggleAi,
-  aiIndex,
-}: {
-  id: ModuleId;
-  aiOpen: boolean;
-  onToggleAi: () => void;
-  aiIndex: number;
-}) {
+function ModuleBody({ id }: { id: ModuleId }) {
   switch (id) {
     case "caja":
       return <CajaView />;
@@ -638,37 +584,26 @@ function ModuleBody({
       return <InformesView />;
     case "config":
       return <ConfigView />;
+    case "escritorio":
     default:
-      return (
-        <EscritorioView
-          aiOpen={aiOpen}
-          onToggleAi={onToggleAi}
-          aiIndex={aiIndex}
-        />
-      );
+      return <EscritorioView />;
   }
 }
 
 export function RestoDemo() {
   const [active, setActive] = useState<ModuleId>("escritorio");
-  const [aiOpen, setAiOpen] = useState(false);
-  const [aiIndex, setAiIndex] = useState(0);
-
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      setAiIndex((n) => (n + 1) % aiAlerts.length);
-    }, 4200);
-    return () => window.clearInterval(id);
-  }, []);
 
   return (
     <div className="resto-demo" role="region" aria-label="Demo interactiva de Resto Fadey">
       <aside className="resto-demo__side">
         <div className="resto-demo__logo">
           <span className="resto-demo__logo-mark" aria-hidden="true">
-            ⌘
+            🍽
           </span>
-          <strong>Resto Fadey</strong>
+          <div className="resto-demo__logo-text">
+            <strong>Resto Fadey</strong>
+            <small>Gestión restaurant</small>
+          </div>
         </div>
         <nav className="resto-demo__nav" aria-label="Módulos del sistema">
           {navItems.map((item) => (
@@ -692,12 +627,7 @@ export function RestoDemo() {
         </nav>
       </aside>
       <div className="resto-demo__main">
-        <ModuleBody
-          id={active}
-          aiOpen={aiOpen}
-          onToggleAi={() => setAiOpen((v) => !v)}
-          aiIndex={aiIndex}
-        />
+        <ModuleBody id={active} />
       </div>
     </div>
   );
