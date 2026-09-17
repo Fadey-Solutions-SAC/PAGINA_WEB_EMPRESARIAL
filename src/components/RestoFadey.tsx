@@ -8,10 +8,10 @@ const restoModuleTiles = [
   { label: "Mesas", desc: "Control de comensales", tone: "blue" as const },
   { label: "Cocina", desc: "Órdenes en tiempo real", tone: "purple" as const },
   { label: "Bar", desc: "Bebidas y pedidos", tone: "pink" as const },
-  { label: "Delivery", desc: "Pedidos a domicilio", tone: "mint" as const },
-  { label: "Reservas", desc: "Agenda tu salón", tone: "green" as const },
-  { label: "Clientes", desc: "Fideliza comensales", tone: "violet" as const },
-  { label: "Reportes", desc: "Decisiones con datos", tone: "teal" as const },
+  { label: "Informes", desc: "Todos los reportes que necesitas", tone: "mint" as const },
+  { label: "Control de Ventas", desc: "Control de ventas y ingresos", tone: "green" as const },
+  { label: "Fidelizacion de clientes", desc: "Analisis de encuestas y recomendaciones", tone: "violet" as const },
+  { label: "Integracion IA Fadey", desc: "Monitoreo de ventas y asistencia de operaciones", tone: "teal" as const },
 ] as const;
 
 const restoTrustItems = [
@@ -190,6 +190,7 @@ const planTierDefs = [
       "Mesas",
       "Cocina",
       "Productos",
+      "Almacen e Inventario basicos",
     ],
   },
   {
@@ -203,8 +204,10 @@ const planTierDefs = [
     desc: "Todo lo del Plan Básico, más herramientas para mejorar la operación",
     newModules: [
       "Mas de un area de producción",
-      "Inventario basico",
+      "Requerimientos de productos",
+      "Recepcion de productos",
       "Gastos operativos",
+      "Informes",
     ],
   },
   {
@@ -221,6 +224,9 @@ const planTierDefs = [
       "Pedidos QR",
       "Reservas",
       "Control de personal",
+      "Reportes avanzados",
+      "Integracion IA Fadey",
+      "Asistencia de personal con QR",
     ],
   },
   {
@@ -233,10 +239,12 @@ const planTierDefs = [
     featured: false,
     desc: "Para negocios con una operación más completa y mayores necesidades de gestión",
     newModules: [
-      "Delivery",
       "Inventario inteligente",
       "Pedido QR 2.0, cartas y productos",
-      "Indicadores basicos",
+      "Indicadores deproduccion",
+      "Control de personal",
+      "Recursos humanos",
+      "Mas de una caja",
     ],
   },
   {
@@ -249,13 +257,13 @@ const planTierDefs = [
     featured: false,
     desc: "La solución completa para gestionar y controlar todo tu negocio",
     newModules: [
-      "IA Fadey Analitica",
+      "Zonas y mesas ilimitadas",
       "Control de Ventas",
       "Indicadores avanzados",
-      "Mi restaurante",
+      "Usuarios ilimitados",
       "Facturación electrónica",
-      "Reportes avanzados",
-      "Integraciones",
+      "Control de pagos y contratos",
+      "Areas de prduccion ilimitadas",
     ],
   },
 ] as const;
