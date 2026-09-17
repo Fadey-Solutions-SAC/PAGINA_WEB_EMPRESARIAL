@@ -7,8 +7,8 @@ import "./Header.css";
 
 const links = [
   { href: "/#resto", label: "Resto Fadey" },
-  { href: "/#erp", label: "ERP Fadey" },
   { href: "/#web", label: "Desarrollo Web" },
+  { href: "/#erp", label: "ERP Fadey" },
   { href: "/#soporte", label: "Soporte" },
   { href: "/#contacto", label: "Contacto" },
 ];

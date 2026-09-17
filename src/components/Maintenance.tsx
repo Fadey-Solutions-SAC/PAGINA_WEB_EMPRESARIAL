@@ -41,7 +41,7 @@ export function Maintenance() {
     <section className="maint section section--blue section--blue-d" id="soporte">
       <div className="container">
         <div className="maint__intro reveal">
-          <span className="section__label">04 · Soporte</span>
+          <span className="section__label">03 · Soporte</span>
           <h2 className="section__title">Dos formas de cuidar tu proyecto</h2>
           <p className="section__lead">
             Después del lanzamiento, elige cómo quieres administrar tu sitio o

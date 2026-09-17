@@ -85,7 +85,7 @@ export function ERP() {
           <div className="erp__grid">
             <div className="erp__content reveal">
               <div className="erp__heading">
-                <span className="section__label">02 · ERP Fadey</span>
+                <span className="section__label">04 · ERP Fadey</span>
                 <span className="erp__soon">Próximamente</span>
               </div>
               <h2 className="section__title">

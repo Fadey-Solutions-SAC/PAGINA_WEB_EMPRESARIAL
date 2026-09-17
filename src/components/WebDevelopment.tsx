@@ -6,38 +6,38 @@ import "./WebDevelopment.css";
 const services = [
   {
     title: "Página web empresarial",
-    desc: "Para empresas y corporaciones que necesitan presencia profesional y sólida.",
+    desc: "Presencia profesional para tu empresa.",
   },
   {
     title: "Landing Page",
-    desc: "Para campañas, productos y servicios con foco en conversión.",
+    desc: "Páginas enfocadas en presentar y convertir.",
   },
   {
-    title: "Tiendas online",
-    desc: "Para negocios que desean vender por Internet con catálogo y pagos.",
+    title: "Tienda online",
+    desc: "Catálogo, productos y ventas por internet.",
   },
   {
-    title: "Páginas para restaurantes",
-    desc: "Menús digitales, reservas, pedidos y presencia online gastronómica.",
+    title: "Web gastronómica",
+    desc: "Menús digitales, reservas y pedidos online.",
   },
   {
     title: "Plataformas personalizadas",
-    desc: "Sistemas web desarrollados específicamente para las necesidades del cliente.",
+    desc: "Sistemas web adaptados a tu operación.",
   },
 ];
 
 const tiers = [
   {
     from: "500",
-    label: "Proyectos profesionales y personalizados.",
+    label: "Proyectos profesionales.",
   },
   {
     from: "1,000",
-    label: "Proyectos con mayor complejidad y funcionalidades.",
+    label: "Mayor complejidad y funcionalidades.",
   },
   {
     from: "2,000+",
-    label: "Plataformas web y proyectos empresariales de alta complejidad.",
+    label: "Plataformas y soluciones avanzadas.",
   },
 ];
 
@@ -130,15 +130,16 @@ export function WebDevelopment() {
     <section className="web section section--light section--light-d" id="web">
       <div className="container">
         <div className="web__intro reveal">
-          <span className="section__label">03 · Desarrollo web</span>
+          <span className="section__label">02 · Desarrollo web</span>
           <h2 className="section__title">Tu negocio. Tu idea. Tu página.</h2>
           <p className="section__lead">
             Diseñamos y desarrollamos sitios web a medida según los objetivos,
-            necesidades y características de cada empresa. Cada proyecto se
+            necesidades y características de cada negocio. Cada proyecto se
             cotiza de forma personalizada.
           </p>
         </div>
 
+        <h3 className="web__services-title reveal">Servicios</h3>
         <div className="web__grid">
           {services.map((service) => (
             <article key={service.title} className="web-card reveal">
@@ -166,10 +167,6 @@ export function WebDevelopment() {
         <div className="web__pricing reveal">
           <div className="web__pricing-head">
             <h3>Inversión estimada</h3>
-            <p>
-              El precio final se determina después de analizar los
-              requerimientos del proyecto.
-            </p>
           </div>
           <div className="web__tiers">
             {tiers.map((tier) => (

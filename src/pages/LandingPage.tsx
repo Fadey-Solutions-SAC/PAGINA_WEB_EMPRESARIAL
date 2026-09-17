@@ -22,9 +22,9 @@ export function LandingPage() {
         <Hero />
         <FadeyWhy />
         <RestoFadey />
-        <ERP />
         <WebDevelopment />
         <Maintenance />
+        <ERP />
         <SolutionsModel />
         <CTA />
       </main>
