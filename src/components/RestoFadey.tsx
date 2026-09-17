@@ -38,21 +38,75 @@ const restoTrustItems = [
 ] as const;
 
 function RestoModuleTileIcon({ tone }: { tone: (typeof restoModuleTiles)[number]["tone"] }) {
-  const d: Record<(typeof restoModuleTiles)[number]["tone"], string> = {
-    orange: "M6 4h12v4H6zm0 6h8v2H6zm0 4h10v2H6z",
-    blue: "M4 6h16v12H4zm2 2v8h12V8zm2 2h8v4h-8z",
-    purple: "M8 3h8l2 4v14H6V7zm1 4h10v2H9zm0 4h7v2H9z",
-    pink: "M8 4h8l2 3v13H6V7zm2 5h6v2h-6zm0 3h4v2h-4z",
-    mint: "M4 8h16v10H4zm2 2v6h12v-6zm3-6h6l2 3H7z",
-    green: "M7 3h10v4H7zm-2 6h14v12H5zm3 2v8h8V11z",
-    violet: "M12 4a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm-6 14a6 6 0 0 1 12 0H6z",
-    teal: "M6 4h12v3H6zm0 5h12v11H6zm2 2v7h8V11z",
+  const common = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
   };
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d={d[tone]} fill="currentColor" />
-    </svg>
-  );
+
+  switch (tone) {
+    case "orange":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <rect x="3" y="9" width="18" height="11" rx="2" />
+          <path d="M7 9V5h10v4M7 14h5M16 14h1M7 17h10" />
+        </svg>
+      );
+    case "blue":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <path d="M4 10h16M7 10V6h10v4M6 10v9M18 10v9M4 19h16" />
+        </svg>
+      );
+    case "purple":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <path d="M5 15h14M7 15a5 5 0 0 1 10 0M12 7v2M4 19h16" />
+          <circle cx="12" cy="6" r="1" />
+        </svg>
+      );
+    case "pink":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <path d="M6 4h12l-1 6a5 5 0 0 1-10 0L6 4ZM12 15v5M8 20h8" />
+        </svg>
+      );
+    case "mint":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <rect x="4" y="3" width="16" height="18" rx="2" />
+          <path d="M8 16v-3M12 16V8M16 16v-5M8 6h8" />
+        </svg>
+      );
+    case "green":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-6" />
+          <path d="M16 7h3v3M9 6h5M11.5 4.5v3" />
+        </svg>
+      );
+    case "violet":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <circle cx="9" cy="8" r="3" />
+          <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
+          <path d="M17 10.5c1.9-2.2 5 1 0 4.5-5-3.5-1.9-6.7 0-4.5Z" />
+        </svg>
+      );
+    case "teal":
+      return (
+        <svg {...common} aria-hidden="true" focusable="false">
+          <rect x="7" y="7" width="10" height="10" rx="2" />
+          <path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3" />
+          <path d="m10 14 2-4 2 4M10.8 12.5h2.4" />
+        </svg>
+      );
+    default:
+      return null;
+  }
 }
 
 function RestoTrustIcon({ kind }: { kind: (typeof restoTrustItems)[number]["icon"] }) {
@@ -191,6 +245,7 @@ const planTierDefs = [
       "Cocina",
       "Productos",
       "Almacen e Inventario basicos",
+      "Hasta 5 usuarios",
     ],
   },
   {
@@ -208,6 +263,7 @@ const planTierDefs = [
       "Recepcion de productos",
       "Gastos operativos",
       "Informes",
+      "Hasta 8 usuarios",
     ],
   },
   {
@@ -227,6 +283,7 @@ const planTierDefs = [
       "Reportes avanzados",
       "Integracion IA Fadey",
       "Asistencia de personal con QR",
+      "Hasta 12 usuarios",
     ],
   },
   {
@@ -245,6 +302,9 @@ const planTierDefs = [
       "Control de personal",
       "Recursos humanos",
       "Mas de una caja",
+      "Hasta 15 usuarios",
+      "Actualizacion periodica del sistema",
+
     ],
   },
   {
@@ -264,6 +324,7 @@ const planTierDefs = [
       "Facturación electrónica",
       "Control de pagos y contratos",
       "Areas de prduccion ilimitadas",
+      "Acceso total al sistema y actualizaciones"
     ],
   },
 ] as const;
