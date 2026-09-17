@@ -184,7 +184,13 @@ const planTierDefs = [
     ribbon: null as string | null,
     featured: false,
     desc: "Para negocios que empiezan a digitalizar su operación",
-    newModules: ["Escritorio", "Caja", "Mesas", "Productos"],
+    newModules: [
+      "Escritorio",
+      "Caja",
+      "Mesas",
+      "Cocina",
+      "Productos",
+    ],
   },
   {
     id: "emprendedor",
@@ -195,7 +201,11 @@ const planTierDefs = [
     ribbon: null,
     featured: false,
     desc: "Todo lo del Plan Básico, más herramientas para mejorar la operación",
-    newModules: ["Cocina", "Bar", "Inventario", "Gastos"],
+    newModules: [
+      "Mas de un area de producción",
+      "Inventario basico",
+      "Gastos operativos",
+    ],
   },
   {
     id: "profesional",
@@ -206,7 +216,12 @@ const planTierDefs = [
     ribbon: "Más popular",
     featured: true,
     desc: "Para negocios que necesitan mayor control y organización",
-    newModules: ["Clientes", "Proveedores", "Ofertas", "Descuentos"],
+    newModules: [
+      "Clientes",
+      "Pedidos QR",
+      "Reservas",
+      "Control de personal",
+    ],
   },
   {
     id: "negocio",
@@ -217,7 +232,12 @@ const planTierDefs = [
     ribbon: null,
     featured: false,
     desc: "Para negocios con una operación más completa y mayores necesidades de gestión",
-    newModules: ["Delivery", "Reservas", "Pedido QR", "Crédito"],
+    newModules: [
+      "Delivery",
+      "Inventario inteligente",
+      "Pedido QR 2.0, cartas y productos",
+      "Indicadores basicos",
+    ],
   },
   {
     id: "premium",
@@ -229,13 +249,13 @@ const planTierDefs = [
     featured: false,
     desc: "La solución completa para gestionar y controlar todo tu negocio",
     newModules: [
-      "Informes",
-      "Ventas",
-      "Indicadores",
+      "IA Fadey Analitica",
+      "Control de Ventas",
+      "Indicadores avanzados",
       "Mi restaurante",
       "Facturación electrónica",
-      "Pago por sistema",
-      "Tiempo trabajado",
+      "Reportes avanzados",
+      "Integraciones",
     ],
   },
 ] as const;
