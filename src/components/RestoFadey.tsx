@@ -1,8 +1,7 @@
+import { useRef } from "react";
 import { goToSection } from "../lib/goToSection";
-import { msgRestoDemo, msgRestoPlan, waUrl } from "../lib/whatsapp";
+import { msgRestoPlan, waUrl } from "../lib/whatsapp";
 import "./RestoFadey.css";
-
-const WHATSAPP_DEMO_URL = waUrl(msgRestoDemo());
 
 const restoModuleTiles = [
   { label: "Caja", desc: "Ventas rápidas y seguras", tone: "orange" as const },
@@ -174,23 +173,6 @@ function WhyFadeyIcon({ kind }: { kind: (typeof whyFadeyCards)[number]["icon"] }
     </svg>
   );
 }
-
-const audience = [
-  "Restaurantes",
-  "Bares",
-  "Pollerías",
-  "Pastelerías",
-  "Heladerías",
-];
-
-const benefits = [
-  "Control en tiempo real",
-  "Pedidos y ventas",
-  "Inventario inteligente",
-  "Cocina y Bar",
-  "Reportes de tu negocio",
-  "Soporte especializado",
-];
 
 const planTierDefs = [
   {
@@ -404,6 +386,15 @@ export function FadeyWhy() {
 }
 
 function RestoIntro() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const playDemo = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.scrollIntoView({ behavior: "smooth", block: "center" });
+    void video.play();
+  };
+
   return (
     <section className="resto section section--light section--light-a" id="resto">
       <div className="container resto__shell">
@@ -419,42 +410,32 @@ function RestoIntro() {
                 decoding="async"
               />
             </div>
+            <p className="resto__commercial-eyebrow">
+              Así funciona Resto Fadey
+            </p>
             <h2 className="section__title">
-              Controla todo tu negocio gastronómico desde un solo lugar
+              Tu negocio, conectado en un solo sistema.
             </h2>
-            <p className="section__lead">
-              Gestiona pedidos, caja, cocina o barra e inventario en una sola
-              plataforma.
+            <p className="section__lead resto__commercial-copy">
+              Te mostramos cómo funciona Resto Fadey y cómo puedes simplificar
+              la gestión de tu negocio gastronómico. Conoce su funcionamiento,
+              sus principales herramientas y la forma en que cada área de tu
+              operación trabaja de manera integrada.
             </p>
-            <p className="section__lead resto__lead-extra">
-              Automatiza tu operación, reduce errores y decide con información
-              en tiempo real.
-            </p>
-            <ul
-              className="resto__audience"
-              aria-label="Tipos de negocio compatibles con Resto Fadey"
+            <button
+              type="button"
+              className="btn btn--primary resto__commercial-play"
+              onClick={playDemo}
             >
-              {audience.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <p className="resto__offer">
-              Planes desde <strong>S/ 99</strong> al mes · Sin complicaciones ·
-              Listo para empezar
-            </p>
-            <ul className="resto__benefits" aria-label="Beneficios de Resto Fadey">
-              {benefits.map((item) => (
-                <li key={item}>
-                  <span aria-hidden="true">✓</span>
-                  {item}
-                </li>
-              ))}
-            </ul>
+              <span aria-hidden="true">▶</span>
+              Ver cómo funciona
+            </button>
           </div>
 
           <div className="resto__visual reveal">
             <div className="resto-shot resto-shot--video">
               <video
+                ref={videoRef}
                 className="resto-shot__video"
                 src="/resto-fadey-demo.mp4?v=2"
                 controls
@@ -467,19 +448,6 @@ function RestoIntro() {
                 Tu navegador no reproduce video.{" "}
                 <a href="/resto-fadey-demo.mp4">Descarga el video</a>.
               </video>
-            </div>
-            <div className="resto__cta">
-              <a className="btn btn--primary" href="#resto-planes">
-                Ver planes y beneficios
-              </a>
-              <a
-                className="btn btn--ghost"
-                href={WHATSAPP_DEMO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Solicitar una demostración
-              </a>
             </div>
           </div>
         </div>
