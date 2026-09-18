@@ -92,7 +92,15 @@ export function LibroReclamacionesPage() {
               </div>
               <div>
                 <dt>Correo</dt>
-                <dd>contacto@fadeysolutions.com</dd>
+                <dd>
+                  <a
+                    href="https://mail.google.com/mail/?view=cm&fs=1&to=fadeysolutions%40gmail.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    fadeysolutions@gmail.com
+                  </a>
+                </dd>
               </div>
             </dl>
           </div>

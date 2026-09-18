@@ -1,5 +1,5 @@
 const WA_NUMBER = "51921028316";
-const MAILTO = "contacto@fadeysolutions.com";
+const MAILTO = "fadeysolutions@gmail.com";
 
 export function waUrl(message?: string) {
   const base = `https://wa.me/${WA_NUMBER}`;
@@ -21,7 +21,7 @@ export function mailtoInfo() {
       "Teléfono: ________",
     ].join("\n"),
   );
-  return `mailto:${MAILTO}?subject=${subject}&body=${body}`;
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(MAILTO)}&su=${subject}&body=${body}`;
 }
 
 export function msgInfo() {

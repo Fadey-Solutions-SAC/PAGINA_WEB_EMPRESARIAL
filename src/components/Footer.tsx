@@ -113,7 +113,13 @@ export function Footer() {
           <h4>Contacto</h4>
           <ul>
             <li>
-              <a href={MAILTO_URL}>contacto@fadeysolutions.com</a>
+              <a
+                href={MAILTO_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                fadeysolutions@gmail.com
+              </a>
             </li>
             <li>
               <a

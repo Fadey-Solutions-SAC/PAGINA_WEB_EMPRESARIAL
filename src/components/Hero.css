@@ -212,9 +212,9 @@
 
 @media (min-width: 921px) {
   .hero__stage {
-    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.22fr);
+    grid-template-columns: minmax(22rem, 1.1fr) minmax(0, 1.05fr);
     grid-template-rows: auto auto;
-    column-gap: clamp(0.85rem, 1.65vw, 1.45rem);
+    column-gap: clamp(1.1rem, 2.2vw, 2rem);
     row-gap: clamp(0.5rem, 1.35vh, 0.9rem);
     align-items: center;
   }
@@ -225,7 +225,7 @@
     container-type: inline-size;
     container-name: hero-copy;
     align-self: end;
-    padding-right: clamp(0.15rem, 0.5vw, 0.45rem);
+    padding-right: clamp(0.4rem, 1.2vw, 1rem);
   }
 
   .hero__actions {
@@ -254,7 +254,7 @@
     overflow: hidden;
     align-items: center;
     justify-content: flex-end;
-    padding: 0;
+    padding: 0.15rem 0;
     align-items: center;
   }
 
@@ -263,24 +263,25 @@
     height: auto;
     max-height: 100%;
     max-width: 100%;
-    object-position: right center;
+    object-fit: contain;
+    object-position: center;
   }
 }
 
 @container hero-copy (min-width: 0) {
   .hero__title {
-    font-size: clamp(2.65rem, 12.5cqi, 5.35rem);
-    line-height: 1.02;
-    letter-spacing: -0.035em;
+    font-size: clamp(2.4rem, 8.2cqi, 4.15rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
   }
 
   .hero__lead {
-    font-size: clamp(1.08rem, 4.75cqi, 1.52rem);
+    font-size: clamp(1.05rem, 3.6cqi, 1.32rem);
     line-height: 1.4;
   }
 
   .hero__desc {
-    font-size: clamp(1rem, 3.75cqi, 1.24rem);
+    font-size: clamp(0.98rem, 3.1cqi, 1.14rem);
     line-height: 1.45;
   }
 
@@ -852,14 +853,24 @@
     font-size: clamp(1rem, 3.8vw, 1.18rem);
   }
 
-  .hero__actions .btn {
-    font-size: 0.95rem;
-    padding: 0.8rem 1.35rem;
+  .hero__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    margin-top: 0.7rem;
+    gap: 0.4rem;
   }
 
-  .hero__actions {
-    margin-top: 0.7rem;
-    gap: 0.55rem;
+  .hero__actions .btn {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    flex: none;
+    font-size: clamp(0.68rem, 2.85vw, 0.8rem);
+    line-height: 1.15;
+    padding: 0.58rem 0.38rem;
+    text-align: center;
+    white-space: normal;
   }
 
   .hero__routes-grid {
