@@ -303,7 +303,6 @@ const planTierDefs = [
       "Recursos humanos",
       "Mas de una caja",
       "Hasta 15 usuarios",
-      "Actualizacion periodica del sistema",
 
     ],
   },
@@ -324,7 +323,6 @@ const planTierDefs = [
       "Facturación electrónica",
       "Control de pagos y contratos",
       "Areas de prduccion ilimitadas",
-      "Acceso total al sistema y actualizaciones"
     ],
   },
 ] as const;
