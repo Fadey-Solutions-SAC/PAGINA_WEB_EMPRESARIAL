@@ -1,45 +1,36 @@
 import { useEffect, useId, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { msgWebProject, waUrl, type WebProjectForm } from "../lib/whatsapp";
+import { WebDevelopmentDetails } from "./WebDevelopmentDetails";
 import "./WebDevelopment.css";
 
 const services = [
   {
     title: "Página web empresarial",
     desc: "Presencia profesional para tu empresa.",
+    icon: "business",
   },
   {
     title: "Landing Page",
-    desc: "Páginas enfocadas en presentar y convertir.",
+    desc: "Diseñada para presentar y convertir.",
+    icon: "landing",
   },
   {
     title: "Tienda online",
     desc: "Catálogo, productos y ventas por internet.",
+    icon: "store",
   },
   {
     title: "Web gastronómica",
     desc: "Menús digitales, reservas y pedidos online.",
+    icon: "restaurant",
   },
   {
     title: "Plataformas personalizadas",
     desc: "Sistemas web adaptados a tu operación.",
+    icon: "platform",
   },
-];
-
-const tiers = [
-  {
-    from: "500",
-    label: "Proyectos profesionales.",
-  },
-  {
-    from: "1,000",
-    label: "Mayor complejidad y funcionalidades.",
-  },
-  {
-    from: "2,000+",
-    label: "Plataformas y soluciones avanzadas.",
-  },
-];
+] as const;
 
 const projectTypes = [
   {
@@ -85,6 +76,55 @@ const emptyForm: WebProjectForm = {
   contact: "",
 };
 
+function ServiceIcon({ type }: { type: (typeof services)[number]["icon"] }) {
+  const common = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  switch (type) {
+    case "business":
+      return (
+        <svg {...common}>
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 9h18M8 20v-5h8v5M7 6.5h.01" />
+        </svg>
+      );
+    case "landing":
+      return (
+        <svg {...common}>
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M3 9h18M7 13h6M7 16h3M16 13l2 2-2 2" />
+        </svg>
+      );
+    case "store":
+      return (
+        <svg {...common}>
+          <path d="M4 10v10h16V10M3 5h18l-1 5a3 3 0 0 1-5 1 3 3 0 0 1-6 0 3 3 0 0 1-5-1Z" />
+          <path d="M9 20v-5h6v5" />
+        </svg>
+      );
+    case "restaurant":
+      return (
+        <svg {...common}>
+          <path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3M7 11v10M16 3c-2 3-2 8 1 9v9M17 12h3V3c-2 0-3 4-3 9Z" />
+        </svg>
+      );
+    case "platform":
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <path d="M8 8h3v3H8zM15 8h1M15 11h2M8 16h8M8 14h5" />
+        </svg>
+      );
+  }
+}
+
 export function WebDevelopment() {
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState<WebProjectForm>(emptyForm);
@@ -127,66 +167,63 @@ export function WebDevelopment() {
   }
 
   return (
-    <section className="web section section--light section--light-d" id="web">
-      <div className="container">
-        <div className="web__intro reveal">
-          <span className="section__label">02 · Desarrollo web</span>
-          <h2 className="section__title">Tu negocio. Tu idea. Tu página.</h2>
-          <p className="section__lead">
-            Diseñamos y desarrollamos sitios web a medida según los objetivos,
-            necesidades y características de cada negocio. Cada proyecto se
-            cotiza de forma personalizada.
-          </p>
-        </div>
+    <>
+      <section className="web section section--light section--light-d" id="web">
+        <div className="container web__shell">
+          <div className="web__intro reveal">
+            <div className="web__intro-copy">
+              <span className="section__label">02 · Qué desarrollamos</span>
+              <h2 className="section__title">
+                Tu negocio. Tu idea. <span>Tu página.</span>
+              </h2>
+              <p className="section__lead">
+                Diseñamos y desarrollamos soluciones web adaptadas a las
+                necesidades reales de cada negocio.
+              </p>
+            </div>
 
-        <h3 className="web__services-title reveal">Servicios</h3>
-        <div className="web__grid">
-          {services.map((service) => (
-            <article key={service.title} className="web-card reveal">
-              <div className="web-card__icon" aria-hidden="true">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <rect x="3" y="4" width="18" height="14" rx="2" />
-                  <path d="M3 9h18M8 20h8" />
-                </svg>
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.desc}</p>
-            </article>
-          ))}
-        </div>
+            <div className="web__device-scene">
+              <span className="web__trace web__trace--one" />
+              <span className="web__trace web__trace--two" />
+              <img
+                className="web__showcase-image"
+                src="/web-development-showcase.jpg"
+                alt="Diseño web gastronómico adaptable en laptop y teléfono"
+                width={1024}
+                height={682}
+                loading="lazy"
+                decoding="async"
+              />
+              <p className="web__idea-note">
+                Tu idea,
+                <br />
+                en la web.
+              </p>
+            </div>
+          </div>
 
-        <div className="web__pricing reveal">
-          <div className="web__pricing-head">
-            <h3>Inversión estimada</h3>
+          <div className="web__catalog">
+            <h3 className="web__services-title reveal">Soluciones web</h3>
+            <div className="web__grid">
+              {services.map((service, index) => (
+                <article key={service.title} className="web-card reveal">
+                  <span className="web-card__index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="web-card__icon">
+                    <ServiceIcon type={service.icon} />
+                  </div>
+                  <h3>{service.title}</h3>
+                  <p>{service.desc}</p>
+                </article>
+              ))}
+            </div>
           </div>
-          <div className="web__tiers">
-            {tiers.map((tier) => (
-              <article key={tier.from} className="web-tier">
-                <p>
-                  Desde <strong>S/ {tier.from}</strong>
-                </p>
-                <span>{tier.label}</span>
-              </article>
-            ))}
-          </div>
-          <button
-            type="button"
-            className="btn btn--primary"
-            onClick={() => setOpen(true)}
-          >
-            Solicitar proyecto web
-          </button>
+
         </div>
-      </div>
+      </section>
+
+      <WebDevelopmentDetails onQuote={() => setOpen(true)} />
 
       {open &&
         createPortal(
@@ -342,6 +379,6 @@ export function WebDevelopment() {
           </div>,
           document.body,
         )}
-    </section>
+    </>
   );
 }

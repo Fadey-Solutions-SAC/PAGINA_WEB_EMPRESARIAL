@@ -317,12 +317,13 @@ const planTierDefs = [
     desc: "La solución completa para gestionar y controlar todo tu negocio",
     newModules: [
       "Zonas y mesas ilimitadas",
-      "Control de Ventas",
+      "Control total de ventas",
       "Indicadores avanzados",
       "Usuarios ilimitados",
       "Facturación electrónica",
       "Control de pagos y contratos",
       "Areas de prduccion ilimitadas",
+      "Acceso total al sistema y actualizaciones"
     ],
   },
 ] as const;
@@ -432,10 +433,10 @@ export function FadeyWhy() {
             </span>
             <img
               className="fadey-why__dashboard"
-              src="/fadey-why-dashboard.jpg?v=1"
-              alt="Resto Fadey en tablet: reportes, ventas, métodos de pago e indicadores del negocio"
-              width={1024}
-              height={768}
+              src="/fadey-why-team-wide.jpg?v=1"
+              alt="Equipo de Fadey Solutions trabajando juntos en laptop y móvil"
+              width={1600}
+              height={900}
               loading="lazy"
               decoding="async"
             />

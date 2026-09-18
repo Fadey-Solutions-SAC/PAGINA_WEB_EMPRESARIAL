@@ -163,45 +163,70 @@ export function ERP() {
             </p>
           </div>
 
-          <div className="erp-plans__grid">
-            {plans.map((plan) => (
-              <article
-                key={plan.name}
-                className={[
-                  "erp-plan",
-                  "plan-mineral",
-                  `plan-mineral--${plan.mineral}`,
-                  "reveal",
-                  plan.featured ? "plan-mineral--featured" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ")}
-              >
-                <span className="plan-mineral__shine" aria-hidden="true" />
-                {plan.featured && (
-                  <span className="erp-plan__badge">Más elegido</span>
-                )}
-                <h4>{plan.name}</h4>
-                <p className="erp-plan__price">
-                  <strong>S/ {plan.price}</strong>
-                  <span>/mes</span>
-                </p>
-                <p className="erp-plan__desc">{plan.desc}</p>
-                <ul className="erp-plan__list">
-                  {plan.includes.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <a
-                  className={`btn ${plan.mineral === "plata" || plan.mineral === "platino" ? "btn--dark" : "btn--solid-cyan"}`}
-                  href={waUrl(msgErpNotify(plan.name))}
-                  target="_blank"
-                  rel="noopener noreferrer"
+          <div className="erp-plans__preview">
+            <div className="erp-plans__grid" aria-hidden="true">
+              {plans.map((plan) => (
+                <article
+                  key={plan.name}
+                  className={[
+                    "erp-plan",
+                    "plan-mineral",
+                    `plan-mineral--${plan.mineral}`,
+                    "reveal",
+                    plan.featured ? "plan-mineral--featured" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                 >
-                  Avisarme
-                </a>
-              </article>
-            ))}
+                  <span className="plan-mineral__shine" aria-hidden="true" />
+                  {plan.featured && (
+                    <span className="erp-plan__badge">Más elegido</span>
+                  )}
+                  <h4>{plan.name}</h4>
+                  <p className="erp-plan__price">
+                    <strong>S/ {plan.price}</strong>
+                    <span>/mes</span>
+                  </p>
+                  <p className="erp-plan__desc">{plan.desc}</p>
+                  <ul className="erp-plan__list">
+                    {plan.includes.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <span
+                    className={`btn ${plan.mineral === "plata" || plan.mineral === "platino" ? "btn--dark" : "btn--solid-cyan"}`}
+                  >
+                    Avisarme
+                  </span>
+                </article>
+              ))}
+            </div>
+
+            <div className="erp-plans__locked reveal">
+              <span className="erp-plans__locked-icon" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <rect x="4" y="10" width="16" height="11" rx="2" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+                </svg>
+              </span>
+              <p>Planes en desarrollo</p>
+              <small>Precios y características aún no disponibles.</small>
+              <a
+                className="btn btn--primary"
+                href={waUrl(msgErpNotify())}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Avisarme cuando esté disponible
+              </a>
+            </div>
           </div>
         </div>
       </section>

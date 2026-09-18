@@ -417,11 +417,80 @@
   font-size: 1.05rem;
 }
 
+.erp-plans__preview {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  isolation: isolate;
+}
+
 .erp-plans__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.7rem;
   align-items: stretch;
+  filter: blur(5px);
+  opacity: 0.72;
+  pointer-events: none;
+  user-select: none;
+  transform: scale(1.015);
+  transform-origin: center;
+}
+
+.erp-plans__locked {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(calc(100% - 2rem), 25rem);
+  padding: clamp(1rem, 2vw, 1.4rem);
+  border: 1px solid rgba(var(--accent-soft-rgb), 0.4);
+  border-radius: var(--radius-md);
+  background: rgba(var(--surface-deep-rgb), 0.9);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  backdrop-filter: blur(10px);
+}
+
+.erp-plans__locked-icon {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin-bottom: 0.55rem;
+  border-radius: 50%;
+  color: var(--cyan-soft);
+  background: rgba(var(--accent-rgb), 0.14);
+  border: 1px solid rgba(var(--accent-soft-rgb), 0.32);
+}
+
+.erp-plans__locked-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.erp-plans__locked p {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 0.9rem + 0.35vw, 1.2rem);
+  font-weight: 700;
+}
+
+.erp-plans__locked small {
+  margin: 0.25rem 0 0.85rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.erp-plans__locked .btn {
+  min-height: 2.55rem;
+  padding: 0.65rem 1rem;
+  font-size: 0.78rem;
 }
 
 .erp-plan {

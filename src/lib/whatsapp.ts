@@ -135,6 +135,19 @@ export function msgSoporteTecnico() {
   ].join("\n");
 }
 
+export function msgWebInfo() {
+  return [
+    "Hola Fadey Solutions,",
+    "",
+    "Quiero conversar sobre un *proyecto web* para mi negocio.",
+    "",
+    "Tipo de negocio: ________",
+    "Tipo de web que necesito: ________",
+    "Nombre: ________",
+    "Ciudad: ________",
+  ].join("\n");
+}
+
 export type WebProjectForm = {
   projectType: string;
   budget: string;

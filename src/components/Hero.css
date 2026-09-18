@@ -212,7 +212,7 @@
 
 @media (min-width: 921px) {
   .hero__stage {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.22fr);
     grid-template-rows: auto auto;
     column-gap: clamp(0.85rem, 1.65vw, 1.45rem);
     row-gap: clamp(0.5rem, 1.35vh, 0.9rem);
@@ -252,16 +252,18 @@
     grid-column: 2;
     grid-row: 1 / span 2;
     overflow: hidden;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-end;
-    padding: var(--hero-promo-gap) var(--hero-promo-gap) var(--hero-promo-gap) 0;
+    padding: 0;
+    align-items: center;
   }
 
   .hero__promo {
+    width: 100%;
     height: auto;
-    max-height: calc(100% - var(--hero-promo-gap));
+    max-height: 100%;
     max-width: 100%;
-    object-position: right top;
+    object-position: right center;
   }
 }
 
@@ -436,7 +438,7 @@
   min-height: 0;
   max-height: 100%;
   min-width: 0;
-  padding: var(--hero-promo-gap) var(--hero-promo-gap) 0 0;
+  padding: calc(var(--hero-promo-gap) * 0.2) calc(var(--hero-promo-gap) * 0.55) 0 0;
   box-sizing: border-box;
   overflow: visible;
   background: transparent;
@@ -890,7 +892,7 @@
   .hero__promo {
     position: static;
     width: 100%;
-    max-width: min(100%, 380px);
+    max-width: min(100%, 480px);
     max-height: none;
     height: auto;
     margin-inline: auto;
