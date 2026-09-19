@@ -7,21 +7,10 @@ export function waUrl(message?: string) {
   return `${base}?text=${encodeURIComponent(message.trim())}`;
 }
 
-export function mailtoInfo() {
+export function mailtoInfo(message = msgInfo()) {
   const subject = encodeURIComponent("Solicitud de información — Fadey Solutions");
-  const body = encodeURIComponent(
-    [
-      "Hola Fadey Solutions,",
-      "",
-      "Quiero solicitar información sobre sus soluciones.",
-      "",
-      "Producto de interés: ________",
-      "Nombre: ________",
-      "Empresa: ________",
-      "Teléfono: ________",
-    ].join("\n"),
-  );
-  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(MAILTO)}&su=${subject}&body=${body}`;
+  const body = encodeURIComponent(message);
+  return `mailto:${MAILTO}?subject=${subject}&body=${body}`;
 }
 
 export function msgInfo() {

@@ -4,6 +4,7 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { WhatsAppFloat } from "../components/WhatsAppFloat";
 import { api } from "../lib/api";
+import { mailtoInfo } from "../lib/whatsapp";
 import "./LibroReclamaciones.css";
 
 type SubmitResult = {
@@ -93,11 +94,7 @@ export function LibroReclamacionesPage() {
               <div>
                 <dt>Correo</dt>
                 <dd>
-                  <a
-                    href="https://mail.google.com/mail/?view=cm&fs=1&to=fadeysolutions%40gmail.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href={mailtoInfo()}>
                     fadeysolutions@gmail.com
                   </a>
                 </dd>

@@ -82,12 +82,7 @@ export function CTA() {
                 </svg>
                 WhatsApp
               </a>
-              <a
-                className="btn btn--dark"
-                href={MAILTO_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a className="btn btn--dark" href={MAILTO_URL}>
                 Escribir por correo
               </a>
             </div>
