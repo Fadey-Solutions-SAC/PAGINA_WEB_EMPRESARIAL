@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { api } from "../lib/api";
 import { mailtoInfo, msgInfo, waUrl } from "../lib/whatsapp";
+import { ERP_FADEY_PUBLIC } from "../lib/products";
 import "./CTA.css";
 
 const WHATSAPP_URL = waUrl(msgInfo());
@@ -55,8 +56,9 @@ export function CTA() {
               Llevemos tu negocio al siguiente nivel
             </h2>
             <p className="section__lead">
-              Cuéntanos qué necesitas: Resto Fadey, ERP Fadey, una página web o
-              soporte. Te respondemos con una propuesta clara.
+              {ERP_FADEY_PUBLIC
+                ? "Cuéntanos qué necesitas: Resto Fadey, ERP Fadey, una página web o soporte. Te respondemos con una propuesta clara."
+                : "Cuéntanos qué necesitas: Resto Fadey, una página web o soporte. Te respondemos con una propuesta clara."}
             </p>
           </div>
 
@@ -138,7 +140,9 @@ export function CTA() {
                     Selecciona una opción
                   </option>
                   <option value="resto">Resto Fadey</option>
-                  <option value="erp">ERP Fadey</option>
+                  {ERP_FADEY_PUBLIC ? (
+                    <option value="erp">ERP Fadey</option>
+                  ) : null}
                   <option value="web">Desarrollo web</option>
                   <option value="soporte">Soporte</option>
                 </select>

@@ -1,5 +1,6 @@
 import { useEffect, useId, useState } from "react";
 import { goToSection } from "../lib/goToSection";
+import { ERP_FADEY_PUBLIC } from "../lib/products";
 import "./Hero.css";
 
 const exploreOptions = [
@@ -138,8 +139,12 @@ export function Hero() {
 
         <div className="hero__routes">
           <h2 className="hero__routes-title">¿Qué necesitas para tu negocio?</h2>
-          <div className="hero__routes-grid">
-            {businessRoutes.map((route) => (
+          <div
+            className={`hero__routes-grid${ERP_FADEY_PUBLIC ? "" : " hero__routes-grid--3"}`}
+          >
+            {businessRoutes
+              .filter((route) => ERP_FADEY_PUBLIC || route.id !== "erp")
+              .map((route) => (
               <a
                 key={route.id}
                 className={`hero__route hero__route--${route.accent}`}

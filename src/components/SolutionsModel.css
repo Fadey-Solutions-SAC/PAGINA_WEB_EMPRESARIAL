@@ -69,6 +69,10 @@ html[data-theme="emerald"] .model .section__lead {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.model__grid--three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .model-card {
   position: relative;
   z-index: 1;
@@ -290,14 +294,16 @@ html[data-theme="emerald"] .model-card__cta {
 }
 
 @media (max-width: 1100px) {
-  .model__grid--four {
+  .model__grid--four,
+  .model__grid--three {
     grid-template-columns: 1fr 1fr;
   }
 }
 
 @media (max-width: 780px) {
   .model__grid,
-  .model__grid--four {
+  .model__grid--four,
+  .model__grid--three {
     grid-template-columns: 1fr;
   }
 

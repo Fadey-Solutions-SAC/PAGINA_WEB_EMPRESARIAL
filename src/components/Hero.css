@@ -336,6 +336,10 @@
   max-width: 100%;
 }
 
+.hero__routes-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .hero__route {
   display: flex;
   flex-direction: column;

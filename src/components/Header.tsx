@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useTheme, useTripleClick } from "../lib/theme";
 import { msgQuoteProduct, waUrl } from "../lib/whatsapp";
 import { goToSection } from "../lib/goToSection";
+import { ERP_FADEY_PUBLIC } from "../lib/products";
 import "./Header.css";
 
 const links = [
@@ -11,7 +12,7 @@ const links = [
   { href: "/#erp", label: "ERP Fadey" },
   { href: "/#soporte", label: "Soporte" },
   { href: "/#contacto", label: "Contacto" },
-];
+].filter((link) => ERP_FADEY_PUBLIC || link.href !== "/#erp");
 
 const WHATSAPP_EMPTY = waUrl();
 const WHATSAPP_QUOTE = waUrl(msgQuoteProduct());

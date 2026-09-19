@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { goToSection } from "../lib/goToSection";
 import { mailtoInfo, msgQuoteProduct, waUrl } from "../lib/whatsapp";
+import { ERP_FADEY_PUBLIC } from "../lib/products";
 import "./Footer.css";
 
 const WHATSAPP_EMPTY = waUrl();
@@ -35,8 +36,9 @@ export function Footer() {
             </span>
           </a>
           <p>
-            Tecnología que impulsa tu negocio. Resto Fadey, ERP Fadey,
-            desarrollo web y soporte.
+            {ERP_FADEY_PUBLIC
+              ? "Tecnología que impulsa tu negocio. Resto Fadey, ERP Fadey, desarrollo web y soporte."
+              : "Tecnología que impulsa tu negocio. Resto Fadey, desarrollo web y soporte."}
           </p>
         </div>
 
@@ -55,6 +57,7 @@ export function Footer() {
                 Resto Fadey
               </a>
             </li>
+            {ERP_FADEY_PUBLIC ? (
             <li>
               <a
                 href="/#erp"
@@ -67,6 +70,7 @@ export function Footer() {
                 ERP Fadey
               </a>
             </li>
+            ) : null}
             <li>
               <a
                 href="/#web"

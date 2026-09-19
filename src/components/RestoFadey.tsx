@@ -573,9 +573,9 @@ export function RestoFadey() {
             </h2>
 
             <p className="resto-modules__lead">
-              Controla ventas, mesas, cocina, inventario y delivery desde una
-              sola plataforma fácil de usar. Organiza tu local, mejora tiempos
-              de atención y toma decisiones con reportes en tiempo real.
+              Controla las ventas desde una sola plataforma fácil de usar. 
+              Organiza tu local, mejora tiempos de atención y 
+              toma decisiones con reportes detallados de tus operaciones.
             </p>
 
             <ul className="resto-modules__grid">
@@ -591,7 +591,19 @@ export function RestoFadey() {
                 </li>
               ))}
             </ul>
+          </div>
 
+          <div className="resto-modules__visual reveal">
+            <div className="resto-modules__visual-frame">
+            <img
+              className="resto-modules__showcase"
+              src="/resto-modulos-devices.jpg?v=3"
+              alt="Resto Fadey en monitor y celular: panel de ventas, menú y pedidos móviles"
+              width={1024}
+              height={682}
+              loading="lazy"
+              decoding="async"
+            />
             <div className="resto-modules__actions">
               <button
                 type="button"
@@ -612,18 +624,7 @@ export function RestoFadey() {
                 Conocer más
               </button>
             </div>
-          </div>
-
-          <div className="resto-modules__visual reveal">
-            <img
-              className="resto-modules__showcase"
-              src="/resto-modulos-devices.jpg?v=3"
-              alt="Resto Fadey en monitor y celular: panel de ventas, menú y pedidos móviles"
-              width={1024}
-              height={682}
-              loading="lazy"
-              decoding="async"
-            />
+            </div>
           </div>
           </div>
 
