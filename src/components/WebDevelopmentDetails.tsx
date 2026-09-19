@@ -7,26 +7,41 @@ const processSteps = [
     number: "01",
     title: "Análisis",
     text: "Conocemos tu negocio, público y objetivo.",
+    shape: "circle",
+    timeValue: "3",
+    timeLabel: "días",
   },
   {
     number: "02",
     title: "Estructura",
     text: "Definimos páginas, contenido y recorrido del usuario.",
+    shape: "square",
+    timeValue: "4",
+    timeLabel: "días",
   },
   {
     number: "03",
     title: "Diseño",
     text: "Creamos una propuesta visual alineada con tu marca.",
+    shape: "hex",
+    timeValue: "7",
+    timeLabel: "días",
   },
   {
     number: "04",
     title: "Desarrollo",
     text: "Construimos la web y adaptamos sus funciones.",
+    shape: "diamond",
+    timeValue: "2",
+    timeLabel: "sem.",
   },
   {
     number: "05",
     title: "Lanzamiento",
     text: "Publicamos el proyecto y te acompañamos en la puesta en marcha.",
+    shape: "octagon",
+    timeValue: "2",
+    timeLabel: "días",
   },
 ];
 
@@ -196,7 +211,32 @@ export function WebDevelopmentDetails({ onQuote }: { onQuote: () => void }) {
                   className={`web-process-step reveal${index === activeStep ? " is-active" : ""}`}
                   key={step.number}
                 >
-                  <span className="web-process-step__number">{step.number}</span>
+                  <span className="web-process-step__node">
+                    <span
+                      className="web-process-step__ornament"
+                      aria-hidden="true"
+                    >
+                      <i className="web-process-step__tick" />
+                      <i className="web-process-step__bar" />
+                      <i className="web-process-step__gem" />
+                    </span>
+                    <span
+                      className={`web-process-step__number web-process-step__number--${step.shape}`}
+                    >
+                      <span>{step.number}</span>
+                    </span>
+                    <span className="web-process-step__time">
+                      <strong>{step.timeValue}</strong>
+                      <em>{step.timeLabel}</em>
+                    </span>
+                    <span
+                      className="web-process-step__ornament web-process-step__ornament--end"
+                      aria-hidden="true"
+                    >
+                      <i className="web-process-step__bar" />
+                      <i className="web-process-step__tick" />
+                    </span>
+                  </span>
                   <div className="web-process-step__copy">
                     <h3>{step.title}</h3>
                     <p>{step.text}</p>
