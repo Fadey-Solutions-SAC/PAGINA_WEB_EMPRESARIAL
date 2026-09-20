@@ -205,6 +205,22 @@
 .hero__actions .btn {
   padding: 0.78rem 1.45rem;
   font-size: var(--hero-btn);
+  border: 1.5px solid #fff;
+  background: var(--navy-ink);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(4, 22, 48, 0.28);
+}
+
+.hero__actions .btn--primary,
+.hero__actions .btn--ghost {
+  background: var(--navy-ink);
+  color: #fff;
+}
+
+.hero__actions .btn--primary:hover,
+.hero__actions .btn--ghost:hover {
+  background: #fff;
+  color: var(--navy-ink);
 }
 
 @media (min-width: 921px) {
