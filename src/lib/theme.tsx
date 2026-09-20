@@ -29,7 +29,7 @@ export function readStoredTheme(): SiteTheme {
   } catch {
     /* ignore */
   }
-  return "emerald";
+  return "blue";
 }
 
 export function applyThemeToDocument(theme: SiteTheme) {

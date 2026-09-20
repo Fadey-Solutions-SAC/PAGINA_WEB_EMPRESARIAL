@@ -92,17 +92,14 @@
 }
 
 .resto-modules--theme-green.section--blue::before {
-  background: var(--bg-dark-diagonal) center / cover no-repeat;
-  opacity: 0.95;
+  background-image: var(--bg-dark-diagonal);
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: 1;
 }
 
 .resto-modules--theme-green.section--blue::after {
-  background: linear-gradient(
-    135deg,
-    rgba(var(--surface-rgb), 0.28) 0%,
-    rgba(var(--surface-deep-rgb), 0.5) 50%,
-    rgba(var(--accent-rgb), 0.12) 100%
-  ) !important;
+  background: transparent !important;
 }
 
 .resto-modules--theme-green .resto-modules__tagline-accent {

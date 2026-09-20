@@ -311,6 +311,7 @@ html[data-theme="emerald"] .web-investment-section {
   width: 3.35rem;
   height: 3.35rem;
   border-radius: 0.55rem;
+  margin-right: 0.7rem;
   transform: rotate(45deg);
 }
 
@@ -800,6 +801,13 @@ html[data-theme="emerald"] .web-investment-section {
   .web-process__experience {
     margin-top: 0.5rem;
     overflow: hidden;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .web-process__experience.is-dragging {
+    cursor: grabbing;
   }
 
   .web-process__steps {
@@ -807,8 +815,12 @@ html[data-theme="emerald"] .web-investment-section {
     grid-template-columns: none;
     gap: 0;
     width: 100%;
-    transform: translateX(calc(var(--active-step, 0) * -100%));
+    transform: translateX(calc(var(--active-step, 0) * -100% + var(--drag-x, 0px)));
     transition: transform 0.55s var(--ease);
+  }
+
+  .web-process__experience.is-dragging .web-process__steps {
+    transition: none;
   }
 
   .web-process__steps::before {
@@ -834,8 +846,8 @@ html[data-theme="emerald"] .web-investment-section {
   }
 
   .web-process-step__time {
-    min-width: 2rem;
-    margin-left: 0.25rem;
+    min-width: 2.2rem;
+    margin-left: 0.45rem;
   }
 
   .web-process-step__time strong {
@@ -884,16 +896,26 @@ html[data-theme="emerald"] .web-investment-section {
     margin: 0.85rem auto 0;
   }
 
-  .web-process__progress span {
+  .web-process__progress button {
+    position: relative;
     height: 3px;
+    padding: 0;
+    border: 0;
     border-radius: 999px;
     background: color-mix(in srgb, var(--web-accent) 28%, transparent);
+    cursor: pointer;
     transition:
       background 0.35s var(--ease),
       box-shadow 0.35s var(--ease);
   }
 
-  .web-process__progress span.is-on {
+  .web-process__progress button::before {
+    content: "";
+    position: absolute;
+    inset: -12px 0;
+  }
+
+  .web-process__progress button.is-on {
     background: var(--web-accent);
     box-shadow: 0 0 12px color-mix(in srgb, var(--web-accent) 55%, transparent);
   }

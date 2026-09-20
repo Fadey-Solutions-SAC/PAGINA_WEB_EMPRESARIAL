@@ -1,4 +1,10 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import { msgWebInfo, waUrl } from "../lib/whatsapp";
 import "./WebDevelopmentDetails.css";
 
@@ -154,6 +160,16 @@ function InvestmentIcon({
 export function WebDevelopmentDetails({ onQuote }: { onQuote: () => void }) {
   const webInfoUrl = waUrl(msgWebInfo());
   const [activeStep, setActiveStep] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [dragX, setDragX] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const pointerRef = useRef<{
+    id: number | null;
+    x: number;
+    y: number;
+    hold: number;
+    captured: boolean;
+  }>({ id: null, x: 0, y: 0, hold: 0, captured: false });
 
   useEffect(() => {
     const mq = window.matchMedia("(max-width: 920px)");
@@ -163,8 +179,10 @@ export function WebDevelopmentDetails({ onQuote }: { onQuote: () => void }) {
       window.clearInterval(timer);
       if (!mq.matches) {
         setActiveStep(0);
+        setPaused(false);
         return;
       }
+      if (paused) return;
 
       timer = window.setInterval(() => {
         setActiveStep((current) => (current + 1) % processSteps.length);
@@ -175,9 +193,70 @@ export function WebDevelopmentDetails({ onQuote }: { onQuote: () => void }) {
     mq.addEventListener("change", startLoop);
     return () => {
       window.clearInterval(timer);
+      window.clearTimeout(pointerRef.current.hold);
       mq.removeEventListener("change", startLoop);
     };
-  }, []);
+  }, [paused]);
+
+  function goToStep(index: number) {
+    const total = processSteps.length;
+    setActiveStep(((index % total) + total) % total);
+  }
+
+  function clearHold() {
+    window.clearTimeout(pointerRef.current.hold);
+    pointerRef.current.hold = 0;
+  }
+
+  function onStepPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    if (window.matchMedia("(max-width: 920px)").matches === false) return;
+    pointerRef.current = {
+      id: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      hold: window.setTimeout(() => {
+        setPaused(true);
+      }, 280),
+      captured: false,
+    };
+    setDragX(0);
+  }
+
+  function onStepPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const pointer = pointerRef.current;
+    if (pointer.id !== event.pointerId) return;
+
+    const dx = event.clientX - pointer.x;
+    const dy = event.clientY - pointer.y;
+    if (!pointer.captured && Math.abs(dy) > 12 && Math.abs(dy) >= Math.abs(dx)) {
+      clearHold();
+      return;
+    }
+    if (!pointer.captured && Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy)) {
+      clearHold();
+      pointer.captured = true;
+      event.currentTarget.setPointerCapture(event.pointerId);
+      setDragging(true);
+      setPaused(true);
+    }
+    if (pointer.captured) {
+      setDragX(dx);
+    }
+  }
+
+  function finishPointer(event: ReactPointerEvent<HTMLDivElement>) {
+    const pointer = pointerRef.current;
+    if (pointer.id !== event.pointerId) return;
+    clearHold();
+    const dx = event.clientX - pointer.x;
+    if (pointer.captured) {
+      if (dx <= -40) goToStep(activeStep + 1);
+      else if (dx >= 40) goToStep(activeStep - 1);
+    }
+    pointerRef.current = { id: null, x: 0, y: 0, hold: 0, captured: false };
+    setDragging(false);
+    setDragX(0);
+  }
 
   return (
     <>
@@ -199,12 +278,23 @@ export function WebDevelopmentDetails({ onQuote }: { onQuote: () => void }) {
             </div>
           </div>
 
-          <div className="web-process__experience">
+          <div
+            className={`web-process__experience${dragging ? " is-dragging" : ""}${paused ? " is-paused" : ""}`}
+            onPointerDown={onStepPointerDown}
+            onPointerMove={onStepPointerMove}
+            onPointerUp={finishPointer}
+            onPointerCancel={finishPointer}
+          >
             <ol
               className="web-process__steps"
               aria-label="Etapas del desarrollo web"
               data-active={activeStep}
-              style={{ "--active-step": activeStep } as CSSProperties}
+              style={
+                {
+                  "--active-step": activeStep,
+                  "--drag-x": `${dragX}px`,
+                } as CSSProperties
+              }
             >
               {processSteps.map((step, index) => (
                 <li
@@ -244,11 +334,18 @@ export function WebDevelopmentDetails({ onQuote }: { onQuote: () => void }) {
                 </li>
               ))}
             </ol>
-            <div className="web-process__progress reveal" aria-hidden="true">
+            <div className="web-process__progress reveal" role="tablist" aria-label="Pasos del proceso">
               {processSteps.map((step, index) => (
-                <span
+                <button
+                  type="button"
                   key={step.number}
                   className={index === activeStep ? "is-on" : undefined}
+                  aria-label={`Ir al paso ${step.number}: ${step.title}`}
+                  aria-current={index === activeStep ? "step" : undefined}
+                  onClick={() => {
+                    setPaused(true);
+                    goToStep(index);
+                  }}
                 />
               ))}
             </div>

@@ -121,8 +121,9 @@ html[data-theme="emerald"] .hero {
 
 html[data-theme="emerald"] .hero__bg {
   background-image: var(--bg-hero) !important;
-  background-position: center center !important;
-  background-size: cover !important;
+  background-position: top center !important;
+  background-size: 100% 100svh !important;
+  background-repeat: repeat-y !important;
   opacity: 1 !important;
   filter: none !important;
 }
@@ -133,15 +134,15 @@ html[data-theme="emerald"] .section--blue-a::after,
 html[data-theme="emerald"] .section--blue-b::after,
 html[data-theme="emerald"] .section--blue-c::after,
 html[data-theme="emerald"] .section--blue-d::after {
-  background: rgba(3, 38, 28, 0.22) !important;
+  background: transparent !important;
 }
 
 html[data-theme="emerald"] .hero__overlay {
-  background: rgba(3, 38, 28, 0.4) !important;
+  background: rgba(3, 38, 28, 0.12) !important;
 }
 
 html[data-theme="emerald"] .web__overlay {
-  background: rgba(3, 38, 28, 0.38) !important;
+  background: rgba(3, 38, 28, 0.1) !important;
 }
 
 html[data-theme="emerald"] .section--light::after,
@@ -149,11 +150,9 @@ html[data-theme="emerald"] .section--light-a::after,
 html[data-theme="emerald"] .section--light-b::after,
 html[data-theme="emerald"] .section--light-c::after,
 html[data-theme="emerald"] .section--light-d::after {
-  background: rgba(255, 255, 255, 0.28) !important;
+  background: rgba(255, 255, 255, 0.06) !important;
 }
 
-/* Apaga glows/blur verdes (efecto neblina) */
-html[data-theme="emerald"] .hero__glow,
 html[data-theme="emerald"] .login__glow {
   display: none !important;
 }
@@ -485,21 +484,24 @@ ul {
   position: absolute;
   inset: 0;
   width: 100%;
+  height: 100%;
   min-height: 100%;
   transform: none;
   pointer-events: none;
   z-index: 0;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .section--light::before {
-  background: var(--bg-light-hex) center / cover no-repeat;
+  background-image: var(--bg-light-hex);
+  background-position: center;
+  background-size: 100% 100%;
   opacity: 1;
 }
 
 .section--light::after {
-  background: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .section--light > * {
@@ -514,7 +516,7 @@ ul {
 }
 
 .section--light-a::after {
-  background: rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Variation B: ondas — ¿Por qué Fadey? */
@@ -524,7 +526,7 @@ ul {
 }
 
 .section--light-b::after {
-  background: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Variation C: hex — ERP */
@@ -534,7 +536,7 @@ ul {
 }
 
 .section--light-c::after {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Variation D: ondas — Desarrollo web */
@@ -544,7 +546,7 @@ ul {
 }
 
 .section--light-d::after {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 /* Blue sections — tonalidad más clara y legible */
@@ -560,12 +562,13 @@ ul {
   position: absolute;
   inset: 0;
   width: 100%;
+  height: 100%;
   min-height: 100%;
   transform: none;
   pointer-events: none;
   z-index: 0;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .section--blue > * {
@@ -574,47 +577,58 @@ ul {
 }
 
 .section--blue::before {
+  background-image: var(--bg-dark-diagonal);
+  background-position: center;
+  background-size: 100% 100%;
   opacity: 1;
 }
 
 .section--blue::after {
-  background: rgba(var(--surface-deep-rgb), 0.2);
+  background: transparent;
 }
 
 /* A: diagonal — módulos Resto, contacto */
 .section--blue-a::before {
-  background: var(--bg-dark-diagonal) center / cover no-repeat;
+  background-image: var(--bg-dark-diagonal);
+  background-position: center;
+  background-size: 100% 100%;
 }
 
 .section--blue-a::after {
-  background: rgba(var(--surface-deep-rgb), 0.18);
+  background: transparent;
 }
 
 /* B: curva — planes Resto */
 .section--blue-b::before {
-  background: var(--bg-dark-curve) 70% center / cover no-repeat;
+  background-image: var(--bg-dark-curve);
+  background-position: 70% center;
+  background-size: 100% 100%;
 }
 
 .section--blue-b::after {
-  background: rgba(var(--surface-deep-rgb), 0.2);
+  background: transparent;
 }
 
 /* C: curva (posición distinta) — planes ERP */
 .section--blue-c::before {
-  background: var(--bg-dark-curve) 15% center / cover no-repeat;
+  background-image: var(--bg-dark-curve);
+  background-position: 15% center;
+  background-size: 100% 100%;
 }
 
 .section--blue-c::after {
-  background: rgba(var(--surface-deep-rgb), 0.22);
+  background: transparent;
 }
 
 /* D: diagonal (posición distinta) — soporte */
 .section--blue-d::before {
-  background: var(--bg-dark-diagonal) center bottom / cover no-repeat;
+  background-image: var(--bg-dark-diagonal);
+  background-position: center bottom;
+  background-size: 100% 100%;
 }
 
 .section--blue-d::after {
-  background: rgba(var(--surface-deep-rgb), 0.2);
+  background: transparent;
 }
 
 /* Mineral-inspired plan cards (visual only) */
@@ -952,56 +966,51 @@ ul {
     max-width: none;
   }
 
-  /* Fondos contenidos en los ::before/::after; el contenido no debe recortarse */
+  /* Como el wallpaper: la foto completa cabe en UNA pantalla, no se estira ni se recorta al centro */
+  .hero {
+    background-color: transparent !important;
+    background-image: var(--bg-hero) !important;
+    background-size: 100% 100svh !important;
+    background-repeat: repeat-y !important;
+    background-position: top center !important;
+  }
+
   .section--light,
   .section--blue {
     overflow: visible;
+    background-repeat: repeat-y !important;
+    background-position: top center !important;
+    background-size: 100% 100svh !important;
   }
 
+  .section--light,
+  .section--light-a,
+  .section--light-c {
+    background-image: var(--bg-light-hex);
+  }
+
+  .section--light-b,
+  .section--light-d {
+    background-image: var(--bg-light-wave);
+  }
+
+  .section--blue,
+  .section--blue-a,
+  .section--blue-d {
+    background-image: var(--bg-dark-diagonal);
+  }
+
+  .section--blue-b,
+  .section--blue-c {
+    background-image: var(--bg-dark-curve);
+  }
+
+  /* Una sola capa: sin velo ni brillo extra encima de la foto */
   .section--light::before,
   .section--light::after,
   .section--blue::before,
   .section--blue::after {
-    inset: 0;
-    width: 100%;
-    transform: none !important;
-  }
-
-  .section--light {
-    background-color: var(--section-light);
-  }
-
-  .section--blue {
-    background-color: var(--blue-section);
-  }
-
-  .section--light::after {
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  .section--blue::after {
-    background: rgba(var(--surface-deep-rgb), 0.28);
-  }
-
-  html[data-theme="emerald"] .hero__bg {
-    background-image: var(--bg-hero) !important;
-    opacity: 0.85 !important;
-  }
-
-  html[data-theme="emerald"] .section--blue::after,
-  html[data-theme="emerald"] .section--blue-a::after,
-  html[data-theme="emerald"] .section--blue-b::after,
-  html[data-theme="emerald"] .section--blue-c::after,
-  html[data-theme="emerald"] .section--blue-d::after {
-    background: rgba(3, 38, 28, 0.45) !important;
-  }
-
-  html[data-theme="emerald"] .section--light::after,
-  html[data-theme="emerald"] .section--light-a::after,
-  html[data-theme="emerald"] .section--light-b::after,
-  html[data-theme="emerald"] .section--light-c::after,
-  html[data-theme="emerald"] .section--light-d::after {
-    background: rgba(255, 255, 255, 0.45) !important;
+    display: none !important;
   }
 
   /* Sin pantallas en blanco por opacity:0 del reveal */

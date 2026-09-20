@@ -22,7 +22,7 @@ function readTheme(): SiteTheme {
   } catch {
     /* missing or invalid */
   }
-  return "emerald";
+  return "blue";
 }
 
 function writeTheme(theme: SiteTheme) {
