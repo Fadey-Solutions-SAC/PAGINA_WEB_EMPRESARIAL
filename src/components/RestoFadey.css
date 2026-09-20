@@ -103,7 +103,7 @@
 }
 
 .resto-modules--theme-green .resto-modules__tagline-accent {
-  color: var(--cyan);
+  color: var(--title-accent);
 }
 
 .resto-modules--theme-green .resto-modules__cta--primary {
@@ -171,7 +171,7 @@
 }
 
 .resto .section__lead {
-  color: #d7e8f5;
+  color: #f4f8fc;
   font-size: clamp(0.98rem, 1.2vw, 1.12rem);
   line-height: 1.45;
   margin-top: 0.45rem;
@@ -211,13 +211,13 @@
 }
 
 .resto .section__lead strong {
-  color: var(--cyan-soft);
+  color: var(--title-accent);
   font-weight: 600;
 }
 
 .resto__offer {
   margin-top: 0.5rem;
-  color: var(--cyan-soft);
+  color: var(--title-accent);
   font-size: clamp(1.18rem, 1.55vw, 1.42rem);
   font-weight: 700;
   line-height: 1.35;
@@ -427,13 +427,13 @@
 }
 
 .resto-modules__tagline-accent {
-  color: var(--cyan);
+  color: var(--title-accent);
 }
 
 .resto-modules__lead {
   margin: 0;
   max-width: 34rem;
-  color: rgba(203, 213, 225, 0.92);
+  color: #f4f8fc;
   font-size: clamp(0.88rem, 0.8rem + 0.24vw, 1.02rem);
   line-height: 1.44;
   text-wrap: pretty;
@@ -479,7 +479,7 @@
 .resto-modules__tile-desc {
   font-size: clamp(0.62rem, 0.58rem + 0.12vw, 0.72rem);
   font-weight: 500;
-  color: rgba(148, 163, 184, 0.95);
+  color: #eef4fa;
   line-height: 1.26;
 }
 
@@ -918,16 +918,17 @@
 }
 
 .fadey-why.section.section--light .fadey-why__headline-accent {
-  background: linear-gradient(90deg, var(--cyan), var(--blue-section-deep));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--title-accent);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }
 
 html[data-theme="emerald"] .fadey-why.section.section--light .fadey-why__headline-accent {
-  background: linear-gradient(90deg, #00e676, #00a85a);
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: var(--title-accent);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
 }
 
 @media (min-width: 921px) and (max-height: 780px) {
@@ -998,10 +999,7 @@ html[data-theme="emerald"] .fadey-why.section.section--light .fadey-why__headlin
 
 .fadey-why__headline-accent {
   display: inline;
-  background: linear-gradient(90deg, var(--cyan-soft), var(--cyan));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--title-accent);
 }
 
 .fadey-why__lead {
@@ -1558,10 +1556,7 @@ html[data-theme="emerald"] .fadey-why-card {
 
 .resto-plans__title-accent {
   font-style: normal;
-  background: linear-gradient(90deg, #00ffa3 0%, #22d3ee 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--title-accent);
 }
 
 .resto-plans__lead {
@@ -1569,7 +1564,7 @@ html[data-theme="emerald"] .fadey-why-card {
   max-width: 36rem;
   font-size: clamp(0.82rem, 0.75rem + 0.35vw, 0.95rem);
   line-height: 1.45;
-  color: rgba(148, 163, 184, 0.95);
+  color: #f4f8fc;
 }
 
 .resto-plans__grid {
@@ -1950,7 +1945,7 @@ html[data-theme="emerald"] .fadey-why-card {
 .resto-plans__trust span {
   display: block;
   font-size: clamp(0.58rem, 0.55rem + 0.1vw, 0.68rem);
-  color: rgba(148, 163, 184, 0.92);
+  color: #eef4fa;
   line-height: 1.28;
 }
 

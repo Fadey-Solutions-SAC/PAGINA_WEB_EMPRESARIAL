@@ -32,7 +32,7 @@
 }
 
 .maint.section.section--blue .section__label {
-  color: var(--cyan-soft);
+  color: var(--title-accent);
 }
 
 .maint.section.section--blue .section__title {
@@ -41,7 +41,7 @@
 }
 
 .maint.section.section--blue .section__lead {
-  color: var(--text-muted);
+  color: #f4f8fc;
   max-width: none;
   margin: 0;
   font-size: 0.95rem;

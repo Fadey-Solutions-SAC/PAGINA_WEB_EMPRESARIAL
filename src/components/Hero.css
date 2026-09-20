@@ -168,7 +168,7 @@
 }
 
 .hero__title span {
-  color: var(--cyan);
+  color: var(--title-accent);
 }
 
 .hero__lead {
@@ -185,7 +185,7 @@
 .hero__desc {
   margin: 0.5rem 0 0;
   width: 100%;
-  color: #b9d0e3;
+  color: #f4f8fc;
   font-size: var(--hero-desc);
   font-weight: 400;
   line-height: 1.5;
@@ -388,7 +388,7 @@
   flex: 0 1 auto;
   font-size: clamp(0.8rem, 0.92vw, 0.88rem);
   line-height: 1.35;
-  color: #b8cedf;
+  color: #eef4fa;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;

@@ -4,6 +4,7 @@
   --deep: #1a6aad;
   --cyan: #00cfff;
   --cyan-soft: #7debff;
+  --title-accent: #00b8e8;
   --accent-rgb: 0, 207, 255;
   --accent-soft-rgb: 125, 235, 255;
   --surface-rgb: 12, 74, 130;
@@ -64,6 +65,7 @@ html[data-theme="emerald"] {
   --deep: #00c853;
   --cyan: #00e676;
   --cyan-soft: #69f0ae;
+  --title-accent: #12d46a;
   --accent-rgb: 0, 230, 118;
   --accent-soft-rgb: 105, 240, 174;
   --surface-rgb: 4, 40, 32;
@@ -815,8 +817,25 @@ ul {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--cyan);
+  color: var(--title-accent);
   margin-bottom: 0.55rem;
+}
+
+.hero__title span,
+.header__brand em,
+.resto-modules__tagline-accent,
+.resto-plans__title-accent,
+.fadey-why__headline-accent,
+.resto .section__lead strong,
+.resto__offer,
+.erp .section__lead strong,
+.section__label,
+.cta.section.section--blue .section__label,
+.maint.section.section--blue .section__label,
+.web-process__intro .section__label,
+.web-included__intro .section__label {
+  -webkit-text-stroke: 1px #fff;
+  paint-order: stroke fill;
 }
 
 .section__title {

@@ -78,7 +78,7 @@
 
 .header__brand em {
   font-style: normal;
-  color: var(--cyan-soft);
+  color: var(--title-accent);
   font-weight: 500;
 }
 

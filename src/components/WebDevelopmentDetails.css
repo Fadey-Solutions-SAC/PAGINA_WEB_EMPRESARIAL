@@ -64,7 +64,7 @@ html[data-theme="emerald"] .web-investment-section {
 
 .web-process__intro .section__label {
   grid-column: 1 / -1;
-  color: var(--web-accent-soft);
+  color: var(--title-accent);
   font-size: clamp(0.76rem, 0.69rem + 0.18vw, 0.88rem);
   font-weight: 800;
 }
@@ -399,7 +399,7 @@ html[data-theme="emerald"] .web-investment-section {
 }
 
 .web-included__intro .section__label {
-  color: var(--web-accent-soft);
+  color: var(--title-accent);
   font-size: 0.72rem;
   font-weight: 800;
 }
