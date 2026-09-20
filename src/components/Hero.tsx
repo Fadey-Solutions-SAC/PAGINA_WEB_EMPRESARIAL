@@ -98,11 +98,10 @@ export function Hero() {
               Tecnología que <span>potencia</span> tu negocio
             </h1>
             <p className="hero__lead">
-              Sistemas de gestion, desarrollo web y soluciones digitales diseñadas para hacer
-              crecer tu empresa.
+              Sistemas de gestion, desarrollo web y soluciones digitales diseñadas para potenciar tu negocio.
             </p>
             <p className="hero__desc">
-              Desarrollamos soluciones profesionales adaptadas a lo que
+              Desarrollamos soluciones profesionales adaptadas a lo que tu negocio
               realmente necesitas.
             </p>
           </div>
