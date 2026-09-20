@@ -1398,16 +1398,6 @@ html[data-theme="emerald"] .fadey-why-card {
   object-position: center;
 }
 
-.resto-shot .resto-demo {
-  border-radius: 0;
-  width: 100%;
-  max-width: 100%;
-  height: fit-content;
-  max-height: none;
-  flex: 0 0 auto;
-  min-height: 0;
-}
-
 .resto-shot--video {
   overflow: hidden;
 }
@@ -2285,11 +2275,6 @@ html[data-theme="emerald"] .fadey-why-card {
     height: auto !important;
     max-height: none !important;
     overflow: visible;
-  }
-
-  .resto-shot .resto-demo {
-    height: auto !important;
-    max-height: none !important;
   }
 
   .resto-plans.section {

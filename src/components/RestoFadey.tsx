@@ -506,9 +506,8 @@ function RestoIntro() {
             </h2>
             <p className="section__lead resto__commercial-copy">
               Te mostramos cómo funciona Resto Fadey y cómo puedes simplificar
-              la gestión de tu negocio gastronómico. Conoce su funcionamiento,
-              sus principales herramientas y la forma en que cada área de tu
-              operación trabaja de manera integrada.
+              la gestión de tu negocio gastronómico. Tu solo abre caja - Agrega pedidos
+              - Cobra mesas y Resto fadey hace lo resto por tí.
             </p>
             <button
               type="button"

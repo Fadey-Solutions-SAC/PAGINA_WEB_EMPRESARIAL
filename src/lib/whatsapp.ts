@@ -52,18 +52,6 @@ export function msgRestoPlan(planName: string, price: string) {
   ].join("\n");
 }
 
-export function msgRestoDemo() {
-  return [
-    "Hola Fadey Solutions,",
-    "",
-    "Quiero solicitar una *demostración en vivo* del sistema Resto Fadey.",
-    "Me interesa ver cómo funciona pedidos, caja, cocina/barra e inventario.",
-    "",
-    "Tipo de negocio: ________",
-    "Ciudad: ________",
-  ].join("\n");
-}
-
 export function msgRestoInfo() {
   return [
     "Hola Fadey Solutions,",
