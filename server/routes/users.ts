@@ -55,11 +55,6 @@ function normalizeBaseUrl(raw: string) {
       "Esa es la API o la web de Fadey, no el POS. Pega la URL de Render del cliente (ej. https://tu-local.onrender.com).",
     );
   }
-  if (host.endsWith(".vercel.app")) {
-    throw new Error(
-      "Esa URL es el frontend (Vercel). Para vincular usa la API del POS en Render, la que termina en onrender.com.",
-    );
-  }
   const frontendPath = /^\/(admin|login|app|dashboard|panel|#)/i.test(
     parsed.pathname,
   );
@@ -150,7 +145,50 @@ function restaurantFromPayload(data: Record<string, unknown>, apiPath: string) {
   } satisfies RestaurantInfo;
 }
 
-async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
+function addServiceBase(list: string[], raw: string | null | undefined) {
+  const n = normalizeWebServiceUrl(raw);
+  if (!n) return;
+  try {
+    const host = new URL(n).hostname.toLowerCase();
+    if (CENTRAL_HOSTS.has(host)) return;
+  } catch {
+    return;
+  }
+  if (!list.includes(n)) list.push(n);
+}
+
+async function resolveWebServiceBases(raw: string): Promise<string[]> {
+  const origin = normalizeBaseUrl(raw);
+  const host = new URL(origin).hostname.toLowerCase();
+  const bases: string[] = [];
+
+  if (host.endsWith(".vercel.app")) {
+    const slug = host
+      .replace(/\.vercel\.app$/i, "")
+      .replace(/-git-.*$/i, "");
+    addServiceBase(bases, `https://${slug}.onrender.com`);
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 8000);
+      const res = await fetch(`${origin}/fadey-link.json`, {
+        headers: { Accept: "application/json" },
+        signal: controller.signal,
+      });
+      clearTimeout(timer);
+      if (res.ok) {
+        const link = await readPosJson(res, "/fadey-link.json");
+        if (link.apiUrl) addServiceBase(bases, String(link.apiUrl));
+      }
+    } catch {
+      /* el front de Vercel no siempre publica fadey-link.json */
+    }
+  }
+
+  addServiceBase(bases, origin);
+  return bases;
+}
+
+async function fetchRestaurantInfoFromBase(baseUrl: string): Promise<RestaurantInfo> {
   const secret = posServiceSecret();
   const attempts: { path: string; auth?: boolean }[] = [
     { path: "/api/fadey/restaurant" },
@@ -196,6 +234,23 @@ async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
   throw new Error(lastError);
 }
 
+async function fetchRestaurantInfo(rawUrl: string): Promise<{
+  url: string;
+  restaurant: RestaurantInfo;
+}> {
+  const bases = await resolveWebServiceBases(rawUrl);
+  let lastError = "No se pudo consultar el web service";
+  for (const base of bases) {
+    try {
+      const restaurant = await fetchRestaurantInfoFromBase(base);
+      return { url: base, restaurant };
+    } catch (err) {
+      lastError = err instanceof Error ? err.message : lastError;
+    }
+  }
+  throw new Error(lastError);
+}
+
 function mapUser<T extends { products: unknown }>(user: T) {
   return { ...user, products: asProducts(user.products) };
 }
@@ -227,9 +282,10 @@ usersRouter.get("/", requireAdmin, async (_req, res) => {
 
 usersRouter.post("/probe-webservice", requireAdmin, async (req, res) => {
   try {
-    const baseUrl = normalizeBaseUrl(String(req.body?.url || ""));
-    const restaurant = await fetchRestaurantInfo(baseUrl);
-    res.json({ url: baseUrl, restaurant });
+    const { url, restaurant } = await fetchRestaurantInfo(
+      String(req.body?.url || ""),
+    );
+    res.json({ url, restaurant });
   } catch (err) {
     res.status(400).json({
       error:
@@ -240,7 +296,9 @@ usersRouter.post("/probe-webservice", requireAdmin, async (req, res) => {
 
 usersRouter.post("/link-webservice", requireAdmin, async (req, res) => {
   try {
-    const baseUrl = normalizeBaseUrl(String(req.body?.url || ""));
+    const { url: baseUrl, restaurant } = await fetchRestaurantInfo(
+      String(req.body?.url || ""),
+    );
     const productsRaw = Array.isArray(req.body?.products)
       ? req.body.products
       : ["resto"];
@@ -265,7 +323,6 @@ usersRouter.post("/link-webservice", requireAdmin, async (req, res) => {
       return;
     }
 
-    const restaurant = await fetchRestaurantInfo(baseUrl);
     const { username, password } = await genOwnerAccess(
       resolveOwnerName(restaurant),
     );

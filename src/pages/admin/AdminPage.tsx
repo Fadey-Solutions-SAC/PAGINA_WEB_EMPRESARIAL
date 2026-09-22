@@ -1300,7 +1300,7 @@ export function AdminPage() {
                         }}
                       />
                       <small>
-                        API del POS en Render (onrender.com). No uses Vercel, fadeysolutions.pe ni CENTRAL_API_URL.
+                        Puedes pegar Vercel o Render. Si pegas .vercel.app, se busca la API en .onrender.com (como Resto Fadey).
                       </small>
                     </label>
                     <button
