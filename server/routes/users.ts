@@ -32,12 +32,66 @@ function resolveOwnerName(restaurant: RestaurantInfo) {
   return restaurant.name;
 }
 
+const CENTRAL_HOSTS = new Set([
+  "fadeysolutions.pe",
+  "www.fadeysolutions.pe",
+  "fadey-solutions-pe.onrender.com",
+]);
+
 function normalizeBaseUrl(raw: string) {
   const normalized = normalizeWebServiceUrl(raw);
   if (!normalized) {
     throw new Error("La URL debe empezar con http:// o https://");
   }
-  return normalized;
+  let parsed: URL;
+  try {
+    parsed = new URL(normalized);
+  } catch {
+    throw new Error("URL del web service inválida");
+  }
+  const host = parsed.hostname.toLowerCase();
+  if (CENTRAL_HOSTS.has(host)) {
+    throw new Error(
+      "Esa es la API o la web de Fadey, no el POS. Pega la URL de Render del cliente (ej. https://tu-local.onrender.com).",
+    );
+  }
+  if (host.endsWith(".vercel.app")) {
+    throw new Error(
+      "Esa URL es el frontend (Vercel). Para vincular usa la API del POS en Render, la que termina en onrender.com.",
+    );
+  }
+  const frontendPath = /^\/(admin|login|app|dashboard|panel|#)/i.test(
+    parsed.pathname,
+  );
+  if (frontendPath || parsed.pathname === "/") {
+    return `${parsed.protocol}//${parsed.host}`;
+  }
+  return `${parsed.protocol}//${parsed.host}${parsed.pathname.replace(/\/+$/, "")}`;
+}
+
+function posServiceSecret() {
+  return String(
+    process.env.API_INGEST_SECRET || process.env.API_SECRET_KEY || "",
+  ).trim();
+}
+
+async function readPosJson(res: Response, apiPath: string) {
+  const ct = String(res.headers.get("content-type") || "");
+  const text = await res.text();
+  const body = text.trim();
+  if (!body) {
+    throw new Error(`Respuesta vacía en ${apiPath}`);
+  }
+  if (body.startsWith("<") || ct.includes("text/html")) {
+    throw new Error(
+      "Esa URL devolvió una página web, no la API del POS. Usa el servicio de Render (…onrender.com), no Vercel ni fadeysolutions.pe.",
+    );
+  }
+  try {
+    return JSON.parse(body) as Record<string, unknown>;
+  } catch {
+    throw new Error(`La respuesta de ${apiPath} no es JSON válido`);
+  }
 }
 
 type RestaurantInfo = {
@@ -51,75 +105,89 @@ type RestaurantInfo = {
   product?: string;
 };
 
+function restaurantFromPayload(data: Record<string, unknown>, apiPath: string) {
+  const inner =
+    data.restaurant && typeof data.restaurant === "object"
+      ? (data.restaurant as Record<string, unknown>)
+      : data;
+  const name = String(
+    inner.name ||
+      inner.restaurantName ||
+      inner.localName ||
+      inner.nombre ||
+      inner.businessName ||
+      data.name ||
+      "",
+  ).trim();
+  if (!name) {
+    throw new Error(`La respuesta de ${apiPath} no trae nombre del restaurante`);
+  }
+  const ownerRaw = String(
+    inner.ownerName ||
+      inner.owner ||
+      inner.adminName ||
+      inner.admin ||
+      inner.dueno ||
+      inner.nombreDueno ||
+      inner.legalName ||
+      "",
+  ).trim();
+  return {
+    name,
+    ownerName: ownerRaw ? ownerRaw.split(/\s+/)[0] : undefined,
+    legalName: inner.legalName ? String(inner.legalName) : undefined,
+    email: inner.email ? String(inner.email) : undefined,
+    ruc: inner.ruc ? String(inner.ruc) : undefined,
+    phone:
+      inner.phone || inner.telefono
+        ? String(inner.phone || inner.telefono)
+        : undefined,
+    address:
+      inner.address || inner.direccion
+        ? String(inner.address || inner.direccion)
+        : undefined,
+    product: inner.product ? String(inner.product) : undefined,
+  } satisfies RestaurantInfo;
+}
+
 async function fetchRestaurantInfo(baseUrl: string): Promise<RestaurantInfo> {
-  const paths = [
-    "/api/fadey/restaurant",
-    "/fadey/restaurant",
-    "/api/restaurant",
-    "/api/local",
+  const secret = posServiceSecret();
+  const attempts: { path: string; auth?: boolean }[] = [
+    { path: "/api/fadey/restaurant" },
+    { path: "/fadey/restaurant" },
+    { path: "/api/local" },
+    { path: "/api/restaurant/info", auth: true },
+    { path: "/api/restaurant" },
   ];
 
   let lastError = "No se pudo consultar el web service";
 
-  for (const apiPath of paths) {
+  for (const attempt of attempts) {
+    if (attempt.auth && !secret) continue;
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 12000);
+    const timer = setTimeout(() => controller.abort(), 45000);
     try {
-      const res = await fetch(`${baseUrl}${apiPath}`, {
+      const res = await fetch(`${baseUrl}${attempt.path}`, {
         method: "GET",
-        headers: { Accept: "application/json" },
+        headers: {
+          Accept: "application/json",
+          ...(attempt.auth ? { Authorization: `Bearer ${secret}` } : {}),
+        },
         signal: controller.signal,
       });
       clearTimeout(timer);
       if (!res.ok) {
-        lastError = `El web service respondió ${res.status} en ${apiPath}`;
+        lastError = `El web service respondió ${res.status} en ${attempt.path}`;
         continue;
       }
-      const data = (await res.json()) as Record<string, unknown>;
-      const name = String(
-        data.name ||
-          data.restaurantName ||
-          data.localName ||
-          data.nombre ||
-          data.businessName ||
-          "",
-      ).trim();
-      if (!name) {
-        lastError = `La respuesta de ${apiPath} no trae nombre del restaurante`;
-        continue;
-      }
-      const ownerRaw = String(
-        data.ownerName ||
-          data.owner ||
-          data.adminName ||
-          data.admin ||
-          data.dueno ||
-          data.nombreDueno ||
-          data.legalName ||
-          "",
-      ).trim();
-      return {
-        name,
-        ownerName: ownerRaw ? ownerRaw.split(/\s+/)[0] : undefined,
-        legalName: data.legalName ? String(data.legalName) : undefined,
-        email: data.email ? String(data.email) : undefined,
-        ruc: data.ruc ? String(data.ruc) : undefined,
-        phone:
-          data.phone || data.telefono
-            ? String(data.phone || data.telefono)
-            : undefined,
-        address:
-          data.address || data.direccion
-            ? String(data.address || data.direccion)
-            : undefined,
-        product: data.product ? String(data.product) : undefined,
-      };
+      const data = await readPosJson(res, attempt.path);
+      return restaurantFromPayload(data, attempt.path);
     } catch (err) {
       clearTimeout(timer);
       lastError =
         err instanceof Error
           ? err.name === "AbortError"
-            ? "Tiempo de espera agotado al contactar el web service"
+            ? "El POS tardó demasiado en responder. Si está en Render, espera a que despierte e inténtalo de nuevo."
             : err.message
           : lastError;
     }

@@ -26,7 +26,23 @@ export async function api<T>(
       "No se pudo conectar con el servidor. Revisa VITE_API_URL y CORS.",
     );
   }
-  const data = await res.json().catch(() => ({}));
+  const raw = await res.text();
+  const looksHtml = raw.trimStart().startsWith("<");
+  let data: unknown = {};
+  if (raw && !looksHtml) {
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      data = {};
+    }
+  }
+  if (looksHtml) {
+    throw new Error(
+      res.ok
+        ? "El servidor devolvió una página web en vez de JSON. Revisa VITE_API_URL (debe ser la API de Render)."
+        : `El servidor respondió ${res.status} con una página web. Revisa la URL de la API.`,
+    );
+  }
   if (!res.ok) {
     throw new Error((data as { error?: string }).error || "Error de servidor");
   }

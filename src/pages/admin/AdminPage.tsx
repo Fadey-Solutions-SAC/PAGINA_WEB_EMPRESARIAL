@@ -491,7 +491,7 @@ export function AdminPage() {
   async function updateWebServiceUrl(userId: string, currentUrl: string) {
     if (!token) return;
     const next = window.prompt(
-      "URL del web service (API del POS, ej. https://resto-fadey-pos.vercel.app)",
+      "URL del web service (API del POS en Render, ej. https://tu-local.onrender.com)",
       currentUrl,
     );
     if (!next?.trim()) return;
@@ -646,11 +646,12 @@ export function AdminPage() {
           {banner && (
             <div className="admin__banner admin__banner--error" role="alert">
               {banner}
-              <div style={{ marginTop: "0.55rem" }}>
-                Si menciona base de datos: en Render agrega{" "}
-                <strong>DATABASE_URL</strong> (Internal Database URL de Postgres) y
-                redespliega.
-              </div>
+              {/base de datos|DATABASE_URL|DB_PATH|Prisma|SQLite/i.test(banner) ? (
+                <div style={{ marginTop: "0.55rem" }}>
+                  En Render de Fadey usa <strong>DB_PATH</strong> y SQLite en Disk
+                  (<code>file:/data/fadey.db</code>), no una URL de Postgres.
+                </div>
+              ) : null}
             </div>
           )}
 
@@ -1291,13 +1292,16 @@ export function AdminPage() {
                       <input
                         required
                         type="url"
-                        placeholder="https://tu-cliente.onrender.com"
+                        placeholder="https://tu-local.onrender.com"
                         value={wsUrl}
                         onChange={(e) => {
                           setWsUrl(e.target.value);
                           setWsRestaurant(null);
                         }}
                       />
+                      <small>
+                        API del POS en Render (onrender.com). No uses Vercel, fadeysolutions.pe ni CENTRAL_API_URL.
+                      </small>
                     </label>
                     <button
                       type="button"
