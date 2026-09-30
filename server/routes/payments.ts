@@ -1,7 +1,11 @@
 import { Router } from "express";
 import multer from "multer";
-import path from "node:path";
 import { randomUUID } from "node:crypto";
+import {
+  RECEIPT_MAX_BYTES,
+  isAllowedReceiptUpload,
+  receiptExtFromUpload,
+} from "../utils/receiptFile.js";
 import { prisma, uploadsDir } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
@@ -18,17 +22,17 @@ import {
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadsDir),
   filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || ".png";
+    const ext = receiptExtFromUpload(file.originalname, file.mimetype);
     cb(null, `${Date.now()}-${randomUUID()}${ext}`);
   },
 });
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: RECEIPT_MAX_BYTES },
   fileFilter: (_req, file, cb) => {
-    if (file.mimetype === "image/png") cb(null, true);
-    else cb(new Error("Solo se permiten archivos PNG"));
+    if (isAllowedReceiptUpload(file.originalname, file.mimetype)) cb(null, true);
+    else cb(new Error("Solo se permiten imágenes (PNG, JPG, WEBP, GIF) o PDF"));
   },
 });
 
@@ -181,7 +185,7 @@ paymentsRouter.post(
       if (!userId || !clientName || !period || !req.file) {
         res
           .status(400)
-          .json({ error: "userId, clientName, period y PNG requeridos" });
+          .json({ error: "userId, clientName, period y comprobante (imagen o PDF) requeridos" });
         return;
       }
 

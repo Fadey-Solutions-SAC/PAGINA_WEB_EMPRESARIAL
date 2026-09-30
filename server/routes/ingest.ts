@@ -1,24 +1,28 @@
 import { Router } from "express";
 import rateLimit from "express-rate-limit";
 import multer from "multer";
-import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { prisma, uploadsDir } from "../db.js";
+import {
+  RECEIPT_MAX_BYTES,
+  isAllowedReceiptUpload,
+  receiptExtFromUpload,
+} from "../utils/receiptFile.js";
 
 const storage = multer.diskStorage({
   destination: (_req, _file, cb) => cb(null, uploadsDir),
   filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase() || ".png";
+    const ext = receiptExtFromUpload(file.originalname, file.mimetype);
     cb(null, `${Date.now()}-${randomUUID()}${ext}`);
   },
 });
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 },
+  limits: { fileSize: RECEIPT_MAX_BYTES },
   fileFilter: (_req, file, cb) => {
-    if (file.mimetype === "image/png") cb(null, true);
-    else cb(new Error("Solo se permiten archivos PNG"));
+    if (isAllowedReceiptUpload(file.originalname, file.mimetype)) cb(null, true);
+    else cb(new Error("Solo se permiten imágenes (PNG, JPG, WEBP, GIF) o PDF"));
   },
 });
 
@@ -53,7 +57,7 @@ ingestRouter.post(
     if (!clientRef || !clientName || !period || !req.file) {
       res.status(400).json({
         error:
-          "userId (o clientId/licenseKey), clientName, period y receipt (PNG) son requeridos",
+          "userId (o clientId/licenseKey), clientName, period y receipt (imagen o PDF) son requeridos",
       });
       return;
     }

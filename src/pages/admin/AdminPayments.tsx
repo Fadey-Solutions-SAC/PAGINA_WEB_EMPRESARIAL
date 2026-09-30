@@ -25,6 +25,10 @@ function money(value: number | null | undefined) {
   })}`;
 }
 
+export function isPdfReceipt(pathOrUrl: string | null | undefined) {
+  return /\.pdf($|\?)/i.test(String(pathOrUrl || ""));
+}
+
 function paymentWhen(p: AdminPayment) {
   return p.reviewedAt || p.receivedAt;
 }
@@ -264,11 +268,22 @@ export function AdminPayments({
                       key={p.id}
                       className={`admin__pay-card ${p.status === "pending" ? "is-pending-first" : ""}`}
                     >
-                      <img
-                        src={apiUrl(p.receiptPath)}
-                        alt={`Comprobante ${p.period}`}
-                        onClick={() => onLightbox(apiUrl(p.receiptPath))}
-                      />
+                      {isPdfReceipt(p.receiptPath) ? (
+                        <button
+                          type="button"
+                          className="admin__pay-card-pdf"
+                          onClick={() => onLightbox(apiUrl(p.receiptPath))}
+                        >
+                          <span className="admin__pay-card-pdf-icon">PDF</span>
+                          <span>Ver comprobante</span>
+                        </button>
+                      ) : (
+                        <img
+                          src={apiUrl(p.receiptPath)}
+                          alt={`Comprobante ${p.period}`}
+                          onClick={() => onLightbox(apiUrl(p.receiptPath))}
+                        />
+                      )}
                       <div className="meta">
                         <strong>{money(p.amount)}</strong>
                         <div>{p.period}</div>
@@ -353,7 +368,7 @@ export function AdminPayments({
                         className="admin__btn admin__btn--ghost"
                         onClick={() => onLightbox(apiUrl(p.receiptPath))}
                       >
-                        Ver
+                        {isPdfReceipt(p.receiptPath) ? "Ver PDF" : "Ver"}
                       </button>
                     </div>
                   </article>

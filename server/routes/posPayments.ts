@@ -3,12 +3,10 @@
  * El panel admin usa el mismo path con JWT; este handler solo actúa si el Bearer coincide.
  */
 import { Router } from "express";
-import fs from "node:fs";
-import path from "node:path";
-import { randomUUID } from "node:crypto";
 import rateLimit from "express-rate-limit";
-import { prisma, uploadsDir } from "../db.js";
+import { prisma } from "../db.js";
 import { sendApiError } from "../utils/errors.js";
+import { downloadReceiptToUploads } from "../utils/receiptFile.js";
 
 const posLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -82,40 +80,6 @@ async function findLinkedUser(body: Record<string, unknown>) {
   return null;
 }
 
-async function downloadReceipt(voucherUrl: string) {
-  const url = String(voucherUrl || "").trim();
-  if (!url || !/^https?:\/\//i.test(url)) {
-    throw new Error("voucherUrl debe ser una URL pública http(s)");
-  }
-
-  const res = await fetch(url, {
-    method: "GET",
-    headers: { Accept: "image/*,application/pdf" },
-    signal: AbortSignal.timeout(20000),
-  });
-  if (!res.ok) {
-    throw new Error(`No se pudo descargar el comprobante (${res.status})`);
-  }
-
-  const contentType = String(res.headers.get("content-type") || "").toLowerCase();
-  let ext = ".png";
-  if (contentType.includes("jpeg") || contentType.includes("jpg")) ext = ".jpg";
-  else if (contentType.includes("pdf")) ext = ".pdf";
-  else if (contentType.includes("webp")) ext = ".webp";
-  else if (contentType.includes("png")) ext = ".png";
-
-  const buf = Buffer.from(await res.arrayBuffer());
-  if (!buf.length) throw new Error("El comprobante descargado está vacío");
-  if (buf.length > 5 * 1024 * 1024) {
-    throw new Error("El comprobante supera 5 MB");
-  }
-
-  const filename = `${Date.now()}-${randomUUID()}${ext}`;
-  const fullPath = path.join(uploadsDir, filename);
-  fs.writeFileSync(fullPath, buf);
-  return `/uploads/${filename}`;
-}
-
 export const posPaymentsRouter = Router();
 
 posPaymentsRouter.post("/", posLimit, async (req, res, next) => {
@@ -148,7 +112,7 @@ posPaymentsRouter.post("/", posLimit, async (req, res, next) => {
       return;
     }
 
-    const receiptPath = await downloadReceipt(voucherUrl);
+    const receiptPath = await downloadReceiptToUploads(voucherUrl);
     const clientName =
       String(body.restaurantName || body.restaurante || user.clientName || "").trim()
       || user.clientName;

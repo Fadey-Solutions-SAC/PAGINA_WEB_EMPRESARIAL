@@ -1,10 +1,8 @@
 import { Router } from "express";
-import fs from "node:fs";
-import path from "node:path";
-import { randomUUID } from "node:crypto";
 import type { PaymentStatus } from "@prisma/client";
-import { prisma, uploadsDir } from "../db.js";
+import { prisma } from "../db.js";
 import { sendApiError } from "../utils/errors.js";
+import { downloadReceiptToUploads } from "../utils/receiptFile.js";
 import {
   FADEY_POLICY_SUSPENSION_MESSAGE,
 } from "../utils/policySuspension.js";
@@ -82,43 +80,6 @@ function paymentPayload(payment: {
   };
 }
 
-async function downloadVoucherToUploads(voucherUrl: string) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 30000);
-  try {
-    const res = await fetch(voucherUrl, {
-      signal: controller.signal,
-      headers: { Accept: "image/*,application/pdf,*/*" },
-    });
-    if (!res.ok) {
-      throw new Error(`No se pudo descargar comprobante (${res.status})`);
-    }
-    const contentType = String(res.headers.get("content-type") || "").toLowerCase();
-    const lowerUrl = voucherUrl.toLowerCase();
-    let ext = ".png";
-    if (contentType.includes("pdf") || lowerUrl.endsWith(".pdf")) ext = ".pdf";
-    else if (
-      contentType.includes("jpeg") ||
-      contentType.includes("jpg") ||
-      lowerUrl.endsWith(".jpg") ||
-      lowerUrl.endsWith(".jpeg")
-    ) {
-      ext = ".jpg";
-    } else if (contentType.includes("png") || lowerUrl.endsWith(".png")) {
-      ext = ".png";
-    }
-
-    const filename = `${Date.now()}-${randomUUID()}${ext}`;
-    const filePath = path.join(uploadsDir, filename);
-    const buf = Buffer.from(await res.arrayBuffer());
-    if (!buf.length) throw new Error("Comprobante vacío");
-    fs.writeFileSync(filePath, buf);
-    return `/uploads/${filename}`;
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
 compatRouter.post("/payments", posAuth, async (req, res) => {
   try {
     const clientRef = resolveClientRef(req);
@@ -170,7 +131,7 @@ compatRouter.post("/payments", posAuth, async (req, res) => {
       }
     }
 
-    const receiptPath = await downloadVoucherToUploads(voucherUrl);
+    const receiptPath = await downloadReceiptToUploads(voucherUrl);
     const payment = await prisma.payment.create({
       data: {
         userId: user.id,

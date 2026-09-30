@@ -4,7 +4,7 @@ import { api } from "../../lib/api";
 import { useAuth, type Product } from "../../lib/auth";
 import { useTheme, type SiteTheme } from "../../lib/theme";
 import { AdminDashboard } from "./AdminDashboard";
-import { AdminPayments } from "./AdminPayments";
+import { AdminPayments, isPdfReceipt } from "./AdminPayments";
 import { AdminClientView } from "./AdminClientView";
 import { AdminReclamaciones } from "./AdminReclamaciones";
 import "./Admin.css";
@@ -1554,7 +1554,25 @@ export function AdminPage() {
           onClick={() => setLightbox(null)}
           role="presentation"
         >
-          <img src={lightbox} alt="Comprobante" />
+          {isPdfReceipt(lightbox) ? (
+            <div
+              className="admin__lightbox-pdf"
+              onClick={(e) => e.stopPropagation()}
+              role="presentation"
+            >
+              <div className="admin__lightbox-pdf-bar">
+                <a href={lightbox} target="_blank" rel="noopener noreferrer">
+                  Abrir en pestaña nueva
+                </a>
+                <button type="button" onClick={() => setLightbox(null)}>
+                  Cerrar
+                </button>
+              </div>
+              <iframe src={lightbox} title="Comprobante PDF" />
+            </div>
+          ) : (
+            <img src={lightbox} alt="Comprobante" />
+          )}
         </div>
       )}
 
