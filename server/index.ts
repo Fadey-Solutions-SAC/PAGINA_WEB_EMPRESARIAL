@@ -46,6 +46,7 @@ app.use(
     credentials: true,
   }),
 );
+app.use("/api/payments", express.json({ limit: "25mb" }));
 app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(uploadsDir));
 

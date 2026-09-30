@@ -2,7 +2,7 @@ import { Router } from "express";
 import type { PaymentStatus } from "@prisma/client";
 import { prisma } from "../db.js";
 import { sendApiError } from "../utils/errors.js";
-import { downloadReceiptToUploads } from "../utils/receiptFile.js";
+import { storePosReceipt } from "../utils/receiptFile.js";
 import {
   FADEY_POLICY_SUSPENSION_MESSAGE,
 } from "../utils/policySuspension.js";
@@ -101,9 +101,10 @@ compatRouter.post("/payments", posAuth, async (req, res) => {
         ? Number(amountRaw)
         : null;
 
-    if (!clientRef || !clientName || !voucherUrl) {
+    const hasInlineVoucher = Boolean(String(req.body?.voucherBase64 || "").trim());
+    if (!clientRef || !clientName || (!voucherUrl && !hasInlineVoucher)) {
       res.status(400).json({
-        error: "clientId, restaurantName y voucherUrl son requeridos",
+        error: "clientId, restaurantName y voucherUrl (o voucherBase64) son requeridos",
       });
       return;
     }
@@ -131,7 +132,7 @@ compatRouter.post("/payments", posAuth, async (req, res) => {
       }
     }
 
-    const receiptPath = await downloadReceiptToUploads(voucherUrl);
+    const receiptPath = await storePosReceipt((req.body || {}) as Record<string, unknown>);
     const payment = await prisma.payment.create({
       data: {
         userId: user.id,

@@ -6,7 +6,7 @@ import { Router } from "express";
 import rateLimit from "express-rate-limit";
 import { prisma } from "../db.js";
 import { sendApiError } from "../utils/errors.js";
-import { downloadReceiptToUploads } from "../utils/receiptFile.js";
+import { storePosReceipt } from "../utils/receiptFile.js";
 
 const posLimit = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -94,8 +94,9 @@ posPaymentsRouter.post("/", posLimit, async (req, res, next) => {
     const amountRaw = body.amount != null ? Number(body.amount) : body.monto;
     const amount = Number.isFinite(Number(amountRaw)) ? Number(amountRaw) : null;
 
-    if (!voucherUrl) {
-      res.status(400).json({ error: "voucherUrl es requerido" });
+    const hasInlineVoucher = Boolean(String(body.voucherBase64 || "").trim());
+    if (!voucherUrl && !hasInlineVoucher) {
+      res.status(400).json({ error: "voucherUrl o voucherBase64 es requerido" });
       return;
     }
     if (amount == null || amount <= 0) {
@@ -112,7 +113,7 @@ posPaymentsRouter.post("/", posLimit, async (req, res, next) => {
       return;
     }
 
-    const receiptPath = await downloadReceiptToUploads(voucherUrl);
+    const receiptPath = await storePosReceipt(body);
     const clientName =
       String(body.restaurantName || body.restaurante || user.clientName || "").trim()
       || user.clientName;

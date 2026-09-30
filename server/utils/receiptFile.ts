@@ -56,6 +56,37 @@ export function isAllowedReceiptUpload(originalname: string, mimetype: string): 
   return (mime === "application/octet-stream" || !mime) && ALLOWED_EXT.has(ext);
 }
 
+function saveReceiptBuffer(buf: Buffer): string {
+  if (!buf.length) throw new Error("El comprobante está vacío");
+  if (buf.length > RECEIPT_MAX_BYTES) throw new Error("El comprobante supera 15 MB");
+  const ext = sniffReceiptExt(buf);
+  if (!ext) {
+    const head = buf.subarray(0, 200).toString("utf8").trim().toLowerCase();
+    if (head.startsWith("<!doctype") || head.startsWith("<html") || head.includes("<head")) {
+      throw new Error(
+        "La URL del comprobante devolvió una página web en lugar del archivo (el POS debe enviar el archivo adjunto)",
+      );
+    }
+    throw new Error("El comprobante debe ser una imagen (PNG, JPG, WEBP, GIF) o un PDF");
+  }
+  const filename = `${Date.now()}-${randomUUID()}${ext}`;
+  fs.writeFileSync(path.join(uploadsDir, filename), buf);
+  return `/uploads/${filename}`;
+}
+
+/**
+ * Guarda el comprobante enviado por el POS: primero el archivo adjunto (voucherBase64),
+ * si no viene, lo descarga desde voucherUrl.
+ */
+export async function storePosReceipt(body: Record<string, unknown>): Promise<string> {
+  const rawBase64 = String(body.voucherBase64 || body.receiptBase64 || "").trim();
+  if (rawBase64) {
+    const clean = rawBase64.replace(/^data:[^;]+;base64,/i, "").replace(/\s+/g, "");
+    return saveReceiptBuffer(Buffer.from(clean, "base64"));
+  }
+  return downloadReceiptToUploads(String(body.voucherUrl || body.voucher || body.receiptUrl || ""));
+}
+
 /** Descarga el comprobante publicado por el POS (imagen o PDF) y lo guarda en /uploads. */
 export async function downloadReceiptToUploads(voucherUrl: string): Promise<string> {
   const url = String(voucherUrl || "").trim();
@@ -77,16 +108,5 @@ export async function downloadReceiptToUploads(voucherUrl: string): Promise<stri
     throw new Error("El comprobante supera 15 MB");
   }
 
-  const buf = Buffer.from(await res.arrayBuffer());
-  if (!buf.length) throw new Error("El comprobante descargado está vacío");
-  if (buf.length > RECEIPT_MAX_BYTES) throw new Error("El comprobante supera 15 MB");
-
-  const ext = sniffReceiptExt(buf);
-  if (!ext) {
-    throw new Error("El comprobante debe ser una imagen (PNG, JPG, WEBP, GIF) o un PDF");
-  }
-
-  const filename = `${Date.now()}-${randomUUID()}${ext}`;
-  fs.writeFileSync(path.join(uploadsDir, filename), buf);
-  return `/uploads/${filename}`;
+  return saveReceiptBuffer(Buffer.from(await res.arrayBuffer()));
 }
