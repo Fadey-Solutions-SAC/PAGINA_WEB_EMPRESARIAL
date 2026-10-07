@@ -17,6 +17,7 @@ import { adminStatsRouter } from "./routes/adminStats.js";
 import { financeRouter } from "./routes/finance.js";
 import { themeRouter } from "./routes/theme.js";
 import { reclamacionesRouter } from "./routes/reclamaciones.js";
+import { aiMessagesRouter } from "./routes/aiMessages.js";
 import { sendApiError } from "./utils/errors.js";
 
 const app = express();
@@ -47,6 +48,7 @@ app.use(
   }),
 );
 app.use("/api/payments", express.json({ limit: "25mb" }));
+app.use("/api/ai-messages", express.json({ limit: "8mb" }));
 app.use(express.json({ limit: "1mb" }));
 app.use("/uploads", express.static(uploadsDir));
 
@@ -83,6 +85,7 @@ app.use("/api/admin", adminStatsRouter);
 app.use("/api/admin/finance", financeRouter);
 app.use("/api/theme", themeRouter);
 app.use("/api/reclamaciones", reclamacionesRouter);
+app.use("/api/ai-messages", aiMessagesRouter);
 
 app.use(
   (

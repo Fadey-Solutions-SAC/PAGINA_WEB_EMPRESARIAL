@@ -68,6 +68,30 @@ model ClientUser {
   leads          Lead[]
   payments       Payment[]
   progress       Progress[]
+  aiMessages     AiTrainingBatch[]
+}
+
+/// Lote de preguntas de IA que envía un Resto FADEY (POST /api/ai-messages).
+/// Se reemplaza si el mismo servicio vuelve a mandar el mismo día y propósito.
+model AiTrainingBatch {
+  id             String     @id @default(cuid())
+  batchId        String     @unique
+  userId         String?
+  user           ClientUser? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  webServiceId   String
+  clientId       String     @default("")
+  licenseKey     String     @default("")
+  sourceUrl      String     @default("")
+  restaurantName String     @default("")
+  businessDay    String
+  purpose        String     @default("ai_training")
+  test           Boolean    @default(false)
+  messageCount   Int        @default(0)
+  payload        Json
+  receivedAt     DateTime   @default(now())
+
+  @@unique([webServiceId, businessDay, purpose])
+  @@index([receivedAt])
 }
 
 model Payment {

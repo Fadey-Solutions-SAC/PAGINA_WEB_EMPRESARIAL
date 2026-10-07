@@ -7,6 +7,7 @@ import { AdminDashboard } from "./AdminDashboard";
 import { AdminPayments, isPdfReceipt } from "./AdminPayments";
 import { AdminClientView } from "./AdminClientView";
 import { AdminReclamaciones } from "./AdminReclamaciones";
+import { AdminAiMessages } from "./AdminAiMessages";
 import "./Admin.css";
 
 type Section =
@@ -15,6 +16,7 @@ type Section =
   | "reclamaciones"
   | "users"
   | "payments"
+  | "mensajes"
   | "courses"
   | "config"
   | "clientview";
@@ -80,6 +82,7 @@ const NAV: { id: Section; label: string; ico: string }[] = [
   { id: "reclamaciones", label: "Reclamos", ico: "▤" },
   { id: "users", label: "Usuarios", ico: "◎" },
   { id: "payments", label: "Pagos", ico: "▣" },
+  { id: "mensajes", label: "Mensajes IA", ico: "✎" },
   { id: "courses", label: "Cursos", ico: "▶" },
   { id: "config", label: "Configuración", ico: "⚙" },
 ];
@@ -891,6 +894,14 @@ export function AdminPage() {
                 )}
               </div>
             </div>
+          )}
+
+          {section === "mensajes" && (
+            <AdminAiMessages
+              token={token}
+              searchQuery={q}
+              onError={setBanner}
+            />
           )}
 
           {section === "payments" && (

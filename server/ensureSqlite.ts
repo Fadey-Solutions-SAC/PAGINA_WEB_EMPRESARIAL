@@ -4,6 +4,7 @@ import { prisma, dbPath, fileUrl } from "./db.js";
 async function schemaReady() {
   await prisma.lead.findFirst({ take: 1 });
   await prisma.reclamacion.findFirst({ take: 1 });
+  await prisma.aiTrainingBatch.findFirst({ take: 1 });
 }
 
 /** Si faltan tablas del schema, aplica prisma db push en SQLite. */
