@@ -18,6 +18,7 @@ import { financeRouter } from "./routes/finance.js";
 import { themeRouter } from "./routes/theme.js";
 import { reclamacionesRouter } from "./routes/reclamaciones.js";
 import { aiMessagesRouter } from "./routes/aiMessages.js";
+import { noticesRouter } from "./routes/notices.js";
 import { sendApiError } from "./utils/errors.js";
 
 const app = express();
@@ -86,6 +87,7 @@ app.use("/api/admin/finance", financeRouter);
 app.use("/api/theme", themeRouter);
 app.use("/api/reclamaciones", reclamacionesRouter);
 app.use("/api/ai-messages", aiMessagesRouter);
+app.use("/api/notices", noticesRouter);
 
 app.use(
   (

@@ -185,3 +185,22 @@ model Reclamacion {
   @@index([createdAt])
   @@index([status])
 }
+
+/// Aviso que la central envía a los Resto FADEY, a todos o a planes concretos.
+model PlatformNotice {
+  id             String    @id @default(cuid())
+  title          String
+  message        String
+  imageUrl       String    @default("")
+  audience       String    @default("all")
+  plans          Json      @default("[]")
+  expiresAt      DateTime?
+  createdBy      String    @default("Web central")
+  restaurantName String    @default("")
+  sourceUrl      String    @default("")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([expiresAt])
+  @@index([createdAt])
+}

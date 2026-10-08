@@ -28,6 +28,7 @@ export function AdminAiMessages({ token, searchQuery, onError }: Props) {
   const [loading, setLoading] = useState(true);
   const [batches, setBatches] = useState<Batch[]>([]);
   const [openId, setOpenId] = useState("");
+  const [busyId, setBusyId] = useState("");
 
   useEffect(() => {
     if (!token) return;
@@ -47,6 +48,73 @@ export function AdminAiMessages({ token, searchQuery, onError }: Props) {
       cancel = true;
     };
   }, [token, onError]);
+
+  async function removeBatch(id: string) {
+    if (!token) return;
+    if (!window.confirm("¿Eliminar este lote de mensajes de IA?")) return;
+    setBusyId(id);
+    try {
+      await api(`/api/ai-messages/${encodeURIComponent(id)}`, { method: "DELETE", token });
+      setBatches((prev) => prev.filter((batch) => batch.id !== id));
+      if (openId === id) setOpenId("");
+    } catch (err: unknown) {
+      onError(err instanceof Error ? err.message : "No se pudo eliminar");
+    } finally {
+      setBusyId("");
+    }
+  }
+
+  async function removeMessage(batch: Batch, categoryId: string, userId: string, messageId: string) {
+    if (!token) return;
+    if (!window.confirm("¿Eliminar este mensaje de IA?")) return;
+    setBusyId(messageId || batch.id);
+    try {
+      const result = await api<{ deletedBatch?: boolean; messageCount?: number }>(
+        `/api/ai-messages/${encodeURIComponent(batch.id)}/items`,
+        {
+          method: "DELETE",
+          token,
+          body: JSON.stringify({ categoryId, userId, messageId }),
+        },
+      );
+      if (result.deletedBatch) {
+        setBatches((prev) => prev.filter((row) => row.id !== batch.id));
+        if (openId === batch.id) setOpenId("");
+        return;
+      }
+      setBatches((prev) =>
+        prev.map((row) => {
+          if (row.id !== batch.id) return row;
+          const categories = (row.categories || [])
+            .map((cat) => {
+              if (categoryId && cat.id !== categoryId) return cat;
+              return {
+                ...cat,
+                users: cat.users
+                  .map((user) => {
+                    if (userId && user.userId !== userId) return user;
+                    return {
+                      ...user,
+                      messages: user.messages.filter((msg) => msg.id !== messageId),
+                    };
+                  })
+                  .filter((user) => user.messages.length > 0),
+              };
+            })
+            .filter((cat) => cat.users.length > 0);
+          return {
+            ...row,
+            categories,
+            messageCount: result.messageCount ?? row.messageCount,
+          };
+        }),
+      );
+    } catch (err: unknown) {
+      onError(err instanceof Error ? err.message : "No se pudo eliminar el mensaje");
+    } finally {
+      setBusyId("");
+    }
+  }
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -115,6 +183,14 @@ export function AdminAiMessages({ token, searchQuery, onError }: Props) {
                             onClick={() => setOpenId(open ? "" : batch.id)}
                           >
                             {open ? "Ocultar" : "Ver"}
+                          </button>{" "}
+                          <button
+                            type="button"
+                            className="admin__btn admin__btn--danger"
+                            disabled={busyId === batch.id}
+                            onClick={() => void removeBatch(batch.id)}
+                          >
+                            Eliminar
                           </button>
                         </td>
                       </tr>
@@ -133,7 +209,16 @@ export function AdminAiMessages({ token, searchQuery, onError }: Props) {
                                     <ul style={{ margin: "0.25rem 0 0", paddingLeft: "1.1rem" }}>
                                       {user.messages.map((msg) => (
                                         <li key={msg.id || `${msg.at}:${msg.text.slice(0, 24)}`}>
-                                          {msg.text}
+                                          {msg.text}{" "}
+                                          <button
+                                            type="button"
+                                            className="admin__btn admin__btn--danger"
+                                            style={{ padding: "0.15rem 0.45rem", fontSize: "0.75rem" }}
+                                            disabled={busyId === msg.id}
+                                            onClick={() => void removeMessage(batch, cat.id, user.userId, msg.id)}
+                                          >
+                                            Borrar
+                                          </button>
                                         </li>
                                       ))}
                                     </ul>

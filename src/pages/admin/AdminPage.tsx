@@ -8,6 +8,7 @@ import { AdminPayments, isPdfReceipt } from "./AdminPayments";
 import { AdminClientView } from "./AdminClientView";
 import { AdminReclamaciones } from "./AdminReclamaciones";
 import { AdminAiMessages } from "./AdminAiMessages";
+import { AdminNotices } from "./AdminNotices";
 import "./Admin.css";
 
 type Section =
@@ -17,6 +18,7 @@ type Section =
   | "users"
   | "payments"
   | "mensajes"
+  | "notificaciones"
   | "courses"
   | "config"
   | "clientview";
@@ -83,6 +85,7 @@ const NAV: { id: Section; label: string; ico: string }[] = [
   { id: "users", label: "Usuarios", ico: "◎" },
   { id: "payments", label: "Pagos", ico: "▣" },
   { id: "mensajes", label: "Mensajes IA", ico: "✎" },
+  { id: "notificaciones", label: "Notificaciones", ico: "🔔" },
   { id: "courses", label: "Cursos", ico: "▶" },
   { id: "config", label: "Configuración", ico: "⚙" },
 ];
@@ -902,6 +905,10 @@ export function AdminPage() {
               searchQuery={q}
               onError={setBanner}
             />
+          )}
+
+          {section === "notificaciones" && (
+            <AdminNotices token={token} onError={setBanner} onToast={showToast} />
           )}
 
           {section === "payments" && (

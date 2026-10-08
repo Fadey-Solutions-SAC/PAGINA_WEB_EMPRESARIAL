@@ -5,6 +5,7 @@
  */
 import { Router } from "express";
 import rateLimit from "express-rate-limit";
+import { Prisma } from "@prisma/client";
 import { prisma } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
@@ -129,6 +130,67 @@ aiMessagesRouter.get("/", requireAdmin, async (_req, res) => {
         categories: row.payload,
       })),
     });
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
+aiMessagesRouter.delete("/:id/items", requireAdmin, async (req, res) => {
+  try {
+    const body = (req.body || {}) as Record<string, unknown>;
+    const categoryId = clip(body.categoryId, 40);
+    const userId = clip(body.userId, 80);
+    const messageId = clip(body.messageId, 80);
+    const row = await prisma.aiTrainingBatch.findUnique({ where: { id: String(req.params.id) } });
+    if (!row) {
+      res.status(404).json({ error: "No se encontró el lote" });
+      return;
+    }
+    const categories = Array.isArray(row.payload) ? row.payload : [];
+    const next = categories
+      .map((cat) => {
+        const c = (cat && typeof cat === "object" ? cat : {}) as Record<string, unknown>;
+        if (categoryId && clip(c.id, 40) !== categoryId) return c;
+        const users = Array.isArray(c.users) ? c.users : [];
+        return {
+          ...c,
+          users: users
+            .map((user) => {
+              const u = (user && typeof user === "object" ? user : {}) as Record<string, unknown>;
+              if (userId && clip(u.userId, 80) !== userId) return u;
+              const messages = Array.isArray(u.messages) ? u.messages : [];
+              return {
+                ...u,
+                messages: messages.filter((msg) => {
+                  const m = (msg && typeof msg === "object" ? msg : {}) as Record<string, unknown>;
+                  return clip(m.id, 80) !== messageId;
+                }),
+              };
+            })
+            .filter((u) => Array.isArray(u.messages) && u.messages.length > 0),
+        };
+      })
+      .filter((c) => Array.isArray(c.users) && c.users.length > 0);
+    const messageCount = countMessages(next as ReturnType<typeof normalizeCategories>);
+    if (!messageCount) {
+      await prisma.aiTrainingBatch.delete({ where: { id: String(row.id) } });
+      res.json({ ok: true, deletedBatch: true });
+      return;
+    }
+    await prisma.aiTrainingBatch.update({
+      where: { id: String(row.id) },
+      data: { payload: next as Prisma.InputJsonValue, messageCount },
+    });
+    res.json({ ok: true, messageCount });
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
+aiMessagesRouter.delete("/:id", requireAdmin, async (req, res) => {
+  try {
+    await prisma.aiTrainingBatch.delete({ where: { id: String(req.params.id) } });
+    res.json({ ok: true });
   } catch (err) {
     sendApiError(res, err);
   }
