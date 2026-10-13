@@ -564,7 +564,9 @@ function BadgeChrome() {
 function BadgeBrand() {
   return (
     <header className="fotocheck__brand">
-      <img className="fotocheck__mark" src="/logo-fadey.png" alt="" />
+      <span className="fotocheck__mark-wrap">
+        <img className="fotocheck__mark" src="/logo-fadey.png" alt="" />
+      </span>
       <strong>FADEY</strong>
       <span>SOLUTIONS</span>
     </header>
@@ -756,13 +758,6 @@ function BadgePreview({
                   TRABAJO EN EQUIPO
                 </li>
               </ul>
-              <footer className="fotocheck__footer fotocheck__footer--center">
-                <span>
-                  INNOVACIÓN
-                  <br />
-                  EN SOLUCIONES
-                </span>
-              </footer>
             </article>
           </div>
         </div>

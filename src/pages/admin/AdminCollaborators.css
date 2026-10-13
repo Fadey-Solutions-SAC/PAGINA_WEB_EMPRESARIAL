@@ -339,11 +339,22 @@
   margin-bottom: 1.4mm;
 }
 
+.fotocheck__mark-wrap {
+  width: 12mm;
+  height: 12mm;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #050505;
+  box-shadow:
+    0 0 0 0.28mm #d4af37,
+    0 0 1.6mm rgba(212, 175, 55, 0.5);
+}
+
 .fotocheck__mark {
-  width: 11.5mm;
-  height: 11.5mm;
-  object-fit: contain;
-  filter: drop-shadow(0 0 1.4mm rgba(212, 175, 55, 0.55));
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .fotocheck__brand strong {
@@ -370,7 +381,8 @@
   height: 22.5mm;
   margin: 0.6mm 0 1.6mm;
   padding: 0.55mm;
-  border-radius: 50%;
+  border-radius: 3.4mm;
+  overflow: hidden;
   background: linear-gradient(145deg, #f6e59a, #b8860b 55%, #6d5010);
   box-shadow: 0 0 0 0.35mm rgba(0, 0, 0, 0.55);
 }
@@ -379,7 +391,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 2.8mm;
   background: #111;
 }
 
