@@ -209,255 +209,86 @@
   width: 54mm;
   height: 85.6mm;
   margin: 0 auto;
-  padding: 8.2mm 5mm 4.2mm;
+  padding: 0;
   border-radius: 3.2mm;
   box-sizing: border-box;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
   color: #f6f1e4;
-  background:
-    radial-gradient(circle at 50% 8%, rgba(212, 175, 55, 0.16), transparent 34%),
-    repeating-linear-gradient(
-      -32deg,
-      rgba(212, 175, 55, 0.045) 0 0.35mm,
-      transparent 0.35mm 2.4mm
-    ),
-    linear-gradient(#0c0c0e, #050506 42%, #000);
-  box-shadow: inset 0 0 0 0.28mm rgba(212, 175, 55, 0.72);
+  background-color: #050505;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
 }
 
-.fotocheck__slot {
+.fotocheck--front {
+  background-image: url("/fotocheck-front.jpg");
+}
+
+.fotocheck--back {
+  background-image: url("/fotocheck-back.jpg");
+}
+
+.fotocheck__photo {
   position: absolute;
-  top: 2.1mm;
-  left: 50%;
-  width: 11mm;
-  height: 3.1mm;
-  transform: translateX(-50%);
-  border-radius: 1.6mm;
-  background: #111;
-  box-shadow:
-    inset 0 0 0 0.22mm #d4af37,
-    0 0 0 0.7mm #050505;
-  z-index: 3;
-}
-
-.fotocheck__corner {
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(135deg, #f7e59a 0%, #d4af37 42%, #8a6414 100%);
-}
-
-.fotocheck__corner::after {
-  content: "";
-  position: absolute;
-  background: #070707;
-}
-
-.fotocheck__corner--tl {
-  top: 0;
-  left: 0;
-  width: 21mm;
-  height: 15mm;
-  clip-path: polygon(0 0, 100% 0, 58% 100%, 0 64%);
-}
-
-.fotocheck__corner--tl::after {
-  inset: 1.5mm 0 0 1.5mm;
-  clip-path: polygon(0 0, 100% 0, 52% 100%, 0 68%);
-}
-
-.fotocheck__corner--tr {
-  top: 0;
-  right: 0;
-  width: 21mm;
-  height: 15mm;
-  clip-path: polygon(0 0, 100% 0, 100% 64%, 42% 100%);
-}
-
-.fotocheck__corner--tr::after {
-  inset: 1.5mm 1.5mm 0 0;
-  clip-path: polygon(0 0, 100% 0, 100% 68%, 48% 100%);
-}
-
-.fotocheck__corner--bl {
-  bottom: 0;
-  left: 0;
-  width: 18mm;
-  height: 14mm;
-  clip-path: polygon(0 36%, 62% 0, 100% 100%, 0 100%);
-}
-
-.fotocheck__corner--bl::after {
-  inset: 0 0 1.5mm 1.5mm;
-  clip-path: polygon(0 40%, 58% 0, 100% 100%, 0 100%);
-}
-
-.fotocheck__corner--br {
-  bottom: 0;
-  right: 0;
-  width: 18mm;
-  height: 14mm;
-  clip-path: polygon(0 100%, 38% 0, 100% 36%, 100% 100%);
-}
-
-.fotocheck__corner--br::after {
-  inset: 0 1.5mm 1.5mm 0;
-  clip-path: polygon(0 100%, 42% 0, 100% 40%, 100% 100%);
-}
-
-.fotocheck__bar {
-  position: absolute;
-  z-index: 1;
-  width: 16mm;
-  height: 1.15mm;
-  background: linear-gradient(90deg, #f3d56a, #a07818);
-  transform: skewY(-28deg);
-}
-
-.fotocheck__bar--l {
-  top: 13.5mm;
-  left: 0;
-}
-
-.fotocheck__bar--r {
-  top: 13.5mm;
-  right: 0;
-  transform: skewY(28deg);
-}
-
-.fotocheck__brand {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  justify-items: center;
-  margin-bottom: 1.4mm;
-}
-
-.fotocheck__mark-wrap {
-  width: 12mm;
-  height: 12mm;
-  border-radius: 50%;
-  overflow: hidden;
-  background: #050505;
-  box-shadow:
-    0 0 0 0.28mm #d4af37,
-    0 0 1.6mm rgba(212, 175, 55, 0.5);
-}
-
-.fotocheck__mark {
-  width: 100%;
-  height: 100%;
+  left: 24.2%;
+  top: 30.4%;
+  width: 49.6%;
+  aspect-ratio: 1;
   object-fit: cover;
   border-radius: 50%;
-}
-
-.fotocheck__brand strong {
-  margin-top: 0.4mm;
-  font-family: var(--font-display);
-  font-size: 3.7mm;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  line-height: 1;
-  color: #fff;
-}
-
-.fotocheck__brand span {
-  margin-top: 0.6mm;
-  font-size: 1.55mm;
-  letter-spacing: 0.42em;
-  color: #d4af37;
-}
-
-.fotocheck__photo-ring {
-  position: relative;
-  z-index: 2;
-  width: 22.5mm;
-  height: 22.5mm;
-  margin: 0.6mm 0 1.6mm;
-  padding: 0.55mm;
-  border-radius: 3.4mm;
-  overflow: hidden;
-  background: linear-gradient(145deg, #f6e59a, #b8860b 55%, #6d5010);
-  box-shadow: 0 0 0 0.35mm rgba(0, 0, 0, 0.55);
-}
-
-.fotocheck__photo-ring img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 2.8mm;
-  background: #111;
 }
 
 .fotocheck__name {
-  position: relative;
-  z-index: 2;
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 62.1%;
   margin: 0;
-  max-width: 44mm;
   font-family: var(--font-display);
-  font-size: 3.05mm;
+  font-size: 2.15mm;
   font-weight: 700;
   letter-spacing: 0.04em;
-  line-height: 1.15;
+  line-height: 1.1;
+  text-align: center;
   color: #fff;
 }
 
 .fotocheck__role {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 1.2mm;
-  margin: 1.1mm 0 2mm;
-  color: #d8c37a;
-  font-size: 1.85mm;
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 64.7%;
+  margin: 0;
+  color: #d4af37;
+  font-size: 1.45mm;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
+  text-align: center;
   text-transform: uppercase;
 }
 
-.fotocheck__role span {
-  display: grid;
-  place-items: center;
-  width: 4.4mm;
-  height: 4.4mm;
-  border: 0.22mm solid #d4af37;
-  border-radius: 0.6mm;
-  font-size: 1.7mm;
-  letter-spacing: 0;
-}
-
 .fotocheck__facts {
-  position: relative;
-  z-index: 2;
-  width: 100%;
+  position: absolute;
+  left: 27%;
+  right: 8%;
+  top: 67.1%;
+  height: 14.8%;
   margin: 0;
-  padding: 0 1mm;
+  padding: 0;
   list-style: none;
   display: grid;
-  gap: 1.15mm;
+  grid-template-rows: repeat(4, 1fr);
 }
 
 .fotocheck__facts li {
   display: grid;
-  grid-template-columns: 4.2mm 14mm 1fr;
+  grid-template-columns: 34% 1fr;
   align-items: center;
-  gap: 1.1mm;
-  text-align: left;
-  font-size: 1.7mm;
+  min-height: 0;
+  font-size: 1.55mm;
   letter-spacing: 0.04em;
-}
-
-.fotocheck__facts svg {
-  width: 3.6mm;
-  height: 3.6mm;
-  color: #d4af37;
 }
 
 .fotocheck__facts span {
@@ -468,58 +299,20 @@
 .fotocheck__facts strong {
   color: #fff;
   font-weight: 600;
-  letter-spacing: 0.06em;
-}
-
-.fotocheck__footer {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-  width: 100%;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5mm;
-  padding: 1.5mm 1mm 0;
-  color: #cfc3a1;
-  font-size: 1.45mm;
-  letter-spacing: 0.18em;
-  line-height: 1.25;
   text-align: left;
-}
-
-.fotocheck__footer--center {
-  justify-content: center;
-  text-align: center;
-}
-
-.fotocheck__footer em {
-  font-family: "Great Vibes", "Playfair Display", serif;
-  font-style: italic;
-  font-size: 3.4mm;
-  letter-spacing: 0;
-  color: #fff;
-  line-height: 1;
-}
-
-.fotocheck__qr-wrap {
-  position: relative;
-  z-index: 2;
-  width: 29mm;
-  height: 29mm;
-  margin: 1.2mm 0 2.2mm;
-  padding: 0.45mm;
-  border-radius: 2.2mm;
-  background: linear-gradient(145deg, #f6e59a, #b8860b 55%, #6d5010);
-  box-shadow: 0 0 2.4mm rgba(212, 175, 55, 0.35);
+  padding-left: 12%;
 }
 
 .fotocheck__qr {
-  width: 100%;
-  height: 100%;
-  padding: 1.1mm;
+  position: absolute;
+  left: 20.8%;
+  top: 34.4%;
+  width: 58.4%;
+  height: 21.2%;
+  padding: 1.15mm;
   background: #fff;
-  border-radius: 1.6mm;
+  border-radius: 2.2mm;
+  box-sizing: border-box;
 }
 
 .fotocheck__qr svg {
@@ -528,84 +321,31 @@
   display: block;
 }
 
-.fotocheck__qr-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 7.2mm;
-  height: 7.2mm;
-  object-fit: contain;
-  transform: translate(-50%, -50%);
-  padding: 0.7mm;
-  background: #050505;
-  border: 0.28mm solid #d4af37;
-  border-radius: 50%;
-}
-
 .fotocheck__scan {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 1.4mm;
-  margin: 0 0 1.6mm;
-  padding: 1.1mm 2.2mm;
-  border: 0.28mm solid #d4af37;
-  border-radius: 1.4mm;
-  color: #fff;
-  font-size: 1.55mm;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.25;
-}
-
-.fotocheck__scan svg,
-.fotocheck__web svg {
-  width: 3.4mm;
-  height: 3.4mm;
-  flex-shrink: 0;
-  color: #d4af37;
-}
-
-.fotocheck__web {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 1.1mm;
-  margin: 0 0 2.4mm;
-  color: #eee6d2;
-  font-size: 1.7mm;
-  letter-spacing: 0.04em;
-}
-
-.fotocheck__values {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.8mm;
-  width: 100%;
+  position: absolute;
+  left: 30%;
+  right: 12%;
+  top: 61.7%;
+  height: 5.4%;
   margin: 0;
-  padding: 0 0.4mm;
-  list-style: none;
-}
-
-.fotocheck__values li {
-  display: grid;
-  justify-items: center;
-  gap: 0.7mm;
-  color: #d8c37a;
-  font-size: 1.15mm;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: 1.28mm;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
   line-height: 1.15;
 }
 
-.fotocheck__values svg {
-  width: 4.2mm;
-  height: 4.2mm;
-  color: #f0d57a;
+.fotocheck__web {
+  position: absolute;
+  left: 32%;
+  right: 10%;
+  top: 68.8%;
+  margin: 0;
+  color: #f0ead8;
+  font-size: 1.7mm;
+  letter-spacing: 0.04em;
 }
 
 @media print {
