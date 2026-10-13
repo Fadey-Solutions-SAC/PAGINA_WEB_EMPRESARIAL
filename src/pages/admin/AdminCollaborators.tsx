@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { createPortal } from "react-dom";
 import { api, apiUrl } from "../../lib/api";
 import "./AdminCollaborators.css";
 
@@ -579,8 +580,8 @@ function BadgePreview({
     window.print();
   };
 
-  return (
-    <div className="admin__modal-backdrop" onClick={onClose}>
+  return createPortal(
+    <div className="admin__modal-backdrop collab-print-overlay" onClick={onClose}>
       <div className="collab-print" onClick={(e) => e.stopPropagation()}>
         <div className="collab-print__toolbar">
           <strong>Vista previa del fotocheck</strong>
@@ -633,6 +634,7 @@ function BadgePreview({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

@@ -161,18 +161,30 @@
   border-color: rgba(255, 120, 120, 0.35);
 }
 
+.collab-print-overlay {
+  z-index: 200;
+  place-items: stretch;
+  padding: 10px;
+}
+
 .collab-print {
-  width: min(1100px, 100%);
+  --preview-gap: 1.15rem;
+  --preview-avail-h: calc(100dvh - 7.25rem);
+  --preview-avail-w: calc(100vw - 2.75rem);
+  --fotocheck-scale: min(
+    calc(var(--preview-avail-h) / 85.6mm),
+    calc((var(--preview-avail-w) - var(--preview-gap)) / 2 / 54mm)
+  );
+  width: 100%;
   height: 100%;
   max-height: none;
-  overflow: auto;
+  overflow: hidden;
   background: #071018;
   border-radius: 16px;
-  padding: 1.15rem 1.25rem 1.4rem;
+  padding: 0.85rem 1rem 1rem;
   border: 1px solid var(--admin-line);
   display: flex;
   flex-direction: column;
-  justify-self: center;
 }
 
 .collab-print__toolbar {
@@ -180,28 +192,31 @@
   justify-content: space-between;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
 }
 
 .collab-print__sheet {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.6rem;
+  display: flex;
+  justify-content: center;
   align-items: center;
+  gap: var(--preview-gap);
   flex: 1;
-  place-items: center;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .fotocheck-frame {
-  width: calc(54mm * 2.05);
-  height: calc(85.6mm * 2.05);
+  width: calc(54mm * var(--fotocheck-scale));
+  height: calc(85.6mm * var(--fotocheck-scale));
   display: grid;
-  place-items: start center;
+  place-items: start start;
+  flex-shrink: 0;
 }
 
 .fotocheck-frame .fotocheck {
-  transform: scale(2.05);
-  transform-origin: top center;
+  transform: scale(var(--fotocheck-scale));
+  transform-origin: top left;
 }
 
 .fotocheck {
@@ -369,6 +384,7 @@
 
   .collab-print,
   .admin__modal-backdrop {
+    --fotocheck-scale: 1;
     position: static !important;
     inset: auto !important;
     background: #111 !important;
@@ -384,6 +400,7 @@
     display: flex !important;
     justify-content: center;
     gap: 12mm;
+    overflow: visible;
   }
 
   .fotocheck-frame {
@@ -402,18 +419,8 @@
 }
 
 @media (max-width: 860px) {
-  .collab-print__sheet,
   .collab-admin__filters,
   .admin__grid-2 {
     grid-template-columns: 1fr;
-  }
-
-  .fotocheck-frame {
-    width: calc(54mm * 1.55);
-    height: calc(85.6mm * 1.55);
-  }
-
-  .fotocheck-frame .fotocheck {
-    transform: scale(1.55);
   }
 }
