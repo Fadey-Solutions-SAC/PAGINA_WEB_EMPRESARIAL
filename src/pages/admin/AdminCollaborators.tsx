@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { api, apiUrl } from "../../lib/api";
 import "./AdminCollaborators.css";
@@ -117,6 +117,9 @@ export function AdminCollaborators({ token, searchQuery, onError, onToast }: Pro
   const [qrSvg, setQrSvg] = useState("");
   const [preview, setPreview] = useState<Collaborator | null>(null);
   const [audits, setAudits] = useState<Audit[]>([]);
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   const load = useCallback(async () => {
     if (!token) return;
@@ -193,15 +196,40 @@ export function AdminCollaborators({ token, searchQuery, onError, onToast }: Pro
     if (!file || !token) return;
     const formData = new FormData();
     formData.append("photo", file);
+    setPhotoUploading(true);
     try {
       const uploaded = await api<{ url: string; absoluteUrl?: string }>(
         "/api/collaborators/photo",
         { method: "POST", token, body: formData },
       );
-      patch("photoPath", uploaded.url);
-      patch("photoPreview", uploaded.absoluteUrl || apiUrl(uploaded.url));
+      setForm((prev) => ({
+        ...prev,
+        photoPath: uploaded.url,
+        photoPreview: uploaded.absoluteUrl || apiUrl(uploaded.url),
+      }));
     } catch (err) {
       onError(err instanceof Error ? err.message : "No se pudo subir la foto");
+    } finally {
+      setPhotoUploading(false);
+    }
+  }
+
+  async function removeCollaborator() {
+    if (!token || !editing) return;
+    const ok = window.confirm(
+      `¿Eliminar a ${editing.firstName} ${editing.lastName} (${editing.code})? Esta acción no se puede deshacer.`,
+    );
+    if (!ok) return;
+    setDeleting(true);
+    try {
+      await api(`/api/collaborators/${editing.id}`, { method: "DELETE", token });
+      onToast("Colaborador eliminado");
+      setOpen(false);
+      await load();
+    } catch (err) {
+      onError(err instanceof Error ? err.message : "No se pudo eliminar");
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -435,13 +463,36 @@ export function AdminCollaborators({ token, searchQuery, onError, onToast }: Pro
                 <input value={form.personalPhone} onChange={(e) => patch("personalPhone", e.target.value)} />
               </label>
               <div className="collab-admin__photo-row">
-                <label className="admin__field">
-                  Fotografía
-                  <input type="file" accept="image/png,image/jpeg,image/webp" onChange={(e) => void onPhoto(e.target.files?.[0] || null)} />
-                </label>
-                {form.photoPreview ? (
-                  <img className="collab-admin__photo" src={form.photoPreview} alt="Fotografía del colaborador" />
-                ) : null}
+                <span className="collab-admin__photo-label">Fotografía</span>
+                <input
+                  ref={photoInputRef}
+                  className="collab-admin__photo-input"
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={(e) => {
+                    void onPhoto(e.target.files?.[0] || null);
+                    e.target.value = "";
+                  }}
+                />
+                <button
+                  type="button"
+                  className="collab-admin__photo-pick"
+                  onClick={() => photoInputRef.current?.click()}
+                  disabled={photoUploading || saving || deleting}
+                >
+                  {form.photoPreview ? (
+                    <img className="collab-admin__photo" src={form.photoPreview} alt="" />
+                  ) : (
+                    <span className="collab-admin__photo-placeholder">Foto</span>
+                  )}
+                  <span>
+                    {photoUploading
+                      ? "Subiendo…"
+                      : form.photoPreview
+                        ? "Cambiar fotografía"
+                        : "Subir fotografía"}
+                  </span>
+                </button>
               </div>
               <label className="admin__field">
                 Cargo
@@ -510,10 +561,24 @@ export function AdminCollaborators({ token, searchQuery, onError, onToast }: Pro
               ) : null}
             </div>
             <div className="collab-admin__form-actions">
+              {editing ? (
+                <button
+                  type="button"
+                  className="admin__btn admin__btn--danger"
+                  onClick={() => void removeCollaborator()}
+                  disabled={saving || deleting || photoUploading}
+                >
+                  {deleting ? "Eliminando…" : "Eliminar"}
+                </button>
+              ) : null}
               <button type="button" className="admin__btn" onClick={() => setOpen(false)}>
                 Cancelar
               </button>
-              <button type="submit" className="admin__btn admin__btn--primary" disabled={saving}>
+              <button
+                type="submit"
+                className="admin__btn admin__btn--primary"
+                disabled={saving || deleting || photoUploading}
+              >
                 {saving ? "Guardando…" : editing ? "Guardar cambios" : "Registrar"}
               </button>
             </div>

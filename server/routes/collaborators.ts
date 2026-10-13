@@ -527,6 +527,31 @@ collaboratorsRouter.patch("/:id", requireAdmin, async (req, res) => {
   }
 });
 
+collaboratorsRouter.delete("/:id", requireAdmin, async (req, res) => {
+  try {
+    const id = clip(req.params.id, 40);
+    const existing = await prisma.collaborator.findUnique({ where: { id } });
+    if (!existing) {
+      res.status(404).json({ error: "Colaborador no encontrado" });
+      return;
+    }
+    await prisma.$transaction([
+      prisma.collaboratorAudit.deleteMany({ where: { collaboratorId: id } }),
+      prisma.collaborator.delete({ where: { id } }),
+    ]);
+    if (validPhotoPath(existing.photoPath)) {
+      const filePath = path.join(
+        uploadsDir,
+        existing.photoPath.replace(/^\/uploads\//, ""),
+      );
+      fs.unlink(filePath, () => undefined);
+    }
+    res.json({ ok: true });
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
 export async function publicCollaborator(req: Request, res: Response) {
   try {
     const code = clip(req.params.code, 20).toUpperCase();

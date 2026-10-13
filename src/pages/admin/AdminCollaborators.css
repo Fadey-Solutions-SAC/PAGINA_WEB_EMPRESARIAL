@@ -83,14 +83,59 @@
 .collab-admin__photo-row {
   display: flex;
   flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
 }
 
-.collab-admin__photo {
-  width: 64px;
-  height: 64px;
+.collab-admin__photo-label {
+  font-size: 0.84rem;
+  color: var(--admin-muted);
+}
+
+.collab-admin__photo-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.collab-admin__photo-pick {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.45rem;
+  border: 1px dashed var(--admin-line);
+  border-radius: 12px;
+  background: #071018;
+  color: #fff;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.collab-admin__photo-pick:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.collab-admin__photo,
+.collab-admin__photo-placeholder {
+  width: 76px;
+  height: 76px;
   object-fit: cover;
   border-radius: 10px;
-  margin: 0 0 0.45rem;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.collab-admin__photo-placeholder {
+  display: grid;
+  place-items: center;
+  background: #0b1624;
+  color: var(--admin-muted);
+  font-size: 0.75rem;
 }
 
 .collab-admin__side {
@@ -136,6 +181,10 @@
   margin-top: auto;
   padding-top: 0.85rem;
   background: #0b1624;
+}
+
+.collab-admin__form-actions .admin__btn--danger {
+  margin-right: auto;
 }
 
 .collab-pill {
