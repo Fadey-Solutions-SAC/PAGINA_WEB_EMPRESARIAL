@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { api } from "../../lib/api";
+import { api, apiUrl } from "../../lib/api";
 
 const PLANS = [
   { key: "basico", label: "Básico" },
@@ -15,6 +15,7 @@ type Notice = {
   message: string;
   audience: "all" | "plans";
   target_plans: string[];
+  image_url?: string;
   expires_at: string | null;
   created_by: string;
   restaurant_name: string;
@@ -41,6 +42,9 @@ export function AdminNotices({ token, onError, onToast }: Props) {
   const [duration, setDuration] = useState("1");
   const [unit, setUnit] = useState<"hours" | "days">("hours");
   const [noExpiry, setNoExpiry] = useState(false);
+  const [imageKey, setImageKey] = useState(0);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [saving, setSaving] = useState(false);
 
   const load = useMemo(() => {
@@ -81,12 +85,24 @@ export function AdminNotices({ token, onError, onToast }: Props) {
     const value = Math.max(1, Number(duration) || 1);
     setSaving(true);
     try {
+      let imageUrl = "";
+      if (imageFile) {
+        const form = new FormData();
+        form.append("image", imageFile);
+        const uploaded = await api<{ url: string }>("/api/notices/image", {
+          method: "POST",
+          token,
+          body: form,
+        });
+        imageUrl = String(uploaded.url || "");
+      }
       await api("/api/notices", {
         method: "POST",
         token,
         body: JSON.stringify({
           title,
           message,
+          image_url: imageUrl,
           audience,
           target_plans: audience === "plans" ? plans : [],
           duration_hours: noExpiry ? null : unit === "days" ? value * 24 : value,
@@ -99,6 +115,9 @@ export function AdminNotices({ token, onError, onToast }: Props) {
       setDuration("1");
       setUnit("hours");
       setNoExpiry(false);
+      setImageFile(null);
+      setImagePreview("");
+      setImageKey((n) => n + 1);
       onToast("Notificación publicada");
       await load();
     } catch (err: unknown) {
@@ -140,6 +159,22 @@ export function AdminNotices({ token, onError, onToast }: Props) {
               Mensaje
               <textarea required rows={4} value={message} onChange={(e) => setMessage(e.target.value)} />
             </label>
+            <label className="admin__field">
+              Imagen (opcional)
+              <input
+                key={imageKey}
+                type="file"
+                accept="image/png,image/jpeg,image/webp,image/gif"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] || null;
+                  setImageFile(file);
+                  setImagePreview(file ? URL.createObjectURL(file) : "");
+                }}
+              />
+            </label>
+            {imagePreview ? (
+              <img src={imagePreview} alt="" style={{ maxWidth: "100%", maxHeight: 180, objectFit: "contain" }} />
+            ) : null}
             <div className="admin__field">
               Destino
               <label>
@@ -214,6 +249,13 @@ export function AdminNotices({ token, onError, onToast }: Props) {
             notices.map((notice) => (
               <article key={notice.id} style={{ marginBottom: "0.9rem" }}>
                 <strong>{notice.title}</strong>
+                {notice.image_url ? (
+                  <img
+                    src={/^https?:\/\//i.test(notice.image_url) ? notice.image_url : apiUrl(notice.image_url)}
+                    alt=""
+                    style={{ display: "block", maxWidth: "100%", maxHeight: 160, objectFit: "contain", margin: "0.4rem 0" }}
+                  />
+                ) : null}
                 <p>{notice.message}</p>
                 <p>
                   {notice.audience === "plans"

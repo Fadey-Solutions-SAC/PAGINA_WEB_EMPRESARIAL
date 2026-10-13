@@ -9,6 +9,7 @@ import { AdminClientView } from "./AdminClientView";
 import { AdminReclamaciones } from "./AdminReclamaciones";
 import { AdminAiMessages } from "./AdminAiMessages";
 import { AdminNotices } from "./AdminNotices";
+import { AdminCollaborators } from "./AdminCollaborators";
 import "./Admin.css";
 
 type Section =
@@ -19,6 +20,7 @@ type Section =
   | "payments"
   | "mensajes"
   | "notificaciones"
+  | "colaboradores"
   | "courses"
   | "config"
   | "clientview";
@@ -86,6 +88,7 @@ const NAV: { id: Section; label: string; ico: string }[] = [
   { id: "payments", label: "Pagos", ico: "▣" },
   { id: "mensajes", label: "Mensajes IA", ico: "✎" },
   { id: "notificaciones", label: "Notificaciones", ico: "🔔" },
+  { id: "colaboradores", label: "Fotochecks y Colaboradores", ico: "▭" },
   { id: "courses", label: "Cursos", ico: "▶" },
   { id: "config", label: "Configuración", ico: "⚙" },
 ];
@@ -587,7 +590,12 @@ export function AdminPage() {
             <button
               key={item.id}
               type="button"
-              className={section === item.id ? "is-active" : ""}
+              className={[
+                section === item.id ? "is-active" : "",
+                item.id === "colaboradores" ? "admin__nav-btn--long" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
               onClick={() => {
                 setSection(item.id);
                 setSidebarOpen(false);
@@ -909,6 +917,15 @@ export function AdminPage() {
 
           {section === "notificaciones" && (
             <AdminNotices token={token} onError={setBanner} onToast={showToast} />
+          )}
+
+          {section === "colaboradores" && (
+            <AdminCollaborators
+              token={token}
+              searchQuery={q}
+              onError={setBanner}
+              onToast={showToast}
+            />
           )}
 
           {section === "payments" && (

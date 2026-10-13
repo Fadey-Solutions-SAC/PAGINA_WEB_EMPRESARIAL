@@ -5,7 +5,9 @@
  * Lo vencido se borra para no ocupar la base.
  */
 import { Router, type Request, type Response } from "express";
-import { prisma } from "../db.js";
+import multer from "multer";
+import { randomUUID } from "node:crypto";
+import { prisma, uploadsDir } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
 
@@ -102,6 +104,48 @@ function readBody(req: { body?: unknown }) {
   return (req.body && typeof req.body === "object" ? req.body : {}) as Record<string, unknown>;
 }
 
+const IMAGE_MIME: Record<string, string> = {
+  "image/png": ".png",
+  "image/jpeg": ".jpg",
+  "image/jpg": ".jpg",
+  "image/pjpeg": ".jpg",
+  "image/webp": ".webp",
+  "image/gif": ".gif",
+};
+
+const noticeImageUpload = multer({
+  storage: multer.diskStorage({
+    destination: (_req, _file, cb) => cb(null, uploadsDir),
+    filename: (_req, file, cb) => {
+      const ext = IMAGE_MIME[String(file.mimetype || "").toLowerCase()] || ".jpg";
+      cb(null, `notice-${Date.now()}-${randomUUID()}${ext}`);
+    },
+  }),
+  limits: { fileSize: 8 * 1024 * 1024 },
+  fileFilter: (_req, file, cb) => {
+    if (IMAGE_MIME[String(file.mimetype || "").toLowerCase()]) cb(null, true);
+    else cb(new Error("Solo se permiten imágenes PNG, JPG, WEBP o GIF"));
+  },
+});
+
+function publicOrigin(req: Request) {
+  const fromEnv = String(process.env.PUBLIC_API_URL || process.env.RENDER_EXTERNAL_URL || "").trim().replace(/\/$/, "");
+  if (fromEnv) return fromEnv;
+  const proto = String(req.headers["x-forwarded-proto"] || req.protocol || "https").split(",")[0].trim();
+  const host = String(req.headers["x-forwarded-host"] || req.get("host") || "").split(",")[0].trim();
+  return host ? `${proto}://${host}` : "";
+}
+
+function absoluteUploadUrl(req: Request, url: string) {
+  const value = String(url || "").trim();
+  if (!value || /^https?:\/\//i.test(value)) return value;
+  if (value.startsWith("/uploads/")) {
+    const origin = publicOrigin(req);
+    return origin ? `${origin}${value}` : value;
+  }
+  return value;
+}
+
 export const noticesRouter = Router();
 
 noticesRouter.get("/", requireAdmin, async (_req, res) => {
@@ -142,6 +186,25 @@ noticesRouter.get("/for-pos", async (req, res) => {
   }
 });
 
+noticesRouter.post("/image", (req, res) => {
+  requireAdmin(req, res, () => {
+    noticeImageUpload.single("image")(req, res, (err: unknown) => {
+      if (err) {
+        const message = err instanceof Error ? err.message : "No se pudo subir la imagen";
+        res.status(400).json({ error: message });
+        return;
+      }
+      const file = req.file;
+      if (!file) {
+        res.status(400).json({ error: "Selecciona una imagen" });
+        return;
+      }
+      const pathUrl = `/uploads/${file.filename}`;
+      res.status(201).json({ url: absoluteUploadUrl(req, pathUrl) || pathUrl });
+    });
+  });
+});
+
 noticesRouter.post("/", async (req, res) => {
   const fromPos = isPosBearer(req);
   if (!fromPos) {
@@ -172,7 +235,7 @@ async function createNotice(req: Request, res: Response, createdBy: string) {
       data: {
         title,
         message,
-        imageUrl: clip(body.image_url ?? body.imageUrl, 500),
+        imageUrl: clip(absoluteUploadUrl(req, String(body.image_url ?? body.imageUrl ?? "")), 800),
         audience,
         plans,
         expiresAt: parseExpiry(body),
@@ -218,7 +281,7 @@ async function updateNotice(req: Request, res: Response) {
       data: {
         title,
         message,
-        imageUrl: clip(body.image_url ?? body.imageUrl, 500),
+        imageUrl: clip(absoluteUploadUrl(req, String(body.image_url ?? body.imageUrl ?? "")), 800),
         audience,
         plans,
         expiresAt: parseExpiry(body),

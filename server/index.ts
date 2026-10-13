@@ -19,6 +19,11 @@ import { themeRouter } from "./routes/theme.js";
 import { reclamacionesRouter } from "./routes/reclamaciones.js";
 import { aiMessagesRouter } from "./routes/aiMessages.js";
 import { noticesRouter } from "./routes/notices.js";
+import {
+  collaboratorsRouter,
+  publicCollaborator,
+  publicCollaboratorLimit,
+} from "./routes/collaborators.js";
 import { sendApiError } from "./utils/errors.js";
 
 const app = express();
@@ -88,6 +93,12 @@ app.use("/api/theme", themeRouter);
 app.use("/api/reclamaciones", reclamacionesRouter);
 app.use("/api/ai-messages", aiMessagesRouter);
 app.use("/api/notices", noticesRouter);
+app.use("/api/collaborators", collaboratorsRouter);
+app.get(
+  "/api/public/collaborators/:code",
+  publicCollaboratorLimit,
+  publicCollaborator,
+);
 
 app.use(
   (

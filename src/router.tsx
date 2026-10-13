@@ -4,12 +4,14 @@ import { LoginPage } from "./pages/LoginPage";
 import { AdminPage } from "./pages/AdminPage";
 import { AcademiaPage } from "./pages/AcademiaPage";
 import { LibroReclamacionesPage } from "./pages/LibroReclamacionesPage";
+import { CollaboratorVerifyPage } from "./pages/CollaboratorVerifyPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
   { path: "/login", element: <LoginPage /> },
   { path: "/libro-de-reclamaciones", element: <LibroReclamacionesPage /> },
+  { path: "/colaboradores/:code", element: <CollaboratorVerifyPage /> },
   {
     path: "/admin",
     element: (

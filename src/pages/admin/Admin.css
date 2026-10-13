@@ -122,6 +122,12 @@ html[data-theme="emerald"] .admin {
   box-shadow: 0 8px 22px rgba(0, 207, 255, 0.25);
 }
 
+.admin__nav button.admin__nav-btn--long {
+  white-space: normal;
+  line-height: 1.25;
+  align-items: flex-start;
+}
+
 .admin__nav-ico {
   width: 0.95rem;
   text-align: center;
@@ -293,6 +299,11 @@ html[data-theme="emerald"] .admin {
   background:
     var(--admin-bg-network) right bottom / cover no-repeat,
     var(--admin-bg-waves) left top / cover no-repeat;
+  opacity: calc(var(--admin-bg-img-opacity) + 0.04);
+}
+
+.admin__content--colaboradores::before {
+  background: var(--admin-bg-network) center / cover no-repeat;
   opacity: calc(var(--admin-bg-img-opacity) + 0.04);
 }
 

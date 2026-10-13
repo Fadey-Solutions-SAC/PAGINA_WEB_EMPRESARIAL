@@ -186,6 +186,54 @@ model Reclamacion {
   @@index([status])
 }
 
+enum EmploymentStatus {
+  active
+  inactive
+}
+
+enum CredentialStatus {
+  vigente
+  inactiva
+  vencida
+}
+
+/// Trabajadores de FADEY SOLUTIONS (fotochecks y verificación pública).
+model Collaborator {
+  id               String             @id @default(cuid())
+  code             String             @unique
+  firstName        String
+  lastName         String
+  dni              String             @unique
+  personalPhone    String?
+  photoPath        String
+  position         String
+  area             String
+  hiredAt          DateTime
+  employmentStatus EmploymentStatus   @default(active)
+  corporateEmail   String?
+  corporatePhone   String?
+  issuedAt         DateTime           @default(now())
+  expiresAt        DateTime?
+  credentialStatus CredentialStatus   @default(vigente)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  audits           CollaboratorAudit[]
+
+  @@index([area, employmentStatus])
+  @@index([updatedAt])
+}
+
+model CollaboratorAudit {
+  id             String       @id @default(cuid())
+  collaboratorId String
+  collaborator   Collaborator @relation(fields: [collaboratorId], references: [id], onDelete: Restrict)
+  action         String
+  detail         String       @default("")
+  createdAt      DateTime     @default(now())
+
+  @@index([collaboratorId, createdAt])
+}
+
 /// Aviso que la central envía a los Resto FADEY, a todos o a planes concretos.
 model PlatformNotice {
   id             String    @id @default(cuid())

@@ -112,6 +112,11 @@ export function msgSoporteTecnico() {
   ].join("\n");
 }
 
+export function msgCollaboratorVerify(code?: string) {
+  const codeBit = code ? ` (código ${code})` : "";
+  return `Hola, estoy consultando el perfil de un colaborador de FADEY SOLUTIONS${codeBit} y quisiera obtener más información.`;
+}
+
 export function msgWebInfo() {
   return [
     "Hola Fadey Solutions,",
