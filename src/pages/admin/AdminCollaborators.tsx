@@ -554,6 +554,16 @@ function BadgePreview({
   const fullName = `${row.firstName} ${row.lastName}`.trim().toUpperCase();
 
   useEffect(() => {
+    document.documentElement.classList.add("is-fotocheck-preview");
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.documentElement.classList.remove("is-fotocheck-preview");
+      document.body.style.overflow = prevOverflow;
+    };
+  }, []);
+
+  useEffect(() => {
     if (!token) return;
     let cancel = false;
     fetch(apiUrl(`/api/collaborators/${row.id}/qr.svg`), {
