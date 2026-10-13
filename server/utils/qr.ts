@@ -1,7 +1,7 @@
 import QRCode from "qrcode";
 
 const QR_OPTS = {
-  errorCorrectionLevel: "M" as const,
+  errorCorrectionLevel: "H" as const,
   margin: 4,
   color: { dark: "#0a0a0a", light: "#ffffff" },
 };

@@ -810,6 +810,19 @@ html[data-theme="emerald"] .admin__content--config .admin__card {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
 }
 
+.admin__modal-backdrop:has(.collab-admin__form),
+.admin__modal-backdrop:has(.collab-print) {
+  place-items: stretch;
+  padding: 10px;
+}
+
+.admin__modal.collab-admin__form {
+  width: min(100%, 560px);
+  height: 100%;
+  max-height: none;
+  justify-self: center;
+}
+
 .admin__modal h3,
 .admin__drawer h3 {
   margin: 0 0 0.75rem;
