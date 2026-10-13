@@ -372,6 +372,7 @@ html.is-fotocheck-preview body {
   align-items: center;
   font-size: 1.38mm;
   letter-spacing: 0.04em;
+  line-height: 1;
 }
 
 .fotocheck__facts li:nth-child(1) {
@@ -387,7 +388,16 @@ html.is-fotocheck-preview body {
 }
 
 .fotocheck__facts li:nth-child(4) {
-  top: 83.85%;
+  top: 82.45%;
+}
+
+.fotocheck__facts span,
+.fotocheck__facts strong {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0;
+  line-height: 1;
 }
 
 .fotocheck__facts span {
