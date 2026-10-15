@@ -172,7 +172,7 @@ export async function downloadFotocheckPdf(input: {
   const factLeft = W * 0.27;
   const factWidth = W * 0.54;
   const col = factWidth * 0.426;
-  const rows = [0.7035, 0.757, 0.8005, 0.8405];
+  const rows = [0.7035, 0.757, 0.8005, 0.835];
   fctx.textBaseline = "middle";
   facts.forEach(([label, value], i) => {
     const y = H * rows[i];
