@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { api, apiUrl } from "../../lib/api";
+import { downloadFotocheckPdf } from "../../lib/fotocheckPdf";
 import "./AdminCollaborators.css";
 
 export type Collaborator = {
@@ -605,49 +606,6 @@ function formatBadgePhone(raw?: string | null) {
   return raw?.trim() || "—";
 }
 
-async function rasterizeFotocheck(
-  html2canvas: (typeof import("html2canvas"))["default"],
-  source: HTMLElement,
-) {
-  const host = document.createElement("div");
-  host.setAttribute("aria-hidden", "true");
-  host.style.cssText =
-    "position:fixed;left:-10000px;top:0;width:54mm;height:85.6mm;overflow:hidden;pointer-events:none;";
-  const clone = source.cloneNode(true) as HTMLElement;
-  clone.style.transform = "none";
-  clone.style.width = "54mm";
-  clone.style.height = "85.6mm";
-  host.appendChild(clone);
-  document.body.appendChild(host);
-  try {
-    const imgs = Array.from(clone.querySelectorAll("img"));
-    await Promise.all(
-      imgs.map(
-        (img) =>
-          new Promise<void>((resolve) => {
-            img.crossOrigin = "anonymous";
-            if (img.complete && img.naturalWidth) {
-              resolve();
-              return;
-            }
-            img.addEventListener("load", () => resolve(), { once: true });
-            img.addEventListener("error", () => resolve(), { once: true });
-            img.src = img.src;
-          }),
-      ),
-    );
-    const canvas = await html2canvas(clone, {
-      scale: 4,
-      useCORS: true,
-      backgroundColor: "#050505",
-      logging: false,
-    });
-    return canvas.toDataURL("image/png");
-  } finally {
-    host.remove();
-  }
-}
-
 function BadgePreview({
   row,
   token,
@@ -659,8 +617,6 @@ function BadgePreview({
 }) {
   const [qr, setQr] = useState("");
   const [downloading, setDownloading] = useState(false);
-  const frontRef = useRef<HTMLElement>(null);
-  const backRef = useRef<HTMLElement>(null);
   const phone = formatBadgePhone(row.corporatePhone || row.personalPhone);
   const fullName = `${row.firstName} ${row.lastName}`.trim().toUpperCase();
 
@@ -691,25 +647,19 @@ function BadgePreview({
   }, [row.id, token]);
 
   const downloadBadge = async () => {
-    if (!frontRef.current || !backRef.current || downloading) return;
+    if (!qr || downloading) return;
     setDownloading(true);
     try {
-      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-        import("html2canvas"),
-        import("jspdf"),
-      ]);
-      const frontImg = await rasterizeFotocheck(html2canvas, frontRef.current);
-      const backImg = await rasterizeFotocheck(html2canvas, backRef.current);
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "mm",
-        format: [54, 85.6],
-        compress: true,
+      await downloadFotocheckPdf({
+        code: row.code,
+        fullName,
+        position: row.position,
+        dni: row.dni || "—",
+        phone,
+        area: row.area || "—",
+        photoUrl: row.photoUrl,
+        qrSvg: qr,
       });
-      pdf.addImage(frontImg, "PNG", 0, 0, 54, 85.6);
-      pdf.addPage([54, 85.6], "portrait");
-      pdf.addImage(backImg, "PNG", 0, 0, 54, 85.6);
-      pdf.save(`${row.code}-fotocheck.pdf`);
     } catch {
       /* keep preview usable */
     } finally {
@@ -738,8 +688,8 @@ function BadgePreview({
         </div>
         <div className="collab-print__sheet">
           <div className="fotocheck-frame">
-            <article ref={frontRef} className="fotocheck fotocheck--front">
-              <img className="fotocheck__photo" src={row.photoUrl} alt="" crossOrigin="anonymous" />
+            <article className="fotocheck fotocheck--front">
+              <img className="fotocheck__photo" src={row.photoUrl} alt="" />
               <h3 className="fotocheck__name">{fullName}</h3>
               <p className="fotocheck__role">{row.position}</p>
               <ul className="fotocheck__facts">
@@ -763,7 +713,7 @@ function BadgePreview({
             </article>
           </div>
           <div className="fotocheck-frame">
-            <article ref={backRef} className="fotocheck fotocheck--back">
+            <article className="fotocheck fotocheck--back">
               <div className="fotocheck__qr" dangerouslySetInnerHTML={{ __html: qr }} />
               <p className="fotocheck__scan">ESCANEA PARA VER EL PERFIL DEL COLABORADOR</p>
               <p className="fotocheck__web">www.fadeysolutions.pe</p>
