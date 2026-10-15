@@ -321,10 +321,10 @@ html.is-fotocheck-preview body {
   position: absolute;
   left: 10%;
   right: 10%;
-  top: 62.6%;
+  top: 66.15%;
   margin: 0;
   font-family: var(--font-display);
-  font-size: 1.72mm;
+  font-size: 1.58mm;
   font-weight: 700;
   letter-spacing: 0.03em;
   line-height: 1.05;
@@ -340,10 +340,10 @@ html.is-fotocheck-preview body {
   position: absolute;
   left: 10%;
   right: 10%;
-  top: 65.6%;
+  top: 68.45%;
   margin: 0;
   color: #d4af37;
-  font-size: 1.28mm;
+  font-size: 1.22mm;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-align: center;
