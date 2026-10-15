@@ -153,11 +153,11 @@ export async function downloadFotocheckPdf(input: {
   const photoSize = W * 0.488;
   coverCircle(fctx, photo, W * 0.256, H * 0.305, photoSize);
 
-  drawCentered(fctx, input.fullName, H * 0.6615, px(1.58), "#ffffff");
+  drawCentered(fctx, input.fullName, H * 0.6315, px(1.62), "#ffffff");
   drawCentered(
     fctx,
     input.position.toUpperCase(),
-    H * 0.6845,
+    H * 0.6615,
     px(1.22),
     "#d4af37",
     W * 0.0035,
