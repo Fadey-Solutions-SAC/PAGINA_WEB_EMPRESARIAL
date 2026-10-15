@@ -1,6 +1,9 @@
 /* Academia Fadey — Admin backoffice */
 
 .admin {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   --admin-bg: #050d16;
   --admin-panel: rgba(10, 20, 32, 0.74);
   --admin-panel-2: rgba(12, 24, 38, 0.78);
@@ -26,6 +29,13 @@
   background: var(--admin-bg);
   color: var(--admin-text);
   font-family: var(--font-body);
+}
+
+html:has(.admin),
+html:has(.admin) body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 
 html[data-theme="emerald"] .admin {
@@ -222,7 +232,8 @@ html[data-theme="emerald"] .admin {
 
 .admin__main {
   min-width: 0;
-  min-height: 100dvh;
+  height: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   background: var(--admin-bg);
@@ -268,6 +279,15 @@ html[data-theme="emerald"] .admin {
 .admin__content > * {
   position: relative;
   z-index: 1;
+}
+
+.admin__content--resumen {
+  overflow: hidden;
+}
+
+.admin__content--resumen .dash {
+  flex: 1;
+  min-height: 0;
 }
 
 /* Dashboard — hero ERP */
@@ -1302,6 +1322,8 @@ html[data-theme="emerald"] .admin__content--config .admin__card {
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .dash__top {
@@ -1309,6 +1331,7 @@ html[data-theme="emerald"] .admin__content--config .admin__card {
   grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.9fr);
   gap: 1rem;
   align-items: stretch;
+  flex-shrink: 0;
 }
 
 .dash__cards {
@@ -1432,8 +1455,25 @@ html[data-theme="emerald"] .admin__content--config .admin__card {
   color: #8fa6b8;
 }
 
+.dash__reports {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
 .dash__reports-head {
   align-items: center;
+  flex-shrink: 0;
+}
+
+.dash__reports .admin__card-body {
+  flex: 1;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .dash__reports-sub {
