@@ -1,17 +1,57 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { goToSection } from "../lib/goToSection";
 import { msgRestoPlan, waUrl } from "../lib/whatsapp";
 import "./RestoFadey.css";
 
 const restoModuleTiles = [
-  { label: "Caja", desc: "Ventas rápidas y seguras", tone: "orange" as const },
-  { label: "Mesas", desc: "Control de comensales", tone: "blue" as const },
-  { label: "Cocina", desc: "Órdenes en tiempo real", tone: "purple" as const },
-  { label: "Bar", desc: "Bebidas y pedidos", tone: "pink" as const },
-  { label: "Informes", desc: "Todos los reportes que necesitas", tone: "mint" as const },
-  { label: "Control de Ventas", desc: "Control de ventas y ingresos", tone: "green" as const },
-  { label: "Fidelizacion de clientes", desc: "Analisis de encuestas y recomendaciones", tone: "violet" as const },
-  { label: "Integracion IA Fadey", desc: "Monitoreo de ventas y asistencia de operaciones", tone: "teal" as const },
+  {
+    label: "Caja",
+    desc: "Ventas rápidas y seguras",
+    tone: "orange" as const,
+    how: "El cajero cobra en segundos, divide cuentas, aplica descuentos y emite boleta o factura sin salir de la pantalla de venta.",
+  },
+  {
+    label: "Mesas",
+    desc: "Control de comensales",
+    tone: "blue" as const,
+    how: "Ves el mapa del salón, abres o unes mesas y sabes al instante cuáles están libres, ocupadas o listas para cobrar.",
+  },
+  {
+    label: "Cocina",
+    desc: "Órdenes en tiempo real",
+    tone: "purple" as const,
+    how: "Cada pedido llega al instante a la pantalla de cocina, con el tiempo transcurrido y el estado listo para despachar.",
+  },
+  {
+    label: "Auto pedido QR",
+    desc: "El cliente pide desde la mesa",
+    tone: "pink" as const,
+    how: "El cliente escanea el QR de la mesa, ve la carta, arma su pedido y lo envía. Entra directo a caja y a cocina, sin esperar mozo.",
+  },
+  {
+    label: "Informes",
+    desc: "Todos los reportes que necesitas",
+    tone: "mint" as const,
+    how: "Consultas ventas del día, por producto, por turno o por cajero para decidir con números reales, no con suposiciones.",
+  },
+  {
+    label: "Control de Ventas",
+    desc: "Control de ventas y ingresos",
+    tone: "green" as const,
+    how: "Sigues ingresos, anulaciones y comparativos del turno para detectar caídas o picos en el momento y corregir a tiempo.",
+  },
+  {
+    label: "Fidelizacion de clientes",
+    desc: "Analisis de encuestas y recomendaciones",
+    tone: "violet" as const,
+    how: "Recoges encuestas y recomendaciones para conocer al cliente, premiar a quienes vuelven y mejorar el servicio con datos.",
+  },
+  {
+    label: "Integracion IA Fadey",
+    desc: "Monitoreo de ventas y asistencia de operaciones",
+    tone: "teal" as const,
+    how: "La IA vigila ventas y operación, avisa desvíos del turno y sugiere acciones para que el local no se detenga.",
+  },
 ] as const;
 
 const restoTrustItems = [
@@ -71,7 +111,13 @@ function RestoModuleTileIcon({ tone }: { tone: (typeof restoModuleTiles)[number]
     case "pink":
       return (
         <svg {...common} aria-hidden="true" focusable="false">
-          <path d="M6 4h12l-1 6a5 5 0 0 1-10 0L6 4ZM12 15v5M8 20h8" />
+          <rect x="3" y="3" width="7" height="7" rx="1.2" />
+          <rect x="14" y="3" width="7" height="7" rx="1.2" />
+          <rect x="3" y="14" width="7" height="7" rx="1.2" />
+          <rect x="14" y="14" width="3.2" height="3.2" />
+          <rect x="19" y="14" width="2" height="2" />
+          <rect x="14" y="19" width="2" height="2" />
+          <rect x="18.2" y="18.2" width="2.8" height="2.8" />
         </svg>
       );
     case "mint":
@@ -544,6 +590,19 @@ function RestoIntro() {
 }
 
 export function RestoFadey() {
+  const [openModule, setOpenModule] = useState<(typeof restoModuleTiles)[number] | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!openModule) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenModule(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [openModule]);
+
   return (
     <>
       <section
@@ -580,13 +639,20 @@ export function RestoFadey() {
             <ul className="resto-modules__grid">
               {restoModuleTiles.map((item) => (
                 <li key={item.label}>
-                  <span
-                    className={`resto-modules__tile-icon resto-modules__tile-icon--${item.tone}`}
+                  <button
+                    type="button"
+                    className="resto-modules__tile"
+                    aria-expanded={openModule?.label === item.label}
+                    onClick={() => setOpenModule(item)}
                   >
-                    <RestoModuleTileIcon tone={item.tone} />
-                  </span>
-                  <span className="resto-modules__tile-label">{item.label}</span>
-                  <span className="resto-modules__tile-desc">{item.desc}</span>
+                    <span
+                      className={`resto-modules__tile-icon resto-modules__tile-icon--${item.tone}`}
+                    >
+                      <RestoModuleTileIcon tone={item.tone} />
+                    </span>
+                    <span className="resto-modules__tile-label">{item.label}</span>
+                    <span className="resto-modules__tile-desc">{item.desc}</span>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -643,6 +709,37 @@ export function RestoFadey() {
             ))}
           </ul>
         </div>
+
+        {openModule ? (
+          <div
+            className="resto-modules__detail"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="resto-module-detail-title"
+            onClick={() => setOpenModule(null)}
+          >
+            <div
+              className="resto-modules__detail-card"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span
+                className={`resto-modules__tile-icon resto-modules__tile-icon--${openModule.tone}`}
+              >
+                <RestoModuleTileIcon tone={openModule.tone} />
+              </span>
+              <h3 id="resto-module-detail-title">{openModule.label}</h3>
+              <p className="resto-modules__detail-kicker">{openModule.desc}</p>
+              <p>{openModule.how}</p>
+              <button
+                type="button"
+                className="btn resto-modules__cta resto-modules__cta--primary resto-modules__detail-close"
+                onClick={() => setOpenModule(null)}
+              >
+                Entendido
+              </button>
+            </div>
+          </div>
+        ) : null}
       </section>
 
       <RestoIntro />
