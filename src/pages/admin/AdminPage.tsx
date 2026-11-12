@@ -637,10 +637,13 @@ export function AdminPage() {
           </button>
           <div className="admin__topbar-title">
             <h1>{title}</h1>
-            <span className="admin__topbar-sep" aria-hidden="true">
-              ·
-            </span>
-            <p>Gestión Fadey · clientes, pagos y academia</p>
+            <p>
+              <span className="admin__crumb">Gestión Fadey</span>
+              <span className="admin__topbar-sep" aria-hidden="true">
+                ›
+              </span>
+              clientes, pagos y academia
+            </p>
           </div>
           <div className="admin__top-actions">
             <input
