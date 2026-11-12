@@ -8,48 +8,56 @@ const restoModuleTiles = [
     label: "Caja",
     desc: "Ventas rápidas y seguras",
     tone: "orange" as const,
+    image: "/resto-modulo-caja.jpg",
     how: "El cajero cobra en segundos, divide cuentas, aplica descuentos y emite boleta o factura sin salir de la pantalla de venta.",
   },
   {
     label: "Mesas",
     desc: "Control de comensales",
     tone: "blue" as const,
+    image: "/resto-modulo-mesas.jpg",
     how: "Ves el mapa del salón, abres o unes mesas y sabes al instante cuáles están libres, ocupadas o listas para cobrar.",
   },
   {
     label: "Cocina",
     desc: "Órdenes en tiempo real",
     tone: "purple" as const,
+    image: "/resto-modulo-cocina.jpg",
     how: "Cada pedido llega al instante a la pantalla de cocina, con el tiempo transcurrido y el estado listo para despachar.",
   },
   {
     label: "Auto pedido QR",
     desc: "El cliente pide desde la mesa",
     tone: "pink" as const,
+    image: "/resto-modulo-qr.jpg",
     how: "El cliente escanea el QR de la mesa, ve la carta, arma su pedido y lo envía. Entra directo a caja y a cocina, sin esperar mozo.",
   },
   {
     label: "Informes",
     desc: "Todos los reportes que necesitas",
     tone: "mint" as const,
+    image: "/resto-modulo-informes.jpg",
     how: "Consultas ventas del día, por producto, por turno o por cajero para decidir con números reales, no con suposiciones.",
   },
   {
     label: "Control de Ventas",
     desc: "Control de ventas y ingresos",
     tone: "green" as const,
+    image: "/resto-modulo-ventas.jpg",
     how: "Sigues ingresos, anulaciones y comparativos del turno para detectar caídas o picos en el momento y corregir a tiempo.",
   },
   {
     label: "Fidelizacion de clientes",
     desc: "Analisis de encuestas y recomendaciones",
     tone: "violet" as const,
+    image: "/resto-modulo-fidelizacion.jpg",
     how: "Recoges encuestas y recomendaciones para conocer al cliente, premiar a quienes vuelven y mejorar el servicio con datos.",
   },
   {
     label: "Integracion IA Fadey",
     desc: "Monitoreo de ventas y asistencia de operaciones",
     tone: "teal" as const,
+    image: "/resto-modulo-ia.jpg",
     how: "La IA vigila ventas y operación, avisa desvíos del turno y sugiere acciones para que el local no se detenga.",
   },
 ] as const;
@@ -722,21 +730,30 @@ export function RestoFadey() {
               className="resto-modules__detail-card"
               onClick={(e) => e.stopPropagation()}
             >
-              <span
-                className={`resto-modules__tile-icon resto-modules__tile-icon--${openModule.tone}`}
-              >
-                <RestoModuleTileIcon tone={openModule.tone} />
-              </span>
-              <h3 id="resto-module-detail-title">{openModule.label}</h3>
-              <p className="resto-modules__detail-kicker">{openModule.desc}</p>
-              <p>{openModule.how}</p>
-              <button
-                type="button"
-                className="btn resto-modules__cta resto-modules__cta--primary resto-modules__detail-close"
-                onClick={() => setOpenModule(null)}
-              >
-                Entendido
-              </button>
+              <img
+                className="resto-modules__detail-media"
+                src={openModule.image}
+                alt=""
+                width={1280}
+                height={720}
+              />
+              <div className="resto-modules__detail-copy">
+                <span
+                  className={`resto-modules__tile-icon resto-modules__tile-icon--${openModule.tone}`}
+                >
+                  <RestoModuleTileIcon tone={openModule.tone} />
+                </span>
+                <h3 id="resto-module-detail-title">{openModule.label}</h3>
+                <p className="resto-modules__detail-kicker">{openModule.desc}</p>
+                <p>{openModule.how}</p>
+                <button
+                  type="button"
+                  className="btn resto-modules__cta resto-modules__cta--primary resto-modules__detail-close"
+                  onClick={() => setOpenModule(null)}
+                >
+                  Entendido
+                </button>
+              </div>
             </div>
           </div>
         ) : null}
