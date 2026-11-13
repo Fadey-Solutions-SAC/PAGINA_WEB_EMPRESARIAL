@@ -47,14 +47,14 @@ const restoModuleTiles = [
     how: "Sigues ingresos, anulaciones y comparativos del turno para detectar caídas o picos en el momento y corregir a tiempo.",
   },
   {
-    label: "Fidelizacion de clientes",
-    desc: "Analisis de encuestas y recomendaciones",
+    label: "Fidelización de clientes",
+    desc: "Análisis de encuestas y recomendaciones",
     tone: "violet" as const,
     image: "/resto-modulo-fidelizacion.jpg",
     how: "Recoges encuestas y recomendaciones para conocer al cliente, premiar a quienes vuelven y mejorar el servicio con datos.",
   },
   {
-    label: "Integracion IA Fadey",
+    label: "Integración IA Fadey",
     desc: "Monitoreo de ventas y asistencia de operaciones",
     tone: "teal" as const,
     image: "/resto-modulo-ia.jpg",
@@ -145,17 +145,23 @@ function RestoModuleTileIcon({ tone }: { tone: (typeof restoModuleTiles)[number]
     case "violet":
       return (
         <svg {...common} aria-hidden="true" focusable="false">
-          <circle cx="9" cy="8" r="3" />
-          <path d="M3.5 19a5.5 5.5 0 0 1 11 0" />
-          <path d="M17 10.5c1.9-2.2 5 1 0 4.5-5-3.5-1.9-6.7 0-4.5Z" />
+          <circle cx="12" cy="8" r="3" />
+          <path d="M6.5 19a5.5 5.5 0 0 1 11 0" />
+          <circle cx="5.5" cy="10" r="2.2" />
+          <path d="M2 18a3.8 3.8 0 0 1 4-3.6" />
+          <circle cx="18.5" cy="10" r="2.2" />
+          <path d="M22 18a3.8 3.8 0 0 0-4-3.6" />
         </svg>
       );
     case "teal":
       return (
         <svg {...common} aria-hidden="true" focusable="false">
-          <rect x="7" y="7" width="10" height="10" rx="2" />
-          <path d="M9 2v3m6-3v3M9 19v3m6-3v3M2 9h3m-3 6h3m14-6h3m-3 6h3" />
-          <path d="m10 14 2-4 2 4M10.8 12.5h2.4" />
+          <rect x="5" y="8" width="14" height="11" rx="3" />
+          <path d="M12 8V5M12 4.2v-.2" />
+          <circle cx="12" cy="3.6" r="1" />
+          <circle cx="9.3" cy="13" r="1.2" />
+          <circle cx="14.7" cy="13" r="1.2" />
+          <path d="M10 16.4h4M3 12v3M21 12v3" />
         </svg>
       );
     default:
@@ -630,6 +636,22 @@ export function RestoFadey() {
                 height={210}
                 decoding="async"
               />
+              <p className="resto-modules__badge">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10" />
+                  <path d="M17 21V3c-2 1.2-3 3.6-3 7v4h3" />
+                </svg>
+                <span>Sistema para restaurantes y negocios gastronómicos</span>
+              </p>
             </div>
 
             <h2 id="resto-modules-title" className="resto-modules__tagline">
@@ -639,10 +661,54 @@ export function RestoFadey() {
             </h2>
 
             <p className="resto-modules__lead">
-              Controla las ventas desde una sola plataforma fácil de usar. 
-              Organiza tu local, mejora tiempos de atención y 
-              toma decisiones con reportes detallados de tus operaciones.
+              Controla tus ventas, organiza tu local, mejora la atención y toma
+              decisiones con reportes claros y en tiempo real.
             </p>
+
+            <div className="resto-modules__actions">
+              <button
+                type="button"
+                className="btn resto-modules__cta resto-modules__cta--primary"
+                onClick={() => goToSection("#resto")}
+              >
+                <svg
+                  className="resto-modules__cta-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.9}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="m10 8.5 5 3.5-5 3.5z" fill="currentColor" />
+                </svg>
+                Ver demostración
+              </button>
+              <button
+                type="button"
+                className="btn resto-modules__cta resto-modules__cta--ghost"
+                onClick={() => goToSection("#contacto")}
+              >
+                <svg
+                  className="resto-modules__cta-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.8}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                  <path d="M14 3v5h5M9 13h6M9 17h4" />
+                </svg>
+                Solicitar cotización
+              </button>
+            </div>
 
             <ul className="resto-modules__grid">
               {restoModuleTiles.map((item) => (
@@ -677,26 +743,6 @@ export function RestoFadey() {
               loading="lazy"
               decoding="async"
             />
-            <div className="resto-modules__actions">
-              <button
-                type="button"
-                className="btn resto-modules__cta resto-modules__cta--primary"
-                onClick={() => goToSection("#resto")}
-              >
-                Ver Resto Fadey
-                <span aria-hidden="true">→</span>
-              </button>
-              <button
-                type="button"
-                className="btn resto-modules__cta resto-modules__cta--ghost"
-                onClick={() => goToSection("#fadey-por-que")}
-              >
-                <span className="resto-modules__cta-info" aria-hidden="true">
-                  i
-                </span>
-                Conocer más
-              </button>
-            </div>
             </div>
           </div>
           </div>
