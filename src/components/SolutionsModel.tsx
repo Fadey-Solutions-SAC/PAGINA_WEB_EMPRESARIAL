@@ -7,7 +7,7 @@ const offerings = [
     title: "Software para negocios gastronómicos",
     items: ["Pedidos y caja", "Cocina o barra", "Inventario"],
     meta: "Suscripción mensual",
-    price: "Desde S/ 99/mes",
+    price: "Desde S/ 102.50/mes",
     href: "#resto",
     external: false,
     cta: "Ver Resto Fadey",
