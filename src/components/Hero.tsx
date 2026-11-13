@@ -9,26 +9,70 @@ const exploreOptions = [
     title: "Resto Fadey",
     desc: "Software para negocios gastronómicos",
     href: "#resto",
+    image: "/explore-resto.jpg",
   },
   {
     id: "web",
     title: "Desarrollo web",
     desc: "Páginas y plataformas a medida",
     href: "#web",
+    image: "/explore-web.jpg",
   },
   {
     id: "soporte",
     title: "Soporte",
     desc: "Mantenimiento y acompañamiento",
     href: "#soporte",
+    image: "/explore-soporte.jpg",
   },
   {
     id: "contacto",
     title: "Contacto",
     desc: "Cotización y asesoría directa",
     href: "#contacto",
+    image: "/explore-contacto.jpg",
   },
-];
+] as const;
+
+function ExploreIcon({ id }: { id: (typeof exploreOptions)[number]["id"] }) {
+  const common = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+    focusable: false,
+  };
+
+  switch (id) {
+    case "resto":
+      return <span className="hero-explore__rf">RF</span>;
+    case "web":
+      return (
+        <svg {...common}>
+          <path d="m8.5 8-4 4 4 4M15.5 8l4 4-4 4M13.5 5.5l-3 13" />
+        </svg>
+      );
+    case "soporte":
+      return (
+        <svg {...common}>
+          <path d="M4.5 13.5v-1.5a7.5 7.5 0 0 1 15 0v1.5" />
+          <rect x="3.5" y="13" width="3.8" height="5.5" rx="1.4" />
+          <rect x="16.7" y="13" width="3.8" height="5.5" rx="1.4" />
+          <path d="M18.6 18.5c0 1.6-1.6 2.5-4.6 2.5" />
+        </svg>
+      );
+    case "contacto":
+      return (
+        <svg {...common}>
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2.2" />
+          <path d="m4.5 7 7.5 6 7.5-6" />
+        </svg>
+      );
+  }
+}
 
 const businessRoutes = [
   {
@@ -372,12 +416,11 @@ export function Hero() {
           />
           <div className="hero-explore__panel">
             <header className="hero-explore__head">
-              <div>
-                <p className="hero-explore__eyebrow">Explorar</p>
-                <h2 id={titleId}>¿Qué deseas explorar?</h2>
-                <p>
-                  Elige una opción y te llevamos a la sección correspondiente.
-                </p>
+              <div className="hero-explore__brand">
+                <img src="/logo-fadey.png" alt="" width={40} height={40} />
+                <span>
+                  Fadey <em>Solutions</em> SAC
+                </span>
               </div>
               <button
                 type="button"
@@ -385,9 +428,44 @@ export function Hero() {
                 onClick={() => setExploreOpen(false)}
                 aria-label="Cerrar"
               >
-                ×
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2.2}
+                  strokeLinecap="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="M6 6l12 12M18 6 6 18" />
+                </svg>
               </button>
             </header>
+            <div className="hero-explore__intro">
+              <p className="hero-explore__eyebrow">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.9}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="m15.5 8.5-2 5-5 2 2-5z" />
+                </svg>
+                Explorar
+              </p>
+              <h2 id={titleId}>
+                ¿Qué deseas{" "}
+                <span className="hero-explore__accent">explorar</span>?
+              </h2>
+              <p>
+                Elige una opción y te llevamos a la sección correspondiente.
+              </p>
+            </div>
             <div className="hero-explore__grid">
               {exploreOptions.map((opt) => (
                 <button
@@ -396,8 +474,34 @@ export function Hero() {
                   className="hero-explore__option"
                   onClick={() => pickExplore(opt.href)}
                 >
-                  <strong>{opt.title}</strong>
-                  <span>{opt.desc}</span>
+                  <img
+                    className="hero-explore__media"
+                    src={opt.image}
+                    alt=""
+                    width={1024}
+                    height={576}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span className="hero-explore__icon">
+                    <ExploreIcon id={opt.id} />
+                  </span>
+                  <span className="hero-explore__text">
+                    <strong>{opt.title}</strong>
+                    <span>{opt.desc}</span>
+                  </span>
+                  <span className="hero-explore__chevron" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2.2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="m10 7 5 5-5 5" />
+                    </svg>
+                  </span>
                 </button>
               ))}
             </div>
