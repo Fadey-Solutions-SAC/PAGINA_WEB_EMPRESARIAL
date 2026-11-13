@@ -90,7 +90,6 @@ type HeroIconName =
   | (typeof heroFeatures)[number]["id"]
   | (typeof heroStats)[number]["id"]
   | (typeof heroTrust)[number]["id"]
-  | "pill"
   | "calendar"
   | "play";
 
@@ -107,15 +106,6 @@ function HeroIcon({ name }: { name: HeroIconName }) {
   };
 
   switch (name) {
-    case "pill":
-      return (
-        <svg {...common}>
-          <rect x="3.5" y="3.5" width="7" height="7" rx="1.6" />
-          <rect x="13.5" y="3.5" width="7" height="7" rx="3.5" />
-          <rect x="3.5" y="13.5" width="7" height="7" rx="3.5" />
-          <rect x="13.5" y="13.5" width="7" height="7" rx="1.6" />
-        </svg>
-      );
     case "pos":
       return (
         <svg {...common}>
@@ -255,10 +245,6 @@ export function Hero() {
       <div className="hero__layout">
         <div className="hero__stage">
           <div className="hero__copy">
-            <p className="hero__pill">
-              <HeroIcon name="pill" />
-              Sistemas y soluciones digitales
-            </p>
             <h1 className="hero__title">
               Tecnología que <span className="hero__title-accent">potencia</span>{" "}
               tu negocio
