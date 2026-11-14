@@ -1,8 +1,10 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { randomUUID } from "node:crypto";
+import fs from "node:fs";
+import path from "node:path";
 import type { Prisma, Product } from "@prisma/client";
-import { prisma } from "../db.js";
+import { prisma, uploadsDir } from "../db.js";
 import { requireAdmin, signToken } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
 import { asProducts } from "../utils/products.js";
@@ -646,6 +648,39 @@ usersRouter.patch("/:id", requireAdmin, async (req, res) => {
         ? posPolicyNotifyUserMessage(posNotify, user.active)
         : undefined,
     });
+  } catch (err) {
+    sendApiError(res, err);
+  }
+});
+
+usersRouter.delete("/:id", requireAdmin, async (req, res) => {
+  try {
+    const id = String(req.params.id);
+    const user = await prisma.clientUser.findUnique({
+      where: { id },
+      select: { id: true, payments: { select: { id: true, receiptPath: true } } },
+    });
+    if (!user) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+
+    const paymentIds = user.payments.map((p) => p.id);
+    await prisma.$transaction([
+      prisma.financeEntry.deleteMany({ where: { paymentId: { in: paymentIds } } }),
+      prisma.lead.updateMany({ where: { linkedUserId: id }, data: { linkedUserId: null } }),
+      prisma.clientUser.delete({ where: { id } }),
+    ]);
+
+    for (const payment of user.payments) {
+      try {
+        fs.unlinkSync(path.join(uploadsDir, path.basename(payment.receiptPath)));
+      } catch {
+        /* archivo ya eliminado o inexistente */
+      }
+    }
+
+    res.json({ ok: true, deletedPayments: paymentIds.length });
   } catch (err) {
     sendApiError(res, err);
   }

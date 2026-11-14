@@ -497,6 +497,27 @@ export function AdminPage() {
     await load();
   }
 
+  async function deleteUser(u: UserRow) {
+    if (!token) return;
+    const pagos = u._count.payments
+      ? ` También se borrarán sus ${u._count.payments} pago(s).`
+      : "";
+    if (
+      !window.confirm(
+        `¿Eliminar el usuario ${credDisplay(u.username)} (${u.clientName})?${pagos} No se puede deshacer.`,
+      )
+    ) {
+      return;
+    }
+    try {
+      await api(`/api/users/${u.id}`, { method: "DELETE", token });
+      showToast("Usuario eliminado");
+      await load();
+    } catch (err) {
+      setBanner(err instanceof Error ? err.message : "No se pudo eliminar el usuario");
+    }
+  }
+
   async function updateWebServiceUrl(userId: string, currentUrl: string) {
     if (!token) return;
     const next = window.prompt(
@@ -898,6 +919,13 @@ export function AdminPage() {
                                 onClick={() => void openUserAccess(u)}
                               >
                                 Ver acceso
+                              </button>{" "}
+                              <button
+                                type="button"
+                                className="admin__btn admin__btn--danger"
+                                onClick={() => void deleteUser(u)}
+                              >
+                                Eliminar
                               </button>
                             </td>
                           </tr>
