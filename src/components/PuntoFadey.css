@@ -3,40 +3,30 @@
 .punto__brand-mark {
   display: block;
   width: auto;
-  height: clamp(40px, 4.4vw, 56px);
-  max-width: min(280px, 78vw);
+  height: clamp(42px, 4.6vw, 58px);
+  max-width: min(220px, 52vw);
   object-fit: contain;
   object-position: left center;
   border-radius: 10px;
+  flex-shrink: 0;
 }
 
 .punto__brand-mark--demo,
 .punto__brand-mark--plans,
 .punto__brand-mark--close {
-  margin: 0 auto 0.85rem;
-  object-position: center center;
+  margin: 0;
+  object-position: left center;
 }
 
-.punto__brand-mark--close {
-  margin-bottom: 1rem;
-}
-
-/* —— Hero / presentación —— */
+/* —— Hero / presentación (blanco, después de Resto planes azul) —— */
 .punto-hero.section {
   --punto-h: calc(100dvh - var(--header-h));
   min-height: var(--punto-h);
-  padding: clamp(0.6rem, 1.4vh, 1rem) 0 clamp(0.8rem, 1.6vh, 1.2rem);
-  color: #e8f4fc;
+  padding: clamp(1rem, 2.2vh, 1.5rem) 0 clamp(1.1rem, 2.4vh, 1.7rem);
+  color: var(--navy-ink);
   isolation: isolate;
   position: relative;
   overflow: hidden;
-}
-
-.punto-hero.section::before {
-  background-image: var(--bg-dark-diagonal);
-  background-position: center;
-  background-size: 100% 100%;
-  opacity: 1;
 }
 
 .punto-hero__inner {
@@ -44,96 +34,147 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 1.5vh, 1.1rem);
+  justify-content: center;
+  gap: clamp(0.85rem, 1.8vh, 1.25rem);
   width: calc(100% - 2 * var(--layout-inline));
   max-width: 100%;
   margin-inline: auto;
   box-sizing: border-box;
+  min-height: calc(var(--punto-h) - 2.2rem);
 }
 
 .punto-hero__shell {
   display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: clamp(0.75rem, 2vw, 1.5rem);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(1rem, 2.4vw, 1.85rem);
   align-items: center;
   min-width: 0;
+  flex: 1 1 auto;
 }
 
 .punto-hero__copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.55rem;
+  justify-content: center;
+  gap: clamp(0.55rem, 1.2vh, 0.85rem);
   min-width: 0;
+  width: 100%;
 }
 
 .punto-hero__eyebrow {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.45rem;
+  gap: 0.55rem;
+  width: 100%;
+}
+
+.punto-hero__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.punto-hero__brand--demo,
+.punto-hero__brand--plans,
+.punto-hero__brand--close {
+  margin: 0 0 0.75rem;
+}
+
+.punto-hero__brand--plans,
+.punto-hero__brand--close {
+  justify-content: center;
+  width: 100%;
+}
+
+.punto-hero__brand-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 1.1vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--navy-ink);
+  white-space: nowrap;
+}
+
+.punto-plans .punto-hero__brand-name {
+  color: #f8fafc;
 }
 
 .punto-hero__badge {
   margin: 0;
-  padding: 0.28rem 0.7rem;
+  padding: 0.32rem 0.78rem;
   border-radius: 999px;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #dff7f4;
-  background: rgba(20, 138, 132, 0.22);
-  border: 1px solid rgba(20, 138, 132, 0.45);
+  color: var(--blue-section-deep);
+  background: rgba(20, 138, 132, 0.12);
+  border: 1px solid rgba(20, 138, 132, 0.28);
 }
 
 .punto-hero__tagline {
   margin: 0;
+  max-width: 22ch;
   font-family: var(--font-display);
-  font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+  font-size: clamp(2rem, 1.55rem + 1.8vw, 2.85rem);
   font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-wrap: pretty;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--navy-ink);
+  text-wrap: balance;
 }
 
 .punto-hero__tagline-accent {
-  color: var(--title-accent, var(--cyan));
+  color: var(--blue-section-deep);
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .punto-hero__tagline-accent {
+    color: var(--blue-section-deep);
+  }
 }
 
 .punto-hero__lead {
   margin: 0;
-  max-width: 38rem;
-  font-size: clamp(0.95rem, 0.88rem + 0.3vw, 1.12rem);
-  line-height: 1.5;
-  color: #d7e8f5;
+  max-width: 40rem;
+  font-size: clamp(1.02rem, 0.92rem + 0.35vw, 1.18rem);
+  line-height: 1.55;
+  color: var(--text-body);
 }
 
 .punto-hero__audience {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0.15rem 0 0;
+  gap: 0.4rem;
+  margin: 0.1rem 0 0;
   padding: 0;
   list-style: none;
+  max-width: 42rem;
 }
 
 .punto-hero__audience li {
-  padding: 0.2rem 0.55rem;
+  padding: 0.28rem 0.7rem;
   border-radius: 999px;
-  border: 1px solid rgba(var(--accent-rgb), 0.35);
-  background: rgba(var(--accent-rgb), 0.1);
-  color: var(--cyan-soft, #9eeaf0);
-  font-size: 0.68rem;
+  border: 1px solid rgba(11, 79, 138, 0.2);
+  background: rgba(11, 79, 138, 0.06);
+  color: var(--blue-section-deep);
+  font-size: 0.74rem;
   font-weight: 600;
 }
 
 .punto-hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-top: 0.35rem;
+  gap: 0.65rem;
+  margin-top: 0.25rem;
 }
 
 .punto-hero__cta {
@@ -141,10 +182,10 @@
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  min-height: 2.55rem;
-  padding: 0.55rem 1.1rem;
+  min-height: 2.7rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 10px;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
   text-decoration: none;
@@ -179,9 +220,9 @@
 .punto-hero__visual-frame {
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35);
-  background: rgba(8, 16, 30, 0.55);
+  border: 1px solid rgba(11, 79, 138, 0.14);
+  box-shadow: 0 18px 42px rgba(12, 35, 64, 0.14);
+  background: #fff;
 }
 
 .punto-hero__showcase {
@@ -195,45 +236,45 @@
 .punto-hero__trust {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.55rem;
+  gap: 0.65rem;
   margin: 0;
-  padding: 0.75rem 0 0;
+  padding: 0.85rem 0 0;
   list-style: none;
-  border-top: 1px solid rgba(148, 163, 184, 0.2);
+  border-top: 1px solid rgba(11, 79, 138, 0.12);
 }
 
 .punto-hero__trust li {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
   min-width: 0;
 }
 
 .punto-hero__trust li strong {
   display: block;
-  font-size: 0.78rem;
-  color: #f8fafc;
+  font-size: 0.8rem;
+  color: var(--navy-ink);
 }
 
 .punto-hero__trust li span {
   display: block;
-  font-size: 0.68rem;
-  color: rgba(186, 204, 220, 0.95);
+  font-size: 0.7rem;
+  color: var(--text-body);
 }
 
 .punto-hero__trust-icon {
   flex-shrink: 0;
-  width: 2.15rem;
-  height: 2.15rem;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 999px;
   position: relative;
-  color: #8bffd4;
+  color: #0f766e;
   background: linear-gradient(
     145deg,
-    rgba(20, 138, 132, 0.28) 0%,
-    rgba(20, 138, 132, 0.06) 100%
+    rgba(20, 138, 132, 0.18) 0%,
+    rgba(20, 138, 132, 0.05) 100%
   );
-  border: 1px solid rgba(20, 138, 132, 0.5);
+  border: 1px solid rgba(20, 138, 132, 0.35);
 }
 
 .punto-hero__trust-icon svg {
@@ -245,10 +286,10 @@
   transform: translate(-50%, -50%);
 }
 
-/* —— Funcionalidades —— */
+/* —— Funcionalidades (azul, después del hero blanco) —— */
 .punto-modules.section {
   padding: clamp(2.2rem, 5vh, 3.4rem) 0;
-  color: var(--navy-ink);
+  color: #e8f4fc;
 }
 
 .punto-modules__inner {
@@ -259,7 +300,7 @@
 
 .punto-modules__head {
   text-align: center;
-  max-width: 40rem;
+  max-width: 42rem;
   margin-inline: auto;
 }
 
@@ -269,7 +310,7 @@
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--blue-section-deep);
+  color: var(--cyan-soft, #9eeaf0);
 }
 
 .punto-modules__title {
@@ -277,12 +318,12 @@
   font-family: var(--font-display);
   font-size: clamp(1.55rem, 2.5vw, 2.1rem);
   line-height: 1.15;
-  color: var(--navy-ink);
+  color: #fff;
 }
 
 .punto-modules__lead {
   margin: 0.55rem 0 0;
-  color: var(--text-body);
+  color: #d7e8f5;
   font-size: 0.98rem;
   line-height: 1.5;
 }
@@ -305,8 +346,8 @@
   gap: 0.45rem;
   padding: 1rem 0.9rem;
   border-radius: 14px;
-  border: 1px solid rgba(11, 79, 138, 0.14);
-  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: rgba(8, 16, 30, 0.55);
   text-align: left;
   cursor: pointer;
   transition:
@@ -317,8 +358,8 @@
 
 .punto-modules__tile:hover {
   transform: translateY(-2px);
-  border-color: rgba(20, 138, 132, 0.45);
-  box-shadow: 0 12px 28px rgba(12, 35, 64, 0.1);
+  border-color: rgba(20, 138, 132, 0.55);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
 }
 
 .punto-modules__tile-icon {
@@ -367,13 +408,13 @@
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 700;
-  color: var(--navy-ink);
+  color: #f8fafc;
 }
 
 .punto-modules__tile-desc {
   font-size: 0.82rem;
   line-height: 1.4;
-  color: var(--text-body);
+  color: rgba(214, 232, 245, 0.9);
 }
 
 .punto-modules__detail {
@@ -424,10 +465,10 @@
   line-height: 1.5;
 }
 
-/* —— Demo video —— */
+/* —— Demo video (blanco, después de funciones azul) —— */
 .punto-demo.section {
   padding: clamp(2rem, 4.5vh, 3rem) 0;
-  color: #e8f4fc;
+  color: var(--navy-ink);
 }
 
 .punto-demo__shell {
@@ -447,7 +488,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.45rem;
+  gap: 0.55rem;
 }
 
 .punto-demo__eyebrow {
@@ -456,30 +497,32 @@
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--cyan-soft, #9eeaf0);
+  color: var(--blue-section-deep);
 }
 
 .punto-demo__title {
   margin: 0;
+  max-width: 18ch;
   font-family: var(--font-display);
-  font-size: clamp(1.55rem, 2.6vw, 2.2rem);
-  line-height: 1.15;
-  color: #fff;
+  font-size: clamp(1.65rem, 2.6vw, 2.35rem);
+  line-height: 1.12;
+  color: var(--navy-ink);
 }
 
 .punto-demo__lead {
   margin: 0;
-  max-width: 34rem;
-  color: #d7e8f5;
-  line-height: 1.5;
+  max-width: 36rem;
+  color: var(--text-body);
+  font-size: clamp(1rem, 0.92rem + 0.3vw, 1.12rem);
+  line-height: 1.55;
 }
 
 .punto-demo__soon-note {
   margin: 0.35rem 0 0;
-  max-width: 32rem;
-  font-size: 0.9rem;
+  max-width: 34rem;
+  font-size: 0.95rem;
   line-height: 1.45;
-  color: rgba(214, 232, 245, 0.92);
+  color: var(--text-body);
 }
 
 .punto-demo__player,
@@ -487,8 +530,8 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(148, 163, 184, 0.28);
-  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(11, 79, 138, 0.14);
+  box-shadow: 0 18px 42px rgba(12, 35, 64, 0.14);
   background: #0b1728;
 }
 
@@ -864,9 +907,17 @@
     min-height: 0;
   }
 
+  .punto-hero__inner {
+    min-height: 0;
+  }
+
   .punto-hero__shell,
   .punto-demo__grid {
     grid-template-columns: 1fr;
+  }
+
+  .punto-hero__tagline {
+    max-width: none;
   }
 
   .punto-hero__trust {
@@ -881,12 +932,9 @@
     transform: none;
   }
 
-  .punto__brand-mark--demo,
-  .punto__brand-mark--plans,
-  .punto__brand-mark--close {
-    margin-left: 0;
-    margin-right: auto;
-    object-position: left center;
+  .punto-hero__brand--plans,
+  .punto-hero__brand--close {
+    justify-content: flex-start;
   }
 
   .punto-plans__head,
@@ -906,6 +954,10 @@
   .punto-plans__grid,
   .punto-hero__trust {
     grid-template-columns: 1fr;
+  }
+
+  .punto-hero__brand-name {
+    white-space: normal;
   }
 
   .punto-hero__actions,

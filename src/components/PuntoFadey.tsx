@@ -395,7 +395,7 @@ export function PuntoFadey() {
   return (
     <>
       <section
-        className="punto-hero section section--blue section--blue-a"
+        className="punto-hero section section--light section--light-a"
         id="punto"
         aria-labelledby="punto-hero-title"
       >
@@ -403,7 +403,10 @@ export function PuntoFadey() {
           <div className="punto-hero__shell">
             <div className="punto-hero__copy reveal">
               <div className="punto-hero__eyebrow">
-                <PuntoBrandMark />
+                <div className="punto-hero__brand">
+                  <PuntoBrandMark />
+                  <span className="punto-hero__brand-name">Punto Fadey POS</span>
+                </div>
                 <p className="punto-hero__badge">
                   Sistema de punto de venta para comercios
                 </p>
@@ -440,7 +443,7 @@ export function PuntoFadey() {
                 </button>
                 <button
                   type="button"
-                  className="btn punto-hero__cta punto-hero__cta--ghost"
+                  className="btn punto-hero__cta punto-hero__cta--ghost-light"
                   onClick={() => goToSection("#punto-planes")}
                 >
                   Conocer los planes
@@ -482,7 +485,7 @@ export function PuntoFadey() {
       </section>
 
       <section
-        className="punto-modules section section--light section--light-a"
+        className="punto-modules section section--blue section--blue-a"
         id="punto-funciones"
         aria-labelledby="punto-modules-title"
       >
@@ -555,14 +558,17 @@ export function PuntoFadey() {
       </section>
 
       <section
-        className="punto-demo section section--blue section--blue-b"
+        className="punto-demo section section--light section--light-b"
         id="punto-demo"
         aria-labelledby="punto-demo-title"
       >
         <div className="container punto-demo__shell">
           <div className="punto-demo__grid">
             <div className="punto-demo__content reveal">
-              <PuntoBrandMark className="punto__brand-mark punto__brand-mark--demo" />
+              <div className="punto-hero__brand punto-hero__brand--demo">
+                <PuntoBrandMark className="punto__brand-mark punto__brand-mark--demo" />
+                <span className="punto-hero__brand-name">Punto Fadey POS</span>
+              </div>
               <p className="punto-demo__eyebrow">Demostración</p>
               <h2 id="punto-demo-title" className="punto-demo__title">
                 Así funciona Punto Fadey
@@ -639,7 +645,10 @@ export function PuntoFadey() {
       >
         <div className="container punto-plans__inner">
           <header className="punto-plans__head reveal">
-            <PuntoBrandMark className="punto__brand-mark punto__brand-mark--plans" />
+            <div className="punto-hero__brand punto-hero__brand--plans">
+              <PuntoBrandMark className="punto__brand-mark punto__brand-mark--plans" />
+              <span className="punto-hero__brand-name">Punto Fadey POS</span>
+            </div>
             <h2 className="punto-plans__title">
               Planes mensuales para{" "}
               <em className="punto-plans__title-accent">tu comercio</em>
@@ -729,7 +738,10 @@ export function PuntoFadey() {
         aria-labelledby="punto-close-title"
       >
         <div className="container punto-close__inner reveal">
-          <PuntoBrandMark className="punto__brand-mark punto__brand-mark--close" />
+          <div className="punto-hero__brand punto-hero__brand--close">
+            <PuntoBrandMark className="punto__brand-mark punto__brand-mark--close" />
+            <span className="punto-hero__brand-name">Punto Fadey POS</span>
+          </div>
           <h2 id="punto-close-title" className="punto-close__title">
             Tu negocio merece un mejor control. Empieza a gestionar tu tienda
             con Punto Fadey.
