@@ -866,8 +866,7 @@
     transform: none;
   }
 
-  .punto-hero__brand--plans,
-  .punto-hero__brand--close {
+  .punto-hero__brand--plans {
     justify-content: flex-start;
   }
 
@@ -875,14 +874,8 @@
     order: -1;
   }
 
-  .punto-plans__head,
-  .punto-close__inner {
+  .punto-plans__head {
     text-align: left;
-    align-items: flex-start;
-  }
-
-  .punto-close__actions {
-    justify-content: flex-start;
   }
 }
 
