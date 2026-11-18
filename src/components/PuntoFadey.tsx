@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react";
 import { goToSection } from "../lib/goToSection";
-import {
-  msgPuntoInfo,
-  msgPuntoPlan,
-  msgQuoteProduct,
-  waUrl,
-} from "../lib/whatsapp";
+import { msgPuntoInfo, msgPuntoPlan, waUrl } from "../lib/whatsapp";
 import "./PuntoFadey.css";
 
 /** Vacío = demostración próximamente. Pegar URL de video cuando exista. */
@@ -707,52 +702,6 @@ export function PuntoFadey() {
                 </a>
               </article>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section
-        className="punto-close section section--light section--light-b"
-        id="punto-cierre"
-        aria-labelledby="punto-close-title"
-      >
-        <div className="container punto-close__inner reveal">
-          <div className="punto-hero__brand punto-hero__brand--close">
-            <PuntoBrandMark className="punto__brand-mark punto__brand-mark--close" />
-            <span className="punto-hero__brand-name">Punto Fadey POS</span>
-          </div>
-          <h2 id="punto-close-title" className="punto-close__title">
-            Tu negocio merece un mejor control. Empieza a gestionar tu tienda
-            con Punto Fadey.
-          </h2>
-          <p className="punto-close__lead">
-            Cotiza tu plan, escríbenos por WhatsApp o agenda una demostración
-            guiada con el equipo de Fadey Solutions.
-          </p>
-          <div className="punto-close__actions">
-            <a
-              className="btn punto-hero__cta punto-hero__cta--primary"
-              href={waUrl(msgQuoteProduct())}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Solicitar cotización
-            </a>
-            <a
-              className="btn punto-hero__cta punto-hero__cta--ghost-light"
-              href={waUrl(msgPuntoInfo())}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              WhatsApp
-            </a>
-            <button
-              type="button"
-              className="btn punto-hero__cta punto-hero__cta--ghost-light"
-              onClick={() => goToSection("#punto-demo")}
-            >
-              Ver demostración
-            </button>
           </div>
         </div>
       </section>

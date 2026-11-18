@@ -12,8 +12,7 @@
 }
 
 .punto__brand-mark--demo,
-.punto__brand-mark--plans,
-.punto__brand-mark--close {
+.punto__brand-mark--plans {
   margin: 0;
   object-position: left center;
 }
@@ -81,13 +80,11 @@
 }
 
 .punto-hero__brand--demo,
-.punto-hero__brand--plans,
-.punto-hero__brand--close {
+.punto-hero__brand--plans {
   margin: 0 0 0.75rem;
 }
 
-.punto-hero__brand--plans,
-.punto-hero__brand--close {
+.punto-hero__brand--plans {
   justify-content: center;
   width: 100%;
 }
@@ -832,43 +829,6 @@
   text-underline-offset: 2px;
 }
 
-/* —— Cierre —— */
-.punto-close.section {
-  padding: clamp(2.4rem, 5vh, 3.6rem) 0;
-}
-
-.punto-close__inner {
-  max-width: 46rem;
-  margin-inline: auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.punto-close__title {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.45rem, 2.4vw, 2rem);
-  line-height: 1.2;
-  color: var(--navy-ink);
-  text-wrap: pretty;
-}
-
-.punto-close__lead {
-  margin: 0.75rem 0 0;
-  color: var(--text-body);
-  line-height: 1.5;
-}
-
-.punto-close__actions {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.55rem;
-  margin-top: 1.15rem;
-}
-
 /* —— Responsive —— */
 @media (max-width: 1199px) {
   .punto-plans__grid {
@@ -937,8 +897,7 @@
     white-space: normal;
   }
 
-  .punto-hero__actions,
-  .punto-close__actions {
+  .punto-hero__actions {
     width: 100%;
   }
 
