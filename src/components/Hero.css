@@ -582,6 +582,10 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.hero__routes-grid--5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
 .hero__route {
   display: flex;
   flex-direction: column;
@@ -658,6 +662,12 @@
   --route-accent: #38bdf8;
   --route-accent-rgb: 56, 189, 248;
   --route-accent-glow: rgba(56, 189, 248, 0.55);
+}
+
+.hero__route--cyan {
+  --route-accent: #2dd4bf;
+  --route-accent-rgb: 45, 212, 191;
+  --route-accent-glow: rgba(45, 212, 191, 0.55);
 }
 
 .hero__route--purple {

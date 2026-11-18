@@ -26,7 +26,7 @@ import {
 } from "../utils/webServiceUrl.js";
 import { youtubeEmbed } from "../utils/youtube.js";
 
-const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
+const PRODUCTS = new Set(["resto", "punto", "erp", "web", "soporte"]);
 
 function resolveOwnerName(restaurant: RestaurantInfo) {
   if (restaurant.ownerName) return restaurant.ownerName;

@@ -9,7 +9,7 @@ import {
 } from "react";
 import { api } from "./api";
 
-export type Product = "resto" | "erp" | "web" | "soporte";
+export type Product = "resto" | "punto" | "erp" | "web" | "soporte";
 
 type AuthState =
   | { status: "loading" }

@@ -20,6 +20,7 @@ type ProgressRow = {
 
 const PRODUCT_LABEL: Record<Product, string> = {
   resto: "Resto Fadey",
+  punto: "Punto Fadey",
   erp: "ERP Fadey",
   web: "Desarrollo web",
   soporte: "Soporte",

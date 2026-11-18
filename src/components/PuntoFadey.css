@@ -1,0 +1,928 @@
+/* Punto Fadey — identidad retail (azul noche + cian), coherente con Fadey */
+
+.punto__brand-mark {
+  display: block;
+  width: auto;
+  height: clamp(40px, 4.4vw, 56px);
+  max-width: min(280px, 78vw);
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 10px;
+}
+
+.punto__brand-mark--demo,
+.punto__brand-mark--plans,
+.punto__brand-mark--close {
+  margin: 0 auto 0.85rem;
+  object-position: center center;
+}
+
+.punto__brand-mark--close {
+  margin-bottom: 1rem;
+}
+
+/* —— Hero / presentación —— */
+.punto-hero.section {
+  --punto-h: calc(100dvh - var(--header-h));
+  min-height: var(--punto-h);
+  padding: clamp(0.6rem, 1.4vh, 1rem) 0 clamp(0.8rem, 1.6vh, 1.2rem);
+  color: #e8f4fc;
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+}
+
+.punto-hero.section::before {
+  background-image: var(--bg-dark-diagonal);
+  background-position: center;
+  background-size: 100% 100%;
+  opacity: 1;
+}
+
+.punto-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.75rem, 1.5vh, 1.1rem);
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: 100%;
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.punto-hero__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  align-items: center;
+  min-width: 0;
+}
+
+.punto-hero__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.punto-hero__eyebrow {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.punto-hero__badge {
+  margin: 0;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #dff7f4;
+  background: rgba(20, 138, 132, 0.22);
+  border: 1px solid rgba(20, 138, 132, 0.45);
+}
+
+.punto-hero__tagline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.2vw, 2.65rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-wrap: pretty;
+}
+
+.punto-hero__tagline-accent {
+  color: var(--title-accent, var(--cyan));
+}
+
+.punto-hero__lead {
+  margin: 0;
+  max-width: 38rem;
+  font-size: clamp(0.95rem, 0.88rem + 0.3vw, 1.12rem);
+  line-height: 1.5;
+  color: #d7e8f5;
+}
+
+.punto-hero__audience {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.punto-hero__audience li {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  background: rgba(var(--accent-rgb), 0.1);
+  color: var(--cyan-soft, #9eeaf0);
+  font-size: 0.68rem;
+  font-weight: 600;
+}
+
+.punto-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.35rem;
+}
+
+.punto-hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.55rem;
+  padding: 0.55rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition:
+    transform 0.2s var(--ease),
+    background 0.2s var(--ease),
+    border-color 0.2s var(--ease);
+}
+
+.punto-hero__cta:hover {
+  transform: translateY(-1px);
+}
+
+.punto-hero__cta--primary {
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-soft));
+  color: var(--navy-ink);
+}
+
+.punto-hero__cta--ghost {
+  background: transparent;
+  border: 1.5px solid rgba(158, 234, 240, 0.55);
+  color: #e8f8fb;
+}
+
+.punto-hero__cta--ghost-light {
+  background: transparent;
+  border: 1.5px solid rgba(11, 79, 138, 0.28);
+  color: var(--blue-section-deep);
+}
+
+.punto-hero__visual-frame {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.35);
+  background: rgba(8, 16, 30, 0.55);
+}
+
+.punto-hero__showcase {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.punto-hero__trust {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.75rem 0 0;
+  list-style: none;
+  border-top: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.punto-hero__trust li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.punto-hero__trust li strong {
+  display: block;
+  font-size: 0.78rem;
+  color: #f8fafc;
+}
+
+.punto-hero__trust li span {
+  display: block;
+  font-size: 0.68rem;
+  color: rgba(186, 204, 220, 0.95);
+}
+
+.punto-hero__trust-icon {
+  flex-shrink: 0;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  position: relative;
+  color: #8bffd4;
+  background: linear-gradient(
+    145deg,
+    rgba(20, 138, 132, 0.28) 0%,
+    rgba(20, 138, 132, 0.06) 100%
+  );
+  border: 1px solid rgba(20, 138, 132, 0.5);
+}
+
+.punto-hero__trust-icon svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  transform: translate(-50%, -50%);
+}
+
+/* —— Funcionalidades —— */
+.punto-modules.section {
+  padding: clamp(2.2rem, 5vh, 3.4rem) 0;
+  color: var(--navy-ink);
+}
+
+.punto-modules__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.punto-modules__head {
+  text-align: center;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.punto-modules__kicker {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--blue-section-deep);
+}
+
+.punto-modules__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.5vw, 2.1rem);
+  line-height: 1.15;
+  color: var(--navy-ink);
+}
+
+.punto-modules__lead {
+  margin: 0.55rem 0 0;
+  color: var(--text-body);
+  font-size: 0.98rem;
+  line-height: 1.5;
+}
+
+.punto-modules__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.punto-modules__tile {
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  padding: 1rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid rgba(11, 79, 138, 0.14);
+  background: rgba(255, 255, 255, 0.72);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.punto-modules__tile:hover {
+  transform: translateY(-2px);
+  border-color: rgba(20, 138, 132, 0.45);
+  box-shadow: 0 12px 28px rgba(12, 35, 64, 0.1);
+}
+
+.punto-modules__tile-icon {
+  --tone-rgb: 20, 138, 132;
+  display: grid;
+  place-items: center;
+  width: 2.45rem;
+  height: 2.45rem;
+  border-radius: 11px;
+  color: rgb(var(--tone-rgb));
+  background: rgba(var(--tone-rgb), 0.12);
+  border: 1px solid rgba(var(--tone-rgb), 0.28);
+}
+
+.punto-modules__tile-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.punto-modules__tile-icon--cyan {
+  --tone-rgb: 14, 165, 180;
+}
+.punto-modules__tile-icon--blue {
+  --tone-rgb: 37, 99, 235;
+}
+.punto-modules__tile-icon--teal {
+  --tone-rgb: 20, 138, 132;
+}
+.punto-modules__tile-icon--navy {
+  --tone-rgb: 12, 35, 64;
+}
+.punto-modules__tile-icon--mint {
+  --tone-rgb: 16, 185, 129;
+}
+.punto-modules__tile-icon--orange {
+  --tone-rgb: 234, 88, 12;
+}
+.punto-modules__tile-icon--green {
+  --tone-rgb: 22, 163, 74;
+}
+.punto-modules__tile-icon--violet {
+  --tone-rgb: 124, 58, 237;
+}
+
+.punto-modules__tile-label {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy-ink);
+}
+
+.punto-modules__tile-desc {
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--text-body);
+}
+
+.punto-modules__detail {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background: rgba(8, 16, 30, 0.62);
+  backdrop-filter: blur(4px);
+}
+
+.punto-modules__detail-card {
+  width: min(520px, 100%);
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(11, 79, 138, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.punto-modules__detail-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  padding: 1.25rem 1.2rem 1.35rem;
+}
+
+.punto-modules__detail-copy h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--navy-ink);
+}
+
+.punto-modules__detail-kicker {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--blue-section-deep);
+}
+
+.punto-modules__detail-copy > p:last-of-type {
+  margin: 0;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+/* —— Demo video —— */
+.punto-demo.section {
+  padding: clamp(2rem, 4.5vh, 3rem) 0;
+  color: #e8f4fc;
+}
+
+.punto-demo__shell {
+  width: calc(100% - 2 * var(--layout-inline));
+  max-width: none;
+  margin-inline: auto;
+}
+
+.punto-demo__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  align-items: center;
+}
+
+.punto-demo__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+}
+
+.punto-demo__eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan-soft, #9eeaf0);
+}
+
+.punto-demo__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.6vw, 2.2rem);
+  line-height: 1.15;
+  color: #fff;
+}
+
+.punto-demo__lead {
+  margin: 0;
+  max-width: 34rem;
+  color: #d7e8f5;
+  line-height: 1.5;
+}
+
+.punto-demo__soon-note {
+  margin: 0.35rem 0 0;
+  max-width: 32rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(214, 232, 245, 0.92);
+}
+
+.punto-demo__player,
+.punto-demo__soon {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
+  background: #0b1728;
+}
+
+.punto-demo__video,
+.punto-demo__soon img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+}
+
+.punto-demo__soon-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 1rem;
+  text-align: center;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 20, 36, 0.35) 0%,
+    rgba(8, 20, 36, 0.72) 100%
+  );
+}
+
+.punto-demo__play {
+  display: grid;
+  place-items: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  margin-bottom: 0.35rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-soft));
+  color: var(--navy-ink);
+  font-size: 1rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.punto-demo__soon-overlay strong {
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+.punto-demo__soon-overlay span {
+  color: rgba(214, 232, 245, 0.92);
+  font-size: 0.88rem;
+}
+
+/* —— Planes —— */
+.punto-plans.section {
+  padding: clamp(2rem, 4.5vh, 3.2rem) 0 clamp(2.4rem, 5vh, 3.6rem);
+  color: #e8f4fc;
+}
+
+.punto-plans__inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.punto-plans__head {
+  text-align: center;
+}
+
+.punto-plans__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.6vw, 2.25rem);
+  line-height: 1.15;
+  color: #f8fafc;
+}
+
+.punto-plans__title-accent {
+  font-style: normal;
+  color: var(--title-accent, var(--cyan));
+}
+
+.punto-plans__lead {
+  margin: 0.65rem auto 0;
+  max-width: 36rem;
+  color: #d7e8f5;
+  line-height: 1.45;
+}
+
+.punto-plans__grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1vw, 0.75rem);
+  align-items: stretch;
+}
+
+.punto-plan-card {
+  --plan-accent: #38bdf8;
+  --plan-accent-soft: #7dd3fc;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0.85rem 0.75rem 0.9rem;
+  border-radius: 14px;
+  background: linear-gradient(
+    165deg,
+    rgba(15, 23, 42, 0.92) 0%,
+    rgba(8, 12, 22, 0.98) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--plan-accent) 42%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+    0 14px 32px rgba(0, 0, 0, 0.35);
+}
+
+.punto-plan-card--featured {
+  border-color: color-mix(in srgb, var(--plan-accent) 78%, transparent);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 0 28px color-mix(in srgb, var(--plan-accent) 24%, transparent),
+    0 18px 36px rgba(0, 0, 0, 0.4);
+  transform: translateY(-4px);
+}
+
+.punto-plan-card--blue {
+  --plan-accent: #3b82f6;
+  --plan-accent-soft: #93c5fd;
+}
+.punto-plan-card--teal {
+  --plan-accent: #14b8a6;
+  --plan-accent-soft: #5eead4;
+}
+.punto-plan-card--cyan {
+  --plan-accent: #06b6d4;
+  --plan-accent-soft: #67e8f9;
+}
+.punto-plan-card--navy {
+  --plan-accent: #60a5fa;
+  --plan-accent-soft: #bfdbfe;
+}
+.punto-plan-card--gold {
+  --plan-accent: #eab308;
+  --plan-accent-soft: #fde047;
+}
+
+.punto-plan-card__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
+}
+
+.punto-plan-card__icon {
+  display: grid;
+  place-items: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 10px;
+  color: var(--plan-accent-soft);
+  background: color-mix(in srgb, var(--plan-accent) 14%, rgba(8, 12, 22, 0.9));
+  border: 1px solid color-mix(in srgb, var(--plan-accent) 45%, transparent);
+}
+
+.punto-plan-card__icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.punto-plan-card__ribbon {
+  padding: 0.22rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #0f172a;
+  background: var(--plan-accent);
+}
+
+.punto-plan-card__name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 0.85rem + 0.35vw, 1.08rem);
+  font-weight: 700;
+  color: #f8fafc;
+}
+
+.punto-plan-card__desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  color: rgba(148, 163, 184, 0.95);
+  min-height: 2.6em;
+}
+
+.punto-plan-card__price {
+  margin: 0.55rem 0 0;
+  font-size: 0.78rem;
+  color: rgba(148, 163, 184, 0.9);
+}
+
+.punto-plan-card__price strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 0.8vw, 1.65rem);
+  font-weight: 700;
+  color: var(--plan-accent-soft);
+  margin-right: 0.1rem;
+}
+
+.punto-plan-card__includes {
+  margin: 0.45rem 0 0.25rem;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--plan-accent-soft) 75%, #94a3b8);
+}
+
+.punto-plan-card__includes--base {
+  color: rgba(148, 163, 184, 0.85);
+}
+
+.punto-plan-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.punto-plan-card__list li {
+  position: relative;
+  padding-left: 0.95rem;
+  font-size: 0.64rem;
+  line-height: 1.32;
+  color: rgba(226, 232, 240, 0.92);
+}
+
+.punto-plan-card__list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--plan-accent);
+}
+
+.punto-plan-card__all {
+  margin-top: 0.35rem;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.punto-plan-card__all summary {
+  cursor: pointer;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: rgba(148, 163, 184, 0.95);
+  list-style: none;
+  user-select: none;
+}
+
+.punto-plan-card__all summary::-webkit-details-marker {
+  display: none;
+}
+
+.punto-plan-card__all summary::after {
+  content: " ▾";
+  opacity: 0.75;
+}
+
+.punto-plan-card__all[open] summary::after {
+  content: " ▴";
+}
+
+.punto-plan-card__all[open] .punto-plan-card__list {
+  margin-top: 0.35rem;
+  max-height: 9rem;
+  overflow-y: auto;
+  padding-right: 0.15rem;
+  scrollbar-width: thin;
+}
+
+.punto-plan-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
+  margin-top: 0.65rem;
+  padding: 0.52rem 0.65rem;
+  border-radius: 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  background: var(--plan-accent);
+  color: #0f172a;
+  transition: transform 0.2s var(--ease);
+}
+
+.punto-plan-card__cta:hover {
+  transform: translateY(-1px);
+}
+
+.punto-plan-card__advise {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.35rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(186, 204, 220, 0.95);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* —— Cierre —— */
+.punto-close.section {
+  padding: clamp(2.4rem, 5vh, 3.6rem) 0;
+}
+
+.punto-close__inner {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.punto-close__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  line-height: 1.2;
+  color: var(--navy-ink);
+  text-wrap: pretty;
+}
+
+.punto-close__lead {
+  margin: 0.75rem 0 0;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+.punto-close__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+  margin-top: 1.15rem;
+}
+
+/* —— Responsive —— */
+@media (max-width: 1199px) {
+  .punto-plans__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .punto-modules__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 920px) {
+  .punto-hero.section {
+    min-height: 0;
+  }
+
+  .punto-hero__shell,
+  .punto-demo__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .punto-hero__trust {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .punto-plans__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .punto-plan-card--featured {
+    transform: none;
+  }
+
+  .punto__brand-mark--demo,
+  .punto__brand-mark--plans,
+  .punto__brand-mark--close {
+    margin-left: 0;
+    margin-right: auto;
+    object-position: left center;
+  }
+
+  .punto-plans__head,
+  .punto-modules__head,
+  .punto-close__inner {
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .punto-close__actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .punto-modules__grid,
+  .punto-plans__grid,
+  .punto-hero__trust {
+    grid-template-columns: 1fr;
+  }
+
+  .punto-hero__actions,
+  .punto-close__actions {
+    width: 100%;
+  }
+
+  .punto-hero__cta {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .punto-modules__tile:hover,
+  .punto-hero__cta:hover,
+  .punto-plan-card__cta:hover,
+  .punto-plan-card--featured {
+    transform: none;
+  }
+}

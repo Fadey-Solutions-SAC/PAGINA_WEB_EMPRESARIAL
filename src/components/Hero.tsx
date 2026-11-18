@@ -12,6 +12,13 @@ const exploreOptions = [
     image: "/explore-resto.jpg",
   },
   {
+    id: "punto",
+    title: "Punto Fadey",
+    desc: "POS para bodegas y minimarkets",
+    href: "#punto",
+    image: "/explore-punto.jpg",
+  },
+  {
     id: "web",
     title: "Desarrollo web",
     desc: "Páginas y plataformas a medida",
@@ -49,6 +56,8 @@ function ExploreIcon({ id }: { id: (typeof exploreOptions)[number]["id"] }) {
   switch (id) {
     case "resto":
       return <span className="hero-explore__rf">RF</span>;
+    case "punto":
+      return <span className="hero-explore__rf">PF</span>;
     case "web":
       return (
         <svg {...common}>
@@ -83,6 +92,13 @@ const businessRoutes = [
     accent: "green",
   },
   {
+    id: "punto",
+    title: "Controlar mi tienda",
+    desc: "Punto Fadey POS para bodegas, minimarkets y comercios.",
+    href: "#punto",
+    accent: "cyan",
+  },
+  {
     id: "erp",
     title: "Digitalizar mi empresa",
     desc: "ERP y sistemas empresariales personalizados.",
@@ -106,7 +122,7 @@ const businessRoutes = [
 ] as const;
 
 const heroFeatures = [
-  { id: "pos", label: "Puntos de venta (POS)", href: "#resto" },
+  { id: "pos", label: "Puntos de venta (POS)", href: "#punto" },
   { id: "web", label: "Desarrollo web", href: "#web" },
   {
     id: "gestion",
@@ -377,7 +393,7 @@ export function Hero() {
         <div className="hero__routes">
           <h2 className="hero__routes-title">¿Qué necesitas para tu negocio?</h2>
           <div
-            className={`hero__routes-grid${ERP_FADEY_PUBLIC ? "" : " hero__routes-grid--3"}`}
+            className={`hero__routes-grid${ERP_FADEY_PUBLIC ? " hero__routes-grid--5" : ""}`}
           >
             {businessRoutes
               .filter((route) => ERP_FADEY_PUBLIC || route.id !== "erp")

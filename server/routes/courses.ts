@@ -8,7 +8,7 @@ import {
 } from "../middleware/auth.js";
 import { youtubeEmbed } from "../utils/youtube.js";
 
-const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
+const PRODUCTS = new Set(["resto", "punto", "erp", "web", "soporte"]);
 const KINDS = new Set(["tutorial", "academia"]);
 
 export const coursesRouter = Router();

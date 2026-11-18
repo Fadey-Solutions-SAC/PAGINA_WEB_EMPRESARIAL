@@ -8,6 +8,7 @@ import "./Header.css";
 
 const links = [
   { href: "/#resto", label: "Resto Fadey" },
+  { href: "/#punto", label: "Punto Fadey" },
   { href: "/#web", label: "Desarrollo Web" },
   { href: "/#erp", label: "ERP Fadey" },
   { href: "/#soporte", label: "Soporte" },

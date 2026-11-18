@@ -73,12 +73,13 @@ type Course = {
 
 const PRODUCT_LABEL: Record<Product, string> = {
   resto: "Resto Fadey",
+  punto: "Punto Fadey",
   erp: "ERP Fadey",
   web: "Desarrollo web",
   soporte: "Soporte",
 };
 
-const ALL_PRODUCTS: Product[] = ["resto", "erp", "web", "soporte"];
+const ALL_PRODUCTS: Product[] = ["resto", "punto", "erp", "web", "soporte"];
 
 const NAV: { id: Section; label: string; ico: string }[] = [
   { id: "resumen", label: "Dashboard", ico: "◉" },

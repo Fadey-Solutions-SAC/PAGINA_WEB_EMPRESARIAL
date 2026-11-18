@@ -4,7 +4,7 @@ import { prisma } from "../db.js";
 import { requireAdmin } from "../middleware/auth.js";
 import { sendApiError } from "../utils/errors.js";
 
-const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
+const PRODUCTS = new Set(["resto", "punto", "erp", "web", "soporte"]);
 
 export const leadsRouter = Router();
 

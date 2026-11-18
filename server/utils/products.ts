@@ -1,7 +1,7 @@
 import type { Product } from "@prisma/client";
 import type { Prisma } from "@prisma/client";
 
-const PRODUCTS = new Set(["resto", "erp", "web", "soporte"]);
+const PRODUCTS = new Set(["resto", "punto", "erp", "web", "soporte"]);
 
 /** Lee products desde Json de SQLite. */
 export function asProducts(value: unknown): Product[] {

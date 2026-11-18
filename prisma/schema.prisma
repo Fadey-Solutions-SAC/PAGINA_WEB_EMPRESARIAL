@@ -9,6 +9,7 @@ datasource db {
 
 enum Product {
   resto
+  punto
   erp
   web
   soporte

@@ -3,6 +3,7 @@ import { useLandingScroll } from "../hooks/useLandingScroll";
 import { Header } from "../components/Header";
 import { Hero } from "../components/Hero";
 import { FadeyWhy, RestoFadey } from "../components/RestoFadey";
+import { PuntoFadey } from "../components/PuntoFadey";
 import { ERP } from "../components/ERP";
 import { WebDevelopment } from "../components/WebDevelopment";
 import { Maintenance } from "../components/Maintenance";
@@ -22,6 +23,7 @@ export function LandingPage() {
         <Hero />
         <FadeyWhy />
         <RestoFadey />
+        <PuntoFadey />
         <WebDevelopment />
         <Maintenance />
         <ERP />

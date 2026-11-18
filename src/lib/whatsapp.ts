@@ -30,7 +30,7 @@ export function msgQuoteProduct() {
     "Hola Fadey Solutions,",
     "",
     "Quiero solicitar una cotización.",
-    "Producto de interés: ________ (Resto Fadey / Desarrollo web / Soporte)",
+    "Producto de interés: ________ (Resto Fadey / Punto Fadey / Desarrollo web / Soporte)",
     "",
     "Nombre: ________",
     "Empresa / local: ________",
@@ -59,6 +59,32 @@ export function msgRestoInfo() {
     "Quiero información / cotización sobre *Resto Fadey*.",
     "",
     "Tipo de negocio: ________",
+    "Nombre: ________",
+    "Ciudad: ________",
+  ].join("\n");
+}
+
+export function msgPuntoPlan(planName: string, price: string) {
+  return [
+    "Hola Fadey Solutions,",
+    "",
+    `Quiero contratar el plan *${planName}* de Punto Fadey (S/ ${price}/mes).`,
+    "",
+    "Tipo de tienda / negocio: ________",
+    "Nombre del local: ________",
+    "Ciudad: ________",
+    "",
+    "Por favor, indíquenme los siguientes pasos para activar el servicio.",
+  ].join("\n");
+}
+
+export function msgPuntoInfo() {
+  return [
+    "Hola Fadey Solutions,",
+    "",
+    "Quiero información / cotización sobre *Punto Fadey*.",
+    "",
+    "Tipo de tienda / negocio: ________",
     "Nombre: ________",
     "Ciudad: ________",
   ].join("\n");

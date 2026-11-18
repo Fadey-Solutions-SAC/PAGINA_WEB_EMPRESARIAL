@@ -16,6 +16,19 @@ const offerings = [
     soon: false,
   },
   {
+    eyebrow: "Punto Fadey",
+    title: "POS para tiendas y comercios",
+    items: ["Venta rápida", "Inventario y almacén", "Facturación electrónica"],
+    meta: "Suscripción mensual",
+    price: "Desde S/ 70/mes",
+    href: "#punto",
+    external: false,
+    cta: "Ver Punto Fadey",
+    icon: "punto",
+    metaIcon: "user",
+    soon: false,
+  },
+  {
     eyebrow: "ERP Fadey",
     title: "Gestión integral empresarial",
     items: ["Ventas y finanzas", "Inventario y compras", "Sucursales y usuarios"],
@@ -73,6 +86,13 @@ function OfferIcon({ type }: { type: (typeof offerings)[number]["icon"] }) {
         <svg {...common}>
           <rect x="3" y="4" width="18" height="12" rx="2" />
           <path d="M8 20h8M12 16v4" />
+        </svg>
+      );
+    case "punto":
+      return (
+        <svg {...common}>
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="M7 9h6M7 12h10M7 15h4" />
         </svg>
       );
     case "erp":
@@ -155,7 +175,7 @@ export function SolutionsModel() {
           </p>
         </div>
 
-        <div className="model__grid model__grid--four">
+        <div className="model__grid model__grid--five">
           {offerings.map((item) => (
             <article
               key={item.eyebrow}

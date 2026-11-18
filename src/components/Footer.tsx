@@ -37,8 +37,8 @@ export function Footer() {
           </a>
           <p>
             {ERP_FADEY_PUBLIC
-              ? "Tecnología que impulsa tu negocio. Resto Fadey, ERP Fadey, desarrollo web y soporte."
-              : "Tecnología que impulsa tu negocio. Resto Fadey, desarrollo web y soporte."}
+              ? "Tecnología que impulsa tu negocio. Resto Fadey, Punto Fadey, ERP Fadey, desarrollo web y soporte."
+              : "Tecnología que impulsa tu negocio. Resto Fadey, Punto Fadey, desarrollo web y soporte."}
           </p>
         </div>
 
@@ -55,6 +55,18 @@ export function Footer() {
                 }}
               >
                 Resto Fadey
+              </a>
+            </li>
+            <li>
+              <a
+                href="/#punto"
+                onClick={(e) => {
+                  if (window.location.pathname !== "/") return;
+                  e.preventDefault();
+                  goToSection("#punto");
+                }}
+              >
+                Punto Fadey
               </a>
             </li>
             {ERP_FADEY_PUBLIC ? (

@@ -663,6 +663,12 @@ html[data-theme="emerald"] .admin__content--config .admin__card {
   border: 1px solid transparent;
 }
 
+.admin__badge--punto {
+  color: #7ee8d8;
+  background: rgba(20, 138, 132, 0.16);
+  border-color: rgba(20, 138, 132, 0.35);
+}
+
 .admin__badge--resto {
   color: #9af0ff;
   background: rgba(0, 207, 255, 0.12);

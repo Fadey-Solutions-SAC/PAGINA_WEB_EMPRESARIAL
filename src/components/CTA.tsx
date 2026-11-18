@@ -57,8 +57,8 @@ export function CTA() {
             </h2>
             <p className="section__lead">
               {ERP_FADEY_PUBLIC
-                ? "Cuéntanos qué necesitas: Resto Fadey, ERP Fadey, una página web o soporte. Te respondemos con una propuesta clara."
-                : "Cuéntanos qué necesitas: Resto Fadey, una página web o soporte. Te respondemos con una propuesta clara."}
+                ? "Cuéntanos qué necesitas: Resto Fadey, Punto Fadey, ERP Fadey, una página web o soporte. Te respondemos con una propuesta clara."
+                : "Cuéntanos qué necesitas: Resto Fadey, Punto Fadey, una página web o soporte. Te respondemos con una propuesta clara."}
             </p>
           </div>
 
@@ -135,6 +135,7 @@ export function CTA() {
                     Selecciona una opción
                   </option>
                   <option value="resto">Resto Fadey</option>
+                  <option value="punto">Punto Fadey</option>
                   {ERP_FADEY_PUBLIC ? (
                     <option value="erp">ERP Fadey</option>
                   ) : null}
