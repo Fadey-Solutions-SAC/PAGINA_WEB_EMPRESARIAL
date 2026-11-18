@@ -99,7 +99,7 @@
   white-space: nowrap;
 }
 
-.punto-plans .punto-hero__brand-name {
+.punto-demo .punto-hero__brand-name {
   color: #f8fafc;
 }
 
@@ -440,10 +440,10 @@
   line-height: 1.5;
 }
 
-/* —— Demo video (blanco, después de funciones azul) —— */
+/* —— Demo video (azul) —— */
 .punto-demo.section {
   padding: clamp(2rem, 4.5vh, 3rem) 0;
-  color: var(--navy-ink);
+  color: #e8f4fc;
 }
 
 .punto-demo__shell {
@@ -472,7 +472,7 @@
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--blue-section-deep);
+  color: var(--cyan-soft, #9eeaf0);
 }
 
 .punto-demo__title {
@@ -481,13 +481,13 @@
   font-family: var(--font-display);
   font-size: clamp(1.65rem, 2.6vw, 2.35rem);
   line-height: 1.12;
-  color: var(--navy-ink);
+  color: #fff;
 }
 
 .punto-demo__lead {
   margin: 0;
   max-width: 36rem;
-  color: var(--text-body);
+  color: #d7e8f5;
   font-size: clamp(1rem, 0.92rem + 0.3vw, 1.12rem);
   line-height: 1.55;
 }
@@ -497,7 +497,7 @@
   max-width: 34rem;
   font-size: 0.95rem;
   line-height: 1.45;
-  color: var(--text-body);
+  color: rgba(214, 232, 245, 0.92);
 }
 
 .punto-demo__player,
@@ -505,8 +505,8 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  border: 1px solid rgba(11, 79, 138, 0.14);
-  box-shadow: 0 18px 42px rgba(12, 35, 64, 0.14);
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.35);
   background: #0b1728;
 }
 
@@ -560,10 +560,10 @@
   font-size: 0.88rem;
 }
 
-/* —— Planes —— */
+/* —— Planes (blanco) —— */
 .punto-plans.section {
   padding: clamp(2rem, 4.5vh, 3.2rem) 0 clamp(2.4rem, 5vh, 3.6rem);
-  color: #e8f4fc;
+  color: var(--navy-ink);
 }
 
 .punto-plans__inner {
@@ -581,18 +581,28 @@
   font-family: var(--font-display);
   font-size: clamp(1.55rem, 2.6vw, 2.25rem);
   line-height: 1.15;
-  color: #f8fafc;
+  color: var(--navy-ink);
 }
 
 .punto-plans__title-accent {
   font-style: normal;
-  color: var(--title-accent, var(--cyan));
+  color: var(--blue-section-deep);
+  background: linear-gradient(90deg, var(--cyan), var(--cyan-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .punto-plans__title-accent {
+    color: var(--blue-section-deep);
+  }
 }
 
 .punto-plans__lead {
   margin: 0.65rem auto 0;
   max-width: 36rem;
-  color: #d7e8f5;
+  color: var(--text-body);
   line-height: 1.45;
 }
 

@@ -532,7 +532,7 @@ export function PuntoFadey() {
       </section>
 
       <section
-        className="punto-demo section section--light section--light-b"
+        className="punto-demo section section--blue section--blue-a"
         id="punto-demo"
         aria-labelledby="punto-demo-title"
       >
@@ -614,7 +614,7 @@ export function PuntoFadey() {
       </section>
 
       <section
-        className="punto-plans section section--blue section--blue-a"
+        className="punto-plans section section--light section--light-b"
         id="punto-planes"
       >
         <div className="container punto-plans__inner">
