@@ -425,14 +425,6 @@ export function PuntoFadey() {
                 para simplificar el trabajo diario de tu negocio.
               </p>
 
-              <ul className="punto-hero__audience" aria-label="Público objetivo">
-                <li>Abarrotes</li>
-                <li>Bodegas</li>
-                <li>Minimarkets</li>
-                <li>Conveniencia</li>
-                <li>Comercio minorista</li>
-              </ul>
-
               <div className="punto-hero__actions">
                 <button
                   type="button"
@@ -449,6 +441,33 @@ export function PuntoFadey() {
                   Conocer los planes
                 </button>
               </div>
+
+              <ul className="punto-modules__grid" id="punto-funciones">
+                {puntoModuleTiles.map((item) => (
+                  <li key={item.label}>
+                    <button
+                      type="button"
+                      className="punto-modules__tile"
+                      aria-expanded={openModule?.label === item.label}
+                      onClick={() => setOpenModule(item)}
+                    >
+                      <span
+                        className={`punto-modules__tile-icon punto-modules__tile-icon--${item.tone}`}
+                      >
+                        <PuntoModuleTileIcon tone={item.tone} />
+                      </span>
+                      <span className="punto-modules__tile-text">
+                        <span className="punto-modules__tile-label">
+                          {item.label}
+                        </span>
+                        <span className="punto-modules__tile-desc">
+                          {item.desc}
+                        </span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
 
             <div className="punto-hero__visual reveal">
@@ -478,46 +497,6 @@ export function PuntoFadey() {
                   <strong>{item.title}</strong>
                   <span>{item.desc}</span>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section
-        className="punto-modules section section--blue section--blue-a"
-        id="punto-funciones"
-        aria-labelledby="punto-modules-title"
-      >
-        <div className="container punto-modules__inner">
-          <header className="punto-modules__head reveal">
-            <p className="punto-modules__kicker">Funcionalidades</p>
-            <h2 id="punto-modules-title" className="punto-modules__title">
-              Todo lo que necesitas para operar tu tienda
-            </h2>
-            <p className="punto-modules__lead">
-              Módulos reales de Punto Fadey para vender más rápido, cuidar el
-              stock y llevar el control del día.
-            </p>
-          </header>
-
-          <ul className="punto-modules__grid reveal">
-            {puntoModuleTiles.map((item) => (
-              <li key={item.label}>
-                <button
-                  type="button"
-                  className="punto-modules__tile"
-                  aria-expanded={openModule?.label === item.label}
-                  onClick={() => setOpenModule(item)}
-                >
-                  <span
-                    className={`punto-modules__tile-icon punto-modules__tile-icon--${item.tone}`}
-                  >
-                    <PuntoModuleTileIcon tone={item.tone} />
-                  </span>
-                  <span className="punto-modules__tile-label">{item.label}</span>
-                  <span className="punto-modules__tile-desc">{item.desc}</span>
-                </button>
               </li>
             ))}
           </ul>
