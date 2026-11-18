@@ -1,5 +1,6 @@
 import { useEffect, useId, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
+import { goToSection } from "../lib/goToSection";
 import { msgWebProject, waUrl, type WebProjectForm } from "../lib/whatsapp";
 import { WebDevelopmentDetails } from "./WebDevelopmentDetails";
 import "./WebDevelopment.css";
@@ -172,7 +173,21 @@ export function WebDevelopment() {
         <div className="container web__shell">
           <div className="web__intro reveal">
             <div className="web__intro-copy">
-              <span className="section__label">02 · Qué desarrollamos</span>
+              <p className="web__badge">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.9}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" />
+                </svg>
+                <span>Desarrollo web</span>
+              </p>
               <h2 className="section__title">
                 Tu negocio. Tu idea. <span>Tu página.</span>
               </h2>
@@ -180,6 +195,48 @@ export function WebDevelopment() {
                 Diseñamos y desarrollamos soluciones web adaptadas a las
                 necesidades reales de cada negocio.
               </p>
+              <div className="web__actions">
+                <button
+                  type="button"
+                  className="btn web__cta web__cta--primary"
+                  onClick={() => setOpen(true)}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.8}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <rect x="3" y="4" width="18" height="12" rx="2" />
+                    <path d="M8 20h8M12 16v4" />
+                  </svg>
+                  Solicitar un proyecto
+                </button>
+                <button
+                  type="button"
+                  className="btn web__cta web__cta--ghost"
+                  onClick={() => goToSection("#proceso-web")}
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth={1.8}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="m10 8.5 5 3.5-5 3.5z" fill="currentColor" />
+                  </svg>
+                  Ver ejemplos
+                </button>
+              </div>
             </div>
 
             <div className="web__device-scene">
@@ -194,32 +251,33 @@ export function WebDevelopment() {
                 loading="lazy"
                 decoding="async"
               />
-              <p className="web__idea-note">
-                Tu idea,
-                <br />
-                en la web.
-              </p>
             </div>
           </div>
 
           <div className="web__catalog">
             <h3 className="web__services-title reveal">Soluciones web</h3>
             <div className="web__grid">
-              {services.map((service, index) => (
-                <article key={service.title} className="web-card reveal">
-                  <span className="web-card__index" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
+              {services.map((service) => (
+                <button
+                  key={service.title}
+                  type="button"
+                  className="web-card reveal"
+                  onClick={() => setOpen(true)}
+                >
                   <div className="web-card__icon">
                     <ServiceIcon type={service.icon} />
                   </div>
-                  <h3>{service.title}</h3>
-                  <p>{service.desc}</p>
-                </article>
+                  <div className="web-card__copy">
+                    <h3>{service.title}</h3>
+                    <p>{service.desc}</p>
+                  </div>
+                  <span className="web-card__arrow" aria-hidden="true">
+                    ›
+                  </span>
+                </button>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
