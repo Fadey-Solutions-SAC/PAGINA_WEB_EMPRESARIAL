@@ -385,12 +385,41 @@
 
 .resto-modules__eyebrow {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.45rem 0.65rem;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.55rem;
   width: 100%;
   margin-bottom: 0.15rem;
+}
+
+.resto-modules__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.resto-modules__brand-mark {
+  display: block;
+  width: auto;
+  height: clamp(42px, 4.6vw, 58px);
+  max-width: min(220px, 52vw);
+  object-fit: contain;
+  object-position: left center;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.resto-modules__brand-name {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.1rem + 1.1vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: #f8fafc;
+  white-space: nowrap;
 }
 
 .resto-modules__pill {
@@ -460,7 +489,7 @@
   gap: 0.45rem;
   margin: 0;
   padding: 0.38rem 0.75rem;
-  max-width: 17rem;
+  max-width: none;
   border-radius: 999px;
   border: 1px solid rgba(var(--accent-rgb), 0.45);
   background: rgba(var(--accent-rgb), 0.1);
@@ -2350,19 +2379,12 @@ html[data-theme="emerald"] .fadey-why-card {
     max-width: none;
   }
 
-  .resto-modules__eyebrow {
-    flex-wrap: nowrap;
-  }
-
-  .resto-modules__eyebrow .resto__brand-banner {
-    flex: 0 1 auto;
-    min-width: 0;
-    max-width: 46%;
+  .resto-modules__brand-name {
+    white-space: normal;
   }
 
   .resto-modules__badge {
-    flex: 0 1 auto;
-    max-width: 52%;
+    max-width: 100%;
     font-size: clamp(0.62rem, 2.7vw, 0.74rem);
   }
 

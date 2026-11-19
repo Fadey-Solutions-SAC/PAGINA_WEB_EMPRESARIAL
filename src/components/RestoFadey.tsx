@@ -628,14 +628,17 @@ export function RestoFadey() {
           <div className="resto-modules__shell">
           <div className="resto-modules__copy reveal">
             <div className="resto-modules__eyebrow">
-              <img
-                className="resto__brand-banner resto__brand-banner--green"
-                src="/resto-fadey-banner-green.png"
-                alt="Resto Fadey"
-                width={904}
-                height={210}
-                decoding="async"
-              />
+              <div className="resto-modules__brand">
+                <img
+                  className="resto-modules__brand-mark"
+                  src="/resto-fadey-logo.jpg"
+                  alt="Resto Fadey"
+                  width={320}
+                  height={320}
+                  decoding="async"
+                />
+                <span className="resto-modules__brand-name">Resto Fadey POS</span>
+              </div>
               <p className="resto-modules__badge">
                 <svg
                   viewBox="0 0 24 24"
