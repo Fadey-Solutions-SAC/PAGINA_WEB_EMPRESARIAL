@@ -860,6 +860,18 @@
     grid-template-columns: 1fr;
   }
 
+  .punto-hero__copy {
+    order: 1;
+  }
+
+  .punto-hero__visual {
+    order: 2;
+  }
+
+  .punto-modules__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .punto-hero__tagline {
     max-width: none;
   }
@@ -880,20 +892,19 @@
     justify-content: flex-start;
   }
 
-  .punto-hero__visual {
-    order: -1;
-  }
-
   .punto-plans__head {
     text-align: left;
   }
 }
 
 @media (max-width: 640px) {
-  .punto-modules__grid,
   .punto-plans__grid,
   .punto-hero__trust {
     grid-template-columns: 1fr;
+  }
+
+  .punto-modules__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .punto-hero__brand-name {
