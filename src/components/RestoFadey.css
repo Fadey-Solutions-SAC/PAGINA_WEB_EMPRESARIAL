@@ -2139,22 +2139,21 @@ html[data-theme="emerald"] .fadey-why-card {
 
 @media (max-width: 900px) {
   .resto-plans__grid {
-    display: flex;
-    overflow-x: auto;
-    max-width: 100%;
-    scroll-snap-type: x mandatory;
-    gap: 0.65rem;
-    padding-bottom: 0.35rem;
-    -webkit-overflow-scrolling: touch;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .resto-plan-card {
-    flex: 0 0 min(78vw, 17.5rem);
-    scroll-snap-align: start;
+  .resto-plan-card--featured {
+    transform: none;
   }
 
   .resto-plans__trust {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .resto-plans__grid {
+    grid-template-columns: 1fr;
   }
 }
 
