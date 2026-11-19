@@ -153,9 +153,10 @@
 
 .punto-hero__actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0.55rem;
   margin-top: 0.15rem;
+  width: 100%;
 }
 
 .punto-hero__cta {
@@ -912,11 +913,17 @@
   }
 
   .punto-hero__actions {
+    flex-wrap: nowrap;
     width: 100%;
   }
 
   .punto-hero__cta {
-    width: 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    padding: 0.6rem 0.55rem;
+    font-size: clamp(0.78rem, 3.2vw, 0.9rem);
+    white-space: nowrap;
   }
 }
 
