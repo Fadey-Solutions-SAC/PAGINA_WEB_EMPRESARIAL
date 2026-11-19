@@ -292,7 +292,7 @@ const planTierDefs = [
   {
     id: "basico",
     name: "Básico",
-    price: "102.50",
+    price: "105",
     accent: "blue" as const,
     icon: "rocket" as const,
     ribbon: null as string | null,
@@ -311,7 +311,7 @@ const planTierDefs = [
   {
     id: "emprendedor",
     name: "Emprendedor",
-    price: "157.40",
+    price: "145",
     accent: "green" as const,
     icon: "store" as const,
     ribbon: null,
@@ -329,7 +329,7 @@ const planTierDefs = [
   {
     id: "profesional",
     name: "Profesional",
-    price: "206.80",
+    price: "210",
     accent: "purple" as const,
     icon: "chef" as const,
     ribbon: "Más popular",
@@ -349,7 +349,7 @@ const planTierDefs = [
   {
     id: "negocio",
     name: "Negocio",
-    price: "270.50",
+    price: "270",
     accent: "orange" as const,
     icon: "chart" as const,
     ribbon: null,
