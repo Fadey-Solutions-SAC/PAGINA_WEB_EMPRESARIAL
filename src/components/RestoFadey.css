@@ -967,8 +967,8 @@
 
 .resto-modules__trust {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.35rem, 0.85vw, 0.65rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1vw, 0.85rem) clamp(0.75rem, 1.5vw, 1.25rem);
   list-style: none;
   margin: 0;
   padding: clamp(0.4rem, 0.75vh, 0.55rem) 0 0;
@@ -1072,17 +1072,18 @@
 
 .resto-modules__trust strong {
   display: block;
-  font-size: clamp(0.68rem, 0.64rem + 0.14vw, 0.78rem);
-  color: #f8fafc;
+  font-size: clamp(0.72rem, 0.66rem + 0.16vw, 0.86rem);
+  color: #ffffff;
   line-height: 1.22;
   margin-bottom: 0.08rem;
 }
 
 .resto-modules__trust span {
   display: block;
-  font-size: clamp(0.58rem, 0.55rem + 0.1vw, 0.68rem);
-  color: rgba(148, 163, 184, 0.92);
-  line-height: 1.28;
+  font-size: clamp(0.64rem, 0.6rem + 0.12vw, 0.76rem);
+  color: #e8f6ff;
+  line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(4, 22, 48, 0.35);
 }
 
 .fadey-why.section {
@@ -2038,8 +2039,8 @@ html[data-theme="emerald"] .fadey-why-card {
 
 .resto-plans__trust {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(0.35rem, 0.85vw, 0.65rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.55rem, 1vw, 0.85rem) clamp(0.75rem, 1.5vw, 1.25rem);
   list-style: none;
   margin: 0;
   padding: clamp(0.65rem, 1.2vh, 0.85rem) 0 0;
@@ -2137,17 +2138,18 @@ html[data-theme="emerald"] .fadey-why-card {
 
 .resto-plans__trust strong {
   display: block;
-  font-size: clamp(0.68rem, 0.64rem + 0.14vw, 0.78rem);
-  color: #f8fafc;
+  font-size: clamp(0.72rem, 0.66rem + 0.16vw, 0.86rem);
+  color: #ffffff;
   line-height: 1.22;
   margin-bottom: 0.08rem;
 }
 
 .resto-plans__trust span {
   display: block;
-  font-size: clamp(0.58rem, 0.55rem + 0.1vw, 0.68rem);
-  color: #eef4fa;
-  line-height: 1.28;
+  font-size: clamp(0.64rem, 0.6rem + 0.12vw, 0.76rem);
+  color: #e8f6ff;
+  line-height: 1.3;
+  text-shadow: 0 1px 2px rgba(4, 22, 48, 0.35);
 }
 
 @media (min-width: 1200px) {
@@ -2187,9 +2189,9 @@ html[data-theme="emerald"] .fadey-why-card {
 }
 
 @media (max-width: 520px) {
-  .resto-plans__trust {
-    grid-template-columns: 1fr;
-    gap: 0.55rem;
+  .resto-plans__trust,
+  .resto-modules__trust {
+    gap: 0.65rem 0.75rem;
   }
 }
 

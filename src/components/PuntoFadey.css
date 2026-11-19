@@ -225,8 +225,8 @@
 
 .punto-hero__trust {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.65rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem 1rem;
   margin: 0;
   padding: 0.85rem 0 0;
   list-style: none;
@@ -242,14 +242,14 @@
 
 .punto-hero__trust li strong {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--navy-ink);
 }
 
 .punto-hero__trust li span {
   display: block;
-  font-size: 0.7rem;
-  color: var(--text-body);
+  font-size: 0.72rem;
+  color: #3d5a73;
 }
 
 .punto-hero__trust-icon {
@@ -877,10 +877,6 @@
     max-width: none;
   }
 
-  .punto-hero__trust {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .punto-plans__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -899,12 +895,12 @@
 }
 
 @media (max-width: 640px) {
-  .punto-plans__grid,
-  .punto-hero__trust {
+  .punto-plans__grid {
     grid-template-columns: 1fr;
   }
 
-  .punto-modules__grid {
+  .punto-modules__grid,
+  .punto-hero__trust {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
